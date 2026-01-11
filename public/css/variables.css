@@ -1,0 +1,49 @@
+:root {
+    
+    /* Un bleu gris profond pour la structure */
+    --primary: #4C5760;       
+    --primary-hover: #363E45; /* Version plus sombre pour le clic */
+    
+    /* bleu d'eau grisé pour les éléments secondaires */
+    --secondary: #93A8AC;
+    
+
+    /* bleu clair pour l'info */
+    --info: #93A8AC;
+
+    --success: #788F76;       
+    --warning: #C4A77D;       
+    --danger: #A66262;        
+    
+    /*  Arrière-plans */
+    /* Le beige sable pour le fond */
+    --bg-body: #D7CEB2;
+    
+    /* Blanc pur pour les cartes */
+    --bg-card: #FFFFFF;
+    
+    /*  La barre latérale en bleu ardoise */
+    --bg-sidebar: #55524B;
+    
+    /* --- Textes --- */
+    /* Gris Terre ( pour le texte */
+    --text-main: #55524B; 
+    
+    /*  textes discrets */
+    --text-muted: #8F8876;
+    
+    /*  les bordures subtiles */
+    --border-color: #BFB8A6;
+
+    /*  FORMES  */
+    --radius: 8px; /* Un peu plus carré pour le style "Architecte" */
+    
+    /* Ombre teintée bleu gris */
+    --shadow-sm: 0 4px 6px -1px rgba(76, 87, 96, 0.15);
+    
+    /*  ESPACEMENTS */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 2rem;
+    --space-lg: 4rem;
+}

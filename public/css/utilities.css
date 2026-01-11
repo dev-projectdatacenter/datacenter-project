@@ -1,0 +1,55 @@
+/*  UTILITAIRES (Helpers)  */
+
+/* Alignement du texte */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+
+/* Couleurs de texte rapides */
+.text-primary { color: var(--primary); }
+.text-success { color: var(--success); }
+.text-danger { color: var(--danger); }
+.text-muted { color: var(--text-muted); }
+
+/* Marges (m) et Paddings (p) */
+/* t=top, b=bottom, l=left, r=right */
+/* 0=rien, 1=petit, 2=moyen, 3=grand, 4=très grand */
+
+.m-0 { margin: 0 !important; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
+.mt-5 { margin-top: 3rem; }
+
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+
+.ml-auto { margin-left: auto; } /* Pousse le contenu à droite dans une flexbox */
+.mr-auto { margin-right: auto; }
+
+.p-0 { padding: 0 !important; }
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 1rem; }
+.p-4 { padding: 1.5rem; }
+
+/* Flexbox utilities */
+.d-flex { display: flex; }
+.d-none { display: none; }
+.flex-column { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.gap-1 { gap: 0.5rem; }
+.gap-2 { gap: 1rem; }
+
+/* Largeurs */
+.w-100 { width: 100%; }
+.w-50 { width: 50%; }
+
+/* Visibilité */
+.hidden { display: none !important; }
