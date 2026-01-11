@@ -1,8 +1,8 @@
 /* Reset Basic */
 * {
-    margin: 0;
+    box-sizing: border-box; 
     padding: 0;
-    box-sizing: border-box; /* Très important pour la mise en page */
+    margin: 0;
 }
 
 body {
@@ -10,7 +10,7 @@ body {
     line-height: 1.6;
     background-color: var(--bg-body);
     color: var(--text-main);
-    -webkit-font-smoothing: antialiased; /* Rendu du texte plus net */
+    -webkit-font-smoothing: antialiased; 
 }
 
 img, picture, video, canvas, svg {
