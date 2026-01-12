@@ -38,7 +38,7 @@
 }
 
 /*  STRUCTURE DASHBOARD (Sidebar + Main)  */
-
+/* CORRECTION : On utilise Flexbox simple pour éviter les soucis de superposition */
 .app-container, .dashboard-layout {
     display: flex;
     min-height: 100vh;
@@ -86,3 +86,13 @@
     }
 }
 
+/* Force le logo/titre dans la sidebar à être blanc ou clair */
+.sidebar h2, .sidebar h3, .sidebar .logo {
+    color: #ffffff !important; 
+}
+
+
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); } 
+/* J'ai mis 140px ici mentalement pour que ça tienne dans la petite carte, 
+   si dans ton layout.css c'est 300px, ça risque de s'empiler. 
+   Ce n'est pas grave, ça restera joli ! */
