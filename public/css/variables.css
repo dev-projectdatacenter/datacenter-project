@@ -1,0 +1,56 @@
+:root {
+    
+    --space-cadet: #2A2D4F;  
+    --delft-blue:  #424665;  
+    --paynes-gray: #646884;  
+    --cool-gray:   #8D8FA4;  
+    --french-gray: #B0B0C1;  
+    --white:       #ffffff;
+
+    /* structre */
+    --primary: var(--delft-blue);       
+    --primary-hover: var(--space-cadet); 
+    
+  
+    --secondary: #93A8AC;
+    
+    --info: #93A8AC;
+
+    --success: #788F76;       
+    --warning: #C4A77D;       
+    --danger: #7b2b2b;        
+    
+    /*  Arrière-plans */
+    
+    --bg-body: #f4f5f7;
+    --bg-card: #FFFFFF;
+    --bg-sidebar: var(--space-cadet);
+    --bg-dark: var(--space-cadet);
+    
+    
+    --font-main: -apple-system, BlinkMacSystemFont , "Segoe UI" , Roboto, "Helvetica Neue",Ariel, sans-serif;
+    --text-main:#1e293b; 
+    --text-muted:#64748b;
+    --border-color: #e2e8f0;
+
+
+    /*  FORMES  */
+    --radius: 8px; 
+    
+    /* Ombre teintée bleu gris */
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -1px rgb(0 0 0 / 0.06);
+
+    /*  ESPACEMENTS */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--text-main);
+    background-color: var(--bg-body);
+    -webkit-font-smoothing: antialiased; /* Rend le texte plus fin sur Mac */
+}

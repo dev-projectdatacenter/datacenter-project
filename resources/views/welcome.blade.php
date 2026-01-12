@@ -129,5 +129,44 @@
                 </div>
             </div>
         </div>
-    </body>
+    </nav>
+
+    <header class="hero-section">
+        <h1 class="hero-title">Gérez votre infrastructure IT<br>en toute simplicité.</h1>
+        <p class="hero-subtitle">
+            Surveillance des serveurs, gestion des incidents et réservation de ressources<br>
+            centralisés en un seul endroit.
+        </p>
+        <div>
+            <a href="{{ url('/login') }}" class="btn btn-primary" style="padding: 0.8rem 2rem; font-size: 1.1rem;">
+                Accéder à l'espace Admin
+            </a>
+        </div>
+    </header>
+
+    <section class="feature-grid">
+        <div class="card text-center">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">💻</div>
+            <h3>Serveurs</h3>
+            <p class="text-muted mt-3">Suivez l'état de vos machines en temps réel et gérez les maintenances.</p>
+        </div>
+
+        <div class="card text-center">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🗓️</div>
+            <h3>Réservations</h3>
+            <p class="text-muted mt-3">Planifiez l'utilisation des ressources et évitez les conflits.</p>
+        </div>
+
+        <div class="card text-center">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">👤</div>
+            <h3>Utilisateurs</h3>
+            <p class="text-muted mt-3">Gérez les accès et les rôles de votre équipe technique.</p>
+        </div>
+    </section>
+
+    <footer class="text-center" style="padding: 2rem; color: var(--text-muted); font-size: 0.9rem;">
+        &copy; 2024 DataCenter Manager.
+    </footer>
+
+</body>
 </html>
