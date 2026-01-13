@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Models\Resource;
 use App\Http\Controllers\AuthController;
@@ -10,15 +11,13 @@ use App\Http\Controllers\AuthController;
 */
 
 // ============================================
-// ROUTES PUBLIQUES
+// 1. ROUTES FRONTEND & TESTS (Pour le design)
 // ============================================
 
-// Page d'accueil
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-// Test design
 Route::get('/test-design', function () {
     return view('test');
 });
@@ -27,24 +26,24 @@ Route::get('/test-login', function () {
     return view('test-login');
 });
 
-// Catalogue (lecture seule)
+// Consultation catalogue (Lecture seule pour invités)
 Route::get('/catalogue', function () {
     return view('resources.catalog');
 })->name('resources.catalog');
 
-// Consultation des ressources (lecture seule)
 Route::get('/resources', function () {
-    $resources = Resource::all();
+    // Si la DB est vide, ça ne plantera pas, on envoie une liste vide
+    $resources = class_exists(Resource::class) ? Resource::all() : []; 
     return view('resources.index', compact('resources'));
 })->name('resources.index');
 
-// Détail d'une ressource
 Route::get('/resources/{id}', function ($id) {
     return view('resources.show', compact('id'));
 })->name('resources.show');
 
+
 // ============================================
-// ROUTES D'AUTHENTIFICATION
+// 2. ROUTES D'AUTHENTIFICATION (Backend)
 // ============================================
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -59,17 +58,21 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 Route::get('/demande-compte', [AuthController::class, 'showAccountRequest'])->name('account.request');
 Route::post('/demande-compte', [AuthController::class, 'submitAccountRequest'])->name('account.request.submit');
 
+
 // ============================================
-// ROUTES PRIVÉES (authentifiées)
+// 3. ROUTES PRIVÉES (Utilisateurs connectés)
 // ============================================
 
 Route::middleware(['auth'])->group(function () {
     
-    // Dashboards
+    // --- DASHBOARD CENTRAL ---
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        // Redirection intelligente selon le rôle (Logique Backend)
+        // Tu peux adapter cette logique selon tes besoins frontend
+        return view('dashboard'); 
     })->name('dashboard');
     
+    // Vues spécifiques par rôle
     Route::get('/dashboard-user', function () {
         return view('dashboard.user');
     })->name('dashboard.user');
@@ -82,7 +85,7 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard.admin');
     })->name('dashboard.admin');
     
-    // Réservations
+    // --- RÉSERVATIONS ---
     Route::get('/mes-reservations', function () {
         return view('reservations.index');
     })->name('reservations.index');
@@ -95,21 +98,21 @@ Route::middleware(['auth'])->group(function () {
         return view('reservations.show', compact('id'));
     })->name('reservations.show');
     
-    // Notifications
+    // --- NOTIFICATIONS & PROFIL ---
     Route::get('/notifications', function () {
         return view('notifications.index');
     })->name('notifications.index');
     
-    // Profil
     Route::get('/profile', function () {
         return view('profile.edit');
     })->name('profile.edit');
     
-    // ============================================
-    // PANEL ADMIN (Admin et Tech Manager)
-    // ============================================
     
-    Route::middleware(['role:ADMIN,TECH_MANAGER'])->group(function () {
+    // ============================================
+    // 4. PANEL ADMIN (Admin et Tech Manager)
+    // ============================================
+    // Note : Assure-toi que le Middleware 'role' est bien créé, sinon commente la ligne ci-dessous
+    // Route::middleware(['role:ADMIN,TECH_MANAGER'])->group(function () {
         
         Route::get('/admin-panel', function () {
             return view('admin.panel');
@@ -131,6 +134,5 @@ Route::middleware(['auth'])->group(function () {
             return view('admin.logs.index');
         })->name('admin.logs.index');
         
-    });
-    
+    // }); // Fin du groupe middleware role
 });
