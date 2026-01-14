@@ -1,6 +1,6 @@
 <main class="main-content">
     
-    <x-navigation :title="$title ?? 'Data Center'" />
+    <x-navigation title="Administration" />
 
     <div class="content-wrapper">
         @if(session('success')) <x-alert type="success">{{ session('success') }}</x-alert> @endif
