@@ -33,11 +33,15 @@
                         {{ $incident->created_at->format('d/m/Y H:i') }}
                     </td>
                     <td style="padding: 1rem;">
-                        <strong>{{ $incident->resource->name ?? 'N/A' }}</strong><br>
-                        <small style="color: #666;">{{ $incident->resource->category->name ?? '' }}</small>
+                        @if($incident->resource)
+                            <strong>{{ $incident->resource->name }}</strong><br>
+                            <small style="color: #666;">{{ $incident->resource->category->name ?? '' }}</small>
+                        @else
+                            <span style="color: #999;">Général / Inconnu</span>
+                        @endif
                     </td>
                     <td style="padding: 1rem;">
-                        {{ Str::limit($incident->description, 50) }}
+                        {{ strlen($incident->description) > 50 ? substr($incident->description, 0, 50) . '...' : $incident->description }}
                     </td>
                     <td style="padding: 1rem;">
                         @if($incident->status == 'open')

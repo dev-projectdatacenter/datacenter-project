@@ -31,7 +31,7 @@
             <div class="resource-card">
                 <h3>{{ $resource->name }}</h3>
                 <p><strong>Catégorie :</strong> {{ $resource->category->name }}</p>
-                <p>{{ Str::limit($resource->description, 100) }}</p>
+                <p>{{ strlen($resource->description) > 100 ? substr($resource->description, 0, 100) . '...' : $resource->description }}</p>
                 <span class="badge-success">Disponible</span>
                 <a href="{{ route('login') }}">Connectez-vous pour réserver</a>
             </div>
