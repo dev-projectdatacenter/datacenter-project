@@ -27,6 +27,9 @@
             <ul class="nav-links">
                 <!-- Liens basiques sans dépendance DB forcée pour le test -->
                 <li><a href="{{ url('/resources') }}">Ressources</a></li>
+                <li><a href="{{ url('/categories') }}">Catégories</a></li>
+                <li><a href="{{ url('/incidents') }}">Incidents</a></li>
+                <li><a href="{{ url('/maintenances') }}">Maintenances</a></li>
                 
                 @if (Route::has('login'))
                     @auth

@@ -18,6 +18,35 @@ class IncidentController extends Controller
     }
 
     /**
+     * Affiche la liste globale des incidents.
+     */
+    public function index()
+    {
+        $incidents = Incident::with(['resource', 'user'])->latest()->get();
+        return view('incidents.index', compact('incidents'));
+    }
+
+    /**
+     * Affiche les détails d'un incident.
+     */
+    public function show(Incident $incident)
+    {
+        $incident->load(['resource', 'user']);
+        return view('incidents.show', compact('incident'));
+    }
+
+    /**
+     * Marque un incident comme résolu.
+     */
+    public function resolve(Incident $incident)
+    {
+        $incident->update(['status' => 'resolved']);
+
+        return redirect()->route('incidents.index')
+            ->with('success', 'L\'incident a été marqué comme résolu.');
+    }
+
+    /**
      * Enregistre un nouvel incident.
      */
     public function store(Request $request)

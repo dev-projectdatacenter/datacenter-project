@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\ResourceCategoryController;
 use App\Http\Controllers\IncidentController;
+use App\Http\Controllers\MaintenanceController;
 
 // ════════════════════════════════════════════════════════════
 // ROUTES PUBLIQUES - CONSULTATION DES RESSOURCES
@@ -32,12 +33,18 @@ Route::get('/resources', [ResourceController::class, 'publicIndex'])
     // JOUR 4 : CRUD complet des catégories
     Route::resource('categories', ResourceCategoryController::class);
     
+    // JOUR 6 : CRUD complet des maintenances
+    Route::resource('maintenances', MaintenanceController::class);
+    
     // Routes additionnelles
     // Route::get('/resources/available', [ResourceController::class, 'available'])->name('resources.available');
 
-    // JOUR 5 : Signalement d'incidents
+    // JOUR 5 & 6 : Gestion des incidents
+    Route::get('/incidents', [IncidentController::class, 'index'])->name('incidents.index');
     Route::get('/incidents/report/{resource}', [IncidentController::class, 'create'])->name('incidents.report');
+    Route::get('/incidents/{incident}', [IncidentController::class, 'show'])->name('incidents.show');
     Route::post('/incidents', [IncidentController::class, 'store'])->name('incidents.store');
+    Route::patch('/incidents/{incident}/resolve', [IncidentController::class, 'resolve'])->name('incidents.resolve');
     
 // });
 
