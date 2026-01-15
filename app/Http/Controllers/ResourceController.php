@@ -28,12 +28,28 @@ class ResourceController extends Controller
             ->where('status', 'disponible');
         
         // Filtres de recherche
-        if ($request->has('search')) {
+        if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
         
-        if ($request->has('category_id')) {
+        if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('cpu')) {
+            $query->where('cpu', 'like', '%' . $request->cpu . '%');
+        }
+
+        if ($request->filled('ram')) {
+            $query->where('ram', 'like', '%' . $request->ram . '%');
+        }
+
+        if ($request->filled('os')) {
+            $query->where('os', 'like', '%' . $request->os . '%');
+        }
+
+        if ($request->filled('location')) {
+            $query->where('location', 'like', '%' . $request->location . '%');
         }
         
         $resources = $query->paginate(12);
@@ -56,16 +72,32 @@ class ResourceController extends Controller
         $query = Resource::with('category');
         
         // Filtres de recherche
-        if ($request->has('search')) {
+        if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
         
-        if ($request->has('category_id')) {
+        if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
         
-        if ($request->has('status')) {
+        if ($request->filled('status')) {
             $query->where('status', $request->status);
+        }
+
+        if ($request->filled('cpu')) {
+            $query->where('cpu', 'like', '%' . $request->cpu . '%');
+        }
+
+        if ($request->filled('ram')) {
+            $query->where('ram', 'like', '%' . $request->ram . '%');
+        }
+
+        if ($request->filled('os')) {
+            $query->where('os', 'like', '%' . $request->os . '%');
+        }
+
+        if ($request->filled('location')) {
+            $query->where('location', 'like', '%' . $request->location . '%');
         }
         
         $resources = $query->paginate(15);
@@ -93,10 +125,13 @@ class ResourceController extends Controller
         // Validation des données
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'category_id' => 'required|exists:categories,id',
-            'status' => 'required|in:disponible,reservee,maintenance,hors_service',
-            'specifications' => 'nullable|string'
+            'category_id' => 'required|exists:resource_categories,id',
+            'status' => 'required|in:available,busy,maintenance,hors_service',
+            'cpu' => 'nullable|string|max:255',
+            'ram' => 'nullable|string|max:255',
+            'storage' => 'nullable|string|max:255',
+            'os' => 'nullable|string|max:255',
+            'location' => 'nullable|string|max:255'
         ]);
         
         // Créer la ressource
@@ -138,10 +173,13 @@ class ResourceController extends Controller
         // Validation
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'category_id' => 'required|exists:categories,id',
-            'status' => 'required|in:disponible,reservee,maintenance,hors_service',
-            'specifications' => 'nullable|string'
+            'category_id' => 'required|exists:resource_categories,id',
+            'status' => 'required|in:available,busy,maintenance,hors_service',
+            'cpu' => 'nullable|string|max:255',
+            'ram' => 'nullable|string|max:255',
+            'storage' => 'nullable|string|max:255',
+            'os' => 'nullable|string|max:255',
+            'location' => 'nullable|string|max:255'
         ]);
         
         // Mettre à jour

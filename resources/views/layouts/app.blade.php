@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Data Center') }}</title>
 
     <!-- Vanilla CSS -->
-    @vite(['resources/css/app.css'])
+    {{-- @vite(['resources/css/app.css']) --}}
     
     <style>
         /* Style d'urgence si la BDD est en panne pour l'affichage de l'erreur */
