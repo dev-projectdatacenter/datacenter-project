@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\AccountRequest;
+use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -36,17 +37,20 @@ class AdminUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-            'role' => ['required', Rule::in(['user', 'tech_manager', 'admin'])],
-            'is_active' => 'sometimes|boolean',
+            'role_id' => 'required|exists:roles,id',
+            'status' => 'sometimes|in:active,inactive,blocked',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
-            'is_active' => $request->has('is_active'),
+            'role_id' => $request->role_id,
+            'status' => $request->status ?? 'active',
         ]);
+
+        // Logger la création de l'utilisateur
+        ActivityLogService::logUserCreated($user, auth()->user());
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Utilisateur créé avec succès.');
@@ -76,21 +80,24 @@ class AdminUserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'role' => ['required', Rule::in(['user', 'tech_manager', 'admin'])],
-            'is_active' => 'sometimes|boolean',
+            'role_id' => 'required|exists:roles,id',
+            'status' => 'sometimes|in:active,inactive,blocked',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'role' => $request->role,
-            'is_active' => $request->has('is_active'),
+            'role_id' => $request->role_id,
+            'status' => $request->status ?? $user->status,
         ]);
 
         if ($request->filled('password')) {
             $user->update(['password' => Hash::make($request->password)]);
         }
+
+        // Logger la modification de l'utilisateur
+        ActivityLogService::logUserUpdated($user, auth()->user());
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Utilisateur mis à jour avec succès.');
@@ -105,7 +112,11 @@ class AdminUserController extends Controller
             return back()->with('error', 'Vous ne pouvez pas supprimer votre propre compte.');
         }
 
+        $userName = $user->name;
         $user->delete();
+
+        // Logger la suppression de l'utilisateur
+        ActivityLogService::logUserDeleted($userName, auth()->user());
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Utilisateur supprimé avec succès.');
@@ -120,9 +131,10 @@ class AdminUserController extends Controller
             return back()->with('error', 'Vous ne pouvez pas désactiver votre propre compte.');
         }
 
-        $user->update(['is_active' => !$user->is_active]);
+        $newStatus = $user->status === 'active' ? 'inactive' : 'active';
+        $user->update(['status' => $newStatus]);
 
-        $status = $user->is_active ? 'activé' : 'désactivé';
+        $status = $newStatus === 'active' ? 'activé' : 'désactivé';
         return back()->with('success', "Utilisateur {$status} avec succès.");
     }
 
@@ -193,10 +205,10 @@ class AdminUserController extends Controller
         }
 
         $request->validate([
-            'role' => ['required', Rule::in(['user', 'tech_manager', 'admin'])],
+            'role_id' => ['required', 'exists:roles,id'],
         ]);
 
-        $user->update(['role' => $request->role]);
+        $user->update(['role_id' => $request->role_id]);
 
         return back()->with('success', 'Rôle de l\'utilisateur mis à jour avec succès.');
     }

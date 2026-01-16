@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\RegisterUserRequest;
+use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -32,9 +33,18 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
             
-            // Redirection selon le rôle
-            return $this->redirectToDashboard(Auth::user()->role);
+            // Logger la connexion réussie
+            $user = Auth::user();
+            ActivityLogService::logLogin($user);
+            
+            // Redirection selon le rôle (avec relation)
+            $roleName = $user->role ? $user->role->name : 'guest';
+            
+            return $this->redirectToDashboard($roleName);
         }
+
+        // Logger la tentative de connexion échouée
+        ActivityLogService::logFailedLogin($request->email);
 
         return back()->withErrors([
             'email' => 'Les identifiants ne correspondent pas.',
@@ -56,9 +66,16 @@ class AuthController extends Controller
     // Déconnexion
     public function logout(Request $request)
     {
+        $user = Auth::user();
+        
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        
+        // Logger la déconnexion
+        if ($user) {
+            ActivityLogService::logLogout($user);
+        }
 
         return redirect('/');
     }
@@ -68,8 +85,8 @@ class AuthController extends Controller
     {
         switch ($role) {
             case 'admin':
-                return redirect()->route('dashboard.admin');
-            case 'tech':
+                return redirect()->route('admin.dashboard');
+            case 'tech_manager':
                 return redirect()->route('dashboard.tech');
             case 'user':
                 return redirect()->route('dashboard.user');

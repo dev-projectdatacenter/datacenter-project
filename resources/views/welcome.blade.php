@@ -1,57 +1,136 @@
-@extends('layouts.guest')
-
-@section('title', 'Data Center Management')
-
-@section('content')
-<div class="welcome-container">
-    <div class="welcome-header">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Center Management - Gestion Data Center</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            color: white;
+            padding: 2rem;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: white;
+            color: #667eea;
+            font-weight: bold;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .btn-success {
+            background: #48bb78;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+        }
+        .features {
+            margin-top: 4rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+        }
+        .feature {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        .feature h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .test-info {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
         <h1>🏢 Data Center Management</h1>
         <p class="subtitle">Système de gestion des ressources informatiques</p>
-    </div>
-
-    <div class="features-grid">
-        <div class="feature-card">
-            <div class="feature-icon">👥</div>
-            <h3>Gestion des Utilisateurs</h3>
-            <p>4 rôles différents avec permissions adaptées</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-icon">🖥️</div>
-            <h3>Ressources</h3>
-            <p>Serveurs, VMs, stockage et équipements réseau</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-icon">📅</div>
-            <h3>Réservations</h3>
-            <p>Système complet avec validation automatique</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-icon">📊</div>
-            <h3>Statistiques</h3>
-            <p>Tableaux de bord et rapports en temps réel</p>
-        </div>
-    </div>
-
-    <!-- Section Test Authentification -->
-    <div class="test-section">
-        <h2>🧪 Test du Système d'Authentification</h2>
-        <p class="test-description">Testez les différentes fonctionnalités du système :</p>
         
-        <div class="test-buttons">
-            <a href="{{ route('login') }}" class="btn btn-primary btn-lg">
-                🔐 Page de Connexion
-            </a>
-            
-            <a href="{{ route('register') }}" class="btn btn-success btn-lg">
-                📝 Demander un Compte
-            </a>
-            
-            <a href="/mot-de-passe-oublie" class="btn btn-warning btn-lg">
-                🔑 Mot de Passe Oublié
-            </a>
+        <div class="buttons">
+            <a href="/login" class="btn btn-primary">🔐 Page de Connexion</a>
+            <a href="/register" class="btn btn-success">📝 Demander un Compte</a>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <h3>👥 Gestion des Utilisateurs</h3>
+                <p>4 rôles différents avec permissions adaptées</p>
+            </div>
+            <div class="feature">
+                <h3>🖥️ Ressources</h3>
+                <p>Serveurs, VMs, stockage et équipements réseau</p>
+            </div>
+            <div class="feature">
+                <h3>📅 Réservations</h3>
+                <p>Système complet avec validation automatique</p>
+            </div>
+            <div class="feature">
+                <h3>📊 Statistiques</h3>
+                <p>Tableaux de bord et rapports en temps réel</p>
+            </div>
+        </div>
+
+        <div class="test-info">
+            <h3>🧪 Comptes de Test Disponibles</h3>
+            <p><strong>admin@test.com</strong> - Administrateur</p>
+            <p><strong>tech@test.com</strong> - Responsable technique</p>
+            <p><strong>user@test.com</strong> - Utilisateur interne</p>
+            <p><em>Mot de passe pour tous : password123</em></p>
+        </div>
+    </div>
+</body>
+</html>
             
             <a href="/403" class="btn btn-danger btn-lg">
                 🚫 Test Erreur 403

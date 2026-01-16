@@ -46,6 +46,13 @@ class User extends Authenticatable
     ];
 
     /**
+     * Charger automatiquement la relation role.
+     *
+     * @var array<int, string>
+     */
+    protected $with = ['role'];
+
+    /**
      * Relation : un utilisateur appartient à un rôle.
      */
     public function role()

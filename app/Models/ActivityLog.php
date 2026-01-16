@@ -14,7 +14,8 @@ class ActivityLog extends Model
         'user_id',
         'action',
         'description',
-        'created_at'
+        'ip_address',
+        'user_agent',
     ];
 
     // Relation simple avec users

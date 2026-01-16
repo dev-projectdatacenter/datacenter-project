@@ -362,7 +362,7 @@
             <div class="admin-header">
                 <h2>Data Center</h2>
                 <div class="user-role">
-                    {{ __('roles.' . auth()->user()->role) }}
+                    {{ auth()->user()->role->name ?? 'Inconnu' }}
                 </div>
             </div>
 
@@ -379,7 +379,7 @@
                     <a href="{{ route('admin.users.index') }}" class="admin-nav-item">
                         👥 Utilisateurs
                     </a>
-                    <a href="{{ route('admin.requests.index') }}" class="admin-nav-item">
+                    <a href="{{ route('admin.account-requests.index') }}" class="admin-nav-item">
                         📋 Demandes de compte
                     </a>
                     <a href="#" class="admin-nav-item">
@@ -424,7 +424,7 @@
                         </div>
                         <div class="admin-user-info">
                             <span class="admin-user-name">{{ auth()->user()->name }}</span>
-                            <span class="admin-user-role">{{ __('roles.' . auth()->user()->role) }}</span>
+                            <span class="admin-user-role">{{ auth()->user()->role->name ?? 'Inconnu' }}</span>
                         </div>
                     </div>
                 </div>

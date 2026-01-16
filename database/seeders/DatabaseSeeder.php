@@ -19,24 +19,9 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call([
-            // Tables sans dépendances
-            RoleSeeder::class,
-            ResourceCategorySeeder::class,
-
-            //  Tables dépendantes
-            UserSeeder::class,
-            ResourceSeeder::class,
-
-            //  Fonctionnel
-            ReservationSeeder::class,
-            MaintenanceSeeder::class,
-            IncidentSeeder::class,
-
-            //  Communication & traçabilité
-            NotificationSeeder::class,
-            ActivityLogSeeder::class,
-
-            //  Demandes externes
+            // Utilisateurs de test pour connexion
+            RolesSeeder::class,
+            TestUsersSeeder::class,
             AccountRequestSeeder::class,
         ]);
     }

@@ -46,13 +46,13 @@
                             </td>
                             <td>{{ $user->email }}</td>
                             <td>
-                                <span class="role-badge role-{{ $user->role }}">
-                                    {{ __('roles.' . $user->role) }}
+                                <span class="role-badge role-{{ $user->role->name ?? 'unknown' }}">
+                                    {{ $user->role->name ?? 'Non défini' }}
                                 </span>
                             </td>
                             <td>
-                                <span class="status-badge {{ $user->is_active ? 'active' : 'inactive' }}">
-                                    {{ $user->is_active ? 'Actif' : 'Inactif' }}
+                                <span class="status-badge {{ $user->status == 'active' ? 'active' : 'inactive' }}">
+                                    {{ $user->status == 'active' ? 'Actif' : 'Inactif' }}
                                 </span>
                             </td>
                             <td>{{ $user->created_at->format('d/m/Y') }}</td>

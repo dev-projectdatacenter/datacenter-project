@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'INVITE' => 'Invité',
-    'USER' => 'Utilisateur interne',
-    'TECH_MANAGER' => 'Responsable technique',
-    'ADMIN' => 'Administrateur',
+    'guest' => 'Invité',
+    'user' => 'Utilisateur interne',
+    'tech_manager' => 'Responsable technique',
+    'admin' => 'Administrateur',
 ];

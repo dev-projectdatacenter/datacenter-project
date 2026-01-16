@@ -38,7 +38,16 @@
                     </div>
                     <div class="request-meta">
                         <span class="role-badge role-{{ $request->role_requested }}">
-                            {{ __('roles.' . $request->role_requested) }}
+                            @switch($request->role_requested)
+                                @case('user')
+                                    Utilisateur interne
+                                @case('tech_manager')
+                                    Responsable technique
+                                @case('admin')
+                                    Administrateur
+                                @default
+                                    Non spécifié
+                            @endswitch
                         </span>
                         <span class="date-badge">
                             {{ $request->created_at->format('d/m/Y H:i') }}
@@ -53,8 +62,15 @@
                     </div>
                 @endif
 
+                @if($request->rejection_reason)
+                    <div class="request-message">
+                        <h4>❌ Motif du refus :</h4>
+                        <p>{{ $request->rejection_reason }}</p>
+                    </div>
+                @endif
+
                 <div class="request-actions">
-                    <form method="POST" action="{{ route('admin.requests.approve', $request) }}" style="display: inline;">
+                    <form method="POST" action="{{ route('admin.account-requests.approve', $request) }}" style="display: inline;">
                         @csrf
                         <button type="submit" class="btn btn-success" onclick="return confirm('Approuver cette demande de compte ?')">
                             ✅ Approuver
@@ -68,7 +84,7 @@
 
                 <!-- Formulaire de refus caché -->
                 <div id="reject-form-{{ $request->id }}" class="reject-form" style="display: none;">
-                    <form method="POST" action="{{ route('admin.requests.reject', $request) }}">
+                    <form method="POST" action="{{ route('admin.account-requests.reject', $request) }}">
                         @csrf
                         <div class="form-group">
                             <label for="rejection_reason_{{ $request->id }}">Motif du refus</label>
@@ -97,9 +113,6 @@
                 <div class="empty-icon">📋</div>
                 <h3>Aucune demande en attente</h3>
                 <p>Toutes les demandes de compte ont été traitées.</p>
-                <a href="{{ route('admin.requests.history') }}" class="btn btn-outline">
-                    Voir l'historique
-                </a>
             </div>
         @endforelse
     </div>

@@ -47,16 +47,16 @@ class RoleMiddleware
 
     /**
      * Vérifier si le rôle de l'utilisateur correspond au rôle requis
-     * avec hiérarchie: ADMIN > TECH_MANAGER > USER > INVITE
+     * avec hiérarchie: admin > tech_manager > user > guest
      */
     private function checkRole($userRole, $requiredRole)
     {
         // Définir la hiérarchie des rôles
         $hierarchy = [
-            'INVITE' => 0,
-            'USER' => 1,
-            'TECH_MANAGER' => 2,
-            'ADMIN' => 3,
+            'guest' => 0,
+            'user' => 1,
+            'tech_manager' => 2,
+            'admin' => 3,
         ];
 
         // Si l'utilisateur a un rôle plus élevé, il a accès
@@ -73,13 +73,13 @@ class RoleMiddleware
     private function redirectToDashboard($role)
     {
         switch ($role) {
-            case 'ADMIN':
+            case 'admin':
                 return redirect()->route('admin.dashboard');
-            case 'TECH_MANAGER':
+            case 'tech_manager':
                 return redirect()->route('dashboard.tech');
-            case 'USER':
+            case 'user':
                 return redirect()->route('dashboard.user');
-            case 'INVITE':
+            case 'guest':
             default:
                 return redirect('/');
         }
