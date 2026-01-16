@@ -16,6 +16,6 @@ class ResourceCategory extends Model
      */
     public function resources()
     {
-        return $this->hasMany(Resource::class);
+        return $this->hasMany(Resource::class, 'category_id');
     }
 }

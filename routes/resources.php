@@ -10,6 +10,7 @@ use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\ResourceCategoryController;
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\StatisticsController;
 
 // ════════════════════════════════════════════════════════════
 // ROUTES PUBLIQUES - CONSULTATION DES RESSOURCES
@@ -45,6 +46,10 @@ Route::get('/resources', [ResourceController::class, 'publicIndex'])
     Route::get('/incidents/{incident}', [IncidentController::class, 'show'])->name('incidents.show');
     Route::post('/incidents', [IncidentController::class, 'store'])->name('incidents.store');
     Route::patch('/incidents/{incident}/resolve', [IncidentController::class, 'resolve'])->name('incidents.resolve');
+
+    // JOUR 7 & 8 : Statistiques
+    Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
+    Route::get('/statistics/my-resources', [StatisticsController::class, 'myResources'])->name('statistics.my_resources');
     
 // });
 

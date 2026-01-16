@@ -12,6 +12,10 @@
     <!-- Vanilla CSS -->
     {{-- @vite(['resources/css/app.css']) --}}
     
+    <!-- Chart.js (Pour les statistiques) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ asset('js/charts.js') }}" defer></script>
+    
     <style>
         /* Style d'urgence si la BDD est en panne pour l'affichage de l'erreur */
         .db-error-box { background: #fee; color: #c00; padding: 10px; border: 1px solid #c00; margin: 20px; text-align: center; font-weight: bold; }
@@ -30,6 +34,7 @@
                 <li><a href="{{ url('/categories') }}">Catégories</a></li>
                 <li><a href="{{ url('/incidents') }}">Incidents</a></li>
                 <li><a href="{{ url('/maintenances') }}">Maintenances</a></li>
+                <li><a href="{{ url('/statistics') }}">Statistiques</a></li>
                 
                 @if (Route::has('login'))
                     @auth
