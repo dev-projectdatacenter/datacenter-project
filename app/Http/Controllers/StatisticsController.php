@@ -37,8 +37,7 @@ class StatisticsController extends Controller
      */
     public function myResources()
     {
-        // En mode test/local, on simule l'utilisateur 1 (Ouarda par exemple)
-        $userId = auth()->id() ?? 1;
+        $userId = auth()->id();
         $userStats = $this->statsService->getUserStats($userId);
 
         return view('statistics.my-resources', compact('userStats'));

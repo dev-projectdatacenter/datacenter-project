@@ -56,8 +56,7 @@ class IncidentController extends Controller
             'description' => 'required|string|min:10',
         ]);
 
-        // TEMPORAIRE : On utilise un ID utilisateur par défaut (1) car l'auth est désactivée
-        $userId = Auth::id() ?? 1;
+        $userId = Auth::id();
 
         $incident = Incident::create([
             'user_id' => $userId,
@@ -66,8 +65,7 @@ class IncidentController extends Controller
             'status' => 'open',
         ]);
 
-        // Optionnel : Mettre le statut de la ressource en 'maintenance' si l'incident est grave ?
-        // On peut le suggérer à l'utilisateur plus tard.
+
 
         return redirect()->route('resources.show', $validated['resource_id'])
             ->with('success', 'Incident signalé avec succès. Il sera examiné par un administrateur.');
