@@ -1,32 +1,28 @@
 @props(['title' => 'Tableau de bord'])
 
-<header class="topbar">
-    <div class="page-title">
-        <h1>{{ $title }}</h1>
-        <nav style="margin-left: 20px; display: flex; gap: 15px;">
-            <a href="{{ url('/resources') }}" style="text-decoration: none; color: #34495e; font-weight: 500;">Ressources</a>
-            <a href="{{ url('/categories') }}" style="text-decoration: none; color: #34495e; font-weight: 500;">Catégories</a>
-            <a href="{{ url('/incidents') }}" style="text-decoration: none; color: #34495e; font-weight: 500;">Incidents</a>
-            <a href="{{ url('/maintenances') }}" style="text-decoration: none; color: #34495e; font-weight: 500;">Maintenances</a>
-            <a href="{{ url('/statistics') }}" style="text-decoration: none; color: #34495e; font-weight: 500;">Statistiques</a>
+<header class="topbar" style="background: white; border-bottom: 1px solid #ddd; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; align-items: center; gap: 20px;">
+        <h2 style="margin: 0;">{{ $title }}</h2>
+        <nav style="display: flex; gap: 15px;">
+            <a href="{{ url('/resources') }}" style="text-decoration: none; color: #333;">Ressources</a>
+            <a href="{{ url('/categories') }}" style="text-decoration: none; color: #333;">Catégories</a>
+            <a href="{{ url('/incidents') }}" style="text-decoration: none; color: #333;">Incidents</a>
+            <a href="{{ url('/maintenances') }}" style="text-decoration: none; color: #333;">Maintenances</a>
+            <a href="{{ url('/statistics') }}" style="text-decoration: none; color: #333;">Statistiques</a>
         </nav>
     </div>
 
     <div class="user-menu">
         @if (Route::has('login'))
             @guest
-                <a href="{{ route('login') }}" class="btn btn-primary">Connexion</a>
+                <a href="{{ route('login') }}" class="btn">Connexion</a>
             @else
-                <div class="user-info">
-                    <span class="user-name">{{ Auth::user()->name }}</span>
-                    @if(Auth::user()->role === 'admin')
-                        <span class="badge badge-danger" style="margin: 0 10px;">Admin</span>
-                    @endif
+                <div class="user-info" style="display: flex; align-items: center; gap: 10px;">
+                    <span>{{ Auth::user()->name }}</span>
                     <a href="{{ route('logout') }}" 
-                       class="btn btn-danger btn-sm"
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                       title="Se déconnecter">
-                        <i class="fas fa-sign-out-alt"></i>
+                       class="btn btn-sm"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Déconnexion
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
@@ -35,8 +31,8 @@
             @endguest
         @else
             <div class="user-info">
-                <span class="user-name">Mode Test (Ouarda)</span>
-                <span class="badge badge-success" style="margin: 0 10px;">Connecté</span>
+                <span>Mode Test</span>
+                <span class="badge" style="background: #e2e8f0; color: #333; margin-left: 10px;">Connecté</span>
             </div>
         @endif
     </div>

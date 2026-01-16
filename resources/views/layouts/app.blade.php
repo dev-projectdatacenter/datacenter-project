@@ -13,9 +13,15 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Injection de CSS spécifique (Ouarda) -->
+    @stack('styles')
+    
     <!-- Chart.js (Pour les statistiques d'Ouarda) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ asset('js/charts.js') }}" defer></script>
+    
+    <!-- Injection de JS spécifique (Ouarda) -->
+    @stack('scripts')
     
     <style>
         /* Styles additionnels Ouarda */
