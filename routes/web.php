@@ -33,6 +33,7 @@ Route::get('/resources', function () {
 // ROUTES D'AUTHENTIFICATION (publiques)
 // ============================================
 
+<<<<<<< Updated upstream
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -44,6 +45,19 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 // ============================================
 // ROUTES PRIVÉES (authentifiées)
 // ============================================
+=======
+// Authentification & Admin - ZAHRAE
+//require __DIR__.'/auth.php';
+
+// Gestion des Ressources - OUARDA
+//require __DIR__.'/resources.php';
+
+// Gestion des Réservations - HALIMA
+//require __DIR__.'/reservations.php';
+
+// Dashboards - FATIMA
+require __DIR__.'/dashboard.php';
+>>>>>>> Stashed changes
 
 Route::middleware(['auth'])->group(function () {
     // Tableau de bord

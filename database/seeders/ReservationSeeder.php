@@ -44,7 +44,7 @@ class ReservationSeeder extends Seeder
                 'resource_id' => 4, // NAS Synology
                 'start_date' => Carbon::now()->addDays(1),
                 'end_date' => Carbon::now()->addDays(4),
-                'status' => 'pending',
+                'status' => 'finished',
                 'justification' => 'Stockage temporaire des fichiers de projet',
             ],
         ];
