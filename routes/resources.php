@@ -25,7 +25,7 @@ Route::get('/resources', [ResourceController::class, 'publicIndex'])
 // ROUTES PROTÉGÉES - GESTION DES RESSOURCES
 // ════════════════════════════════════════════════════════════
 
-Route::middleware(['auth'])->group(function () {
+// Route::middleware(['auth'])->group(function () {
     
     // CRUD complet des ressources (liste, créer, voir, éditer, supprimer)
     Route::resource('resources', ResourceController::class);
@@ -50,5 +50,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
     Route::get('/statistics/my-resources', [StatisticsController::class, 'myResources'])->name('statistics.my_resources');
     
-});
+// });
 

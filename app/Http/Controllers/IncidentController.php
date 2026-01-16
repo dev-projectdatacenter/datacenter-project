@@ -56,7 +56,7 @@ class IncidentController extends Controller
             'description' => 'required|string|min:10',
         ]);
 
-        $userId = Auth::id();
+        $userId = Auth::id() ?? 1;
 
         $incident = Incident::create([
             'user_id' => $userId,

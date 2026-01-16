@@ -37,7 +37,7 @@ class StatisticsController extends Controller
      */
     public function myResources()
     {
-        $userId = auth()->id();
+        $userId = auth()->id() ?? 1;
         $userStats = $this->statsService->getUserStats($userId);
 
         return view('statistics.my-resources', compact('userStats'));
