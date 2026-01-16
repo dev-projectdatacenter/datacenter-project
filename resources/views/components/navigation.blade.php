@@ -5,6 +5,7 @@
         <h2 style="margin: 0;">{{ $title }}</h2>
         <nav style="display: flex; gap: 15px;">
             <a href="{{ url('/resources') }}" style="text-decoration: none; color: #333;">Ressources</a>
+            <a href="{{ url('/categories') }}" style="text-decoration: none; color: #333;">Catégories</a>
             <a href="{{ url('/reservations') }}" style="text-decoration: none; color: #333;">Réservations</a>
             <a href="{{ url('/incidents') }}" style="text-decoration: none; color: #333;">Incidents</a>
             <a href="{{ url('/maintenances') }}" style="text-decoration: none; color: #333;">Maintenances</a>
