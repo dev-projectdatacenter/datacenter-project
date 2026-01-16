@@ -94,33 +94,6 @@ Route::middleware(['auth'])->group(function () {
         return redirect('/');
     })->name('logout');
 
-    // Dashboard
-    Route::get('/dashboard', function () {
-        $user = auth()->user();
-        $roleName = $user->role ? $user->role->name : 'Non défini';
-        
-        // Dashboard selon le rôle
-        switch($roleName) {
-            case 'ADMIN':
-                return view('dashboard.admin', compact('user'));
-            case 'TECH_MANAGER':
-                return view('dashboard.tech', compact('user'));
-            case 'USER':
-                return view('dashboard.user', compact('user'));
-            case 'INVITE':
-                return view('dashboard.invite', compact('user'));
-            default:
-                return "<h1>🎉 Dashboard de {$user->name}!</h1>
-                        <p>Email: {$user->email}</p>
-                        <p>Rôle: {$roleName}</p>
-                        <form method='POST' action='/logout'>
-                            <input type='hidden' name='_token' value='" . csrf_token() . "'>
-                            <button type='submit'>Déconnexion</button>
-                        </form>
-                        <p><a href='/'>← Accueil</a></p>";
-        }
-    })->name('dashboard');
-
     // Test base de données
     Route::get('/test-db', function () {
         try {
