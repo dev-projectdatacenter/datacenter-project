@@ -20,16 +20,16 @@ Route::get('/', function () {
 // ════════════════════════════════════════════════════════════
 
 // Authentification & Admin - ZAHRAE
-//require __DIR__.'/auth.php';
+require __DIR__.'/auth.php';
 
 // Gestion des Ressources - OUARDA
 require __DIR__.'/resources.php';
 
 // Gestion des Réservations - HALIMA
-//require __DIR__.'/reservations.php';
+require __DIR__.'/reservations.php';
 
 // Dashboards - FATIMA
-//require __DIR__.'/dashboard.php';
+require __DIR__.'/dashboard.php';
 
 
 // ════════════════════════════════════════════════════════════

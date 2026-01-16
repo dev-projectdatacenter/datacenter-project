@@ -1,22 +1,75 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="card">
-    <h1>Bienvenue au Data Center</h1>
-    <p style="margin-top: 1rem;">Plateforme de gestion, réservation et suivi des ressources informatiques.</p>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ config('app.name', 'Data Center Manager') }}</title>
     
-    <div style="margin-top: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-        <div style="padding: 1rem; border: 1px solid #eee; border-radius: 4px;">
-            <h3>🔍 Consulter les ressources</h3>
-            <p>Accédez au catalogue des serveurs, VMs et équipements réseau disponibles.</p>
-            <a href="{{ url('/resources') }}" style="display: inline-block; margin-top: 1rem; color: #3498db; font-weight: bold;">Voir le catalogue &rarr;</a>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+   <nav class="landing-nav">
+        <div class="logo">
+            <i class="fas fa-server"></i> DataCenter
         </div>
-        
-        <div style="padding: 1rem; border: 1px solid #eee; border-radius: 4px;">
-            <h3>🔐 Accès réservé</h3>
-            <p>Connectez-vous pour effectuer une demande de réservation ou gérer vos équipements.</p>
-            <a href="{{ route('login') }}" style="display: inline-block; margin-top: 1rem; color: #2c3e50; font-weight: bold;">Se connecter &rarr;</a>
+        <div class="nav-links">
+            @guest
+                <a href="{{ route('login') }}" class="btn btn-outline">Se connecter</a>
+                <a href="{{ route('register') }}" class="btn btn-primary">S'inscrire</a>
+            @else
+                <a href="{{ url('/resources') }}" class="btn btn-primary">Accéder au Dashboard</a>
+            @endguest
         </div>
-    </div>
-</div>
-@endsection
+    </nav>
+
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1>Gestion de Parc Informatique & <span style="color: var(--primary);">Ressources</span></h1>
+            <p>Une plateforme centralisée pour gérer les serveurs, les machines virtuelles et les réservations d'accès pour vos équipes.</p>
+            
+            <div class="hero-actions">
+                <a href="{{ url('/resources') }}" class="btn btn-primary btn-lg">
+                         Accéder à la plateforme 
+                <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+                </a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <i class="fas fa-network-wired"></i>
+        </div>
+    </header>
+
+    <section class="features-section">
+        <div class="feature-card">
+            <div class="icon">
+                <i class="fas fa-laptop-code"></i>
+            </div>
+            <h3>Gestion des Ressources</h3>
+            <p>Inventaire complet des serveurs physiques et virtuels avec suivi d'état.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <h3>Système de Réservation</h3>
+            <p>Planifiez l'utilisation des ressources et évitez les conflits d'accès.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Administration</h3>
+            <p>Gestion des rôles utilisateurs et validation des demandes en temps réel.</p>
+        </div>
+    </section>
+
+    <footer class="landing-footer">
+        <p>&copy; {{ date('Y') }} Data Center Manager.</p>
+    </footer>
+
+</body>
+</html>

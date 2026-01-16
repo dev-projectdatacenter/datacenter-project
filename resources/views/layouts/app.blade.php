@@ -7,72 +7,55 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Data Center') }}</title>
+    <title>{{ config('app.name', 'Data Center Manager') }}</title>
 
-    <!-- Vanilla CSS -->
-    {{-- @vite(['resources/css/app.css']) --}}
+    <!-- CSS Global -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Chart.js (Pour les statistiques) -->
+    <!-- Chart.js (Pour les statistiques d'Ouarda) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ asset('js/charts.js') }}" defer></script>
     
     <style>
-        /* Style d'urgence si la BDD est en panne pour l'affichage de l'erreur */
+        /* Styles additionnels Ouarda */
         .db-error-box { background: #fee; color: #c00; padding: 10px; border: 1px solid #c00; margin: 20px; text-align: center; font-weight: bold; }
     </style>
 </head>
 <body>
     <div id="app">
-        <nav class="navbar">
-            <a class="navbar-brand" href="{{ url('/') }}">
-                Data Center Gestion
-            </a>
+        <main class="main-content">
+            
+            {{-- Nouveau composant de navigation de Fatima/Zahrae --}}
+            <x-navigation :title="$title ?? 'Data Center'" />
 
-            <ul class="nav-links">
-                <!-- Liens basiques sans dépendance DB forcée pour le test -->
-                <li><a href="{{ url('/resources') }}">Ressources</a></li>
-                <li><a href="{{ url('/categories') }}">Catégories</a></li>
-                <li><a href="{{ url('/incidents') }}">Incidents</a></li>
-                <li><a href="{{ url('/maintenances') }}">Maintenances</a></li>
-                <li><a href="{{ url('/statistics') }}">Statistiques</a></li>
-                
-                @if (Route::has('login'))
-                    @auth
-                        <li><a href="{{ url('/home') }}">Tableau de bord</a></li>
-                        <li>
-                            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                Déconnexion
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </li>
-                    @else
-                        <li><a href="{{ route('login') }}">Connexion</a></li>
-                        @if (Route::has('register'))
-                            <li><a href="{{ route('register') }}">S'inscrire</a></li>
-                        @endif
-                    @endauth
+            <div class="content-wrapper">
+                {{-- Messages Flash --}}
+                @if(session('success')) 
+                    <div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; border: 1px solid #c3e6cb; margin-bottom: 20px;">
+                        {{ session('success') }}
+                    </div>
                 @endif
-            </ul>
-        </nav>
+                @if(session('error'))   
+                    <div style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px; border: 1px solid #f5c6cb; margin-bottom: 20px;">
+                        {{ session('error') }}
+                    </div>
+                @endif
 
-        <div class="container">
-            {{-- Message d'erreur personnalisé si la BDD ne répond pas --}}
-            @if(isset($exception) && str_contains($exception->getMessage(), 'SQLSTATE'))
-                <div class="db-error-box">
-                    🚨 Attention : Le serveur de base de données (MySQL) est éteint. Lancez MySQL dans XAMPP/Laragon.
-                </div>
-            @endif
+                {{-- Message d'erreur BDD d'Ouarda --}}
+                @if(isset($exception) && str_contains($exception->getMessage(), 'SQLSTATE'))
+                    <div class="db-error-box">
+                        🚨 Attention : Le serveur de base de données (MySQL) est éteint. Lancez MySQL dans XAMPP/Laragon.
+                    </div>
+                @endif
 
-            <main>
                 @yield('content')
-            </main>
-        </div>
+            </div>
 
-        <footer>
-            <p>&copy; {{ date('Y') }} Data Center Project - Fatima, Zahrae, Ouarda, Halima, Chaymae</p>
-        </footer>
+            {{-- Nouveau composant footer --}}
+            <x-footer />
+
+        </main>
     </div>
 </body>
 </html>
