@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.app')
 
 @section('title', 'Mot de passe oublié')
 
@@ -47,6 +47,9 @@
         <div class="auth-links">
             <a href="{{ route('login') }}" class="auth-link">
                 🔙 Retour à la connexion
+            </a>
+            <a href="{{ route('register') }}" class="auth-link">
+                📝 S'inscrire
             </a>
         </div>
     </div>

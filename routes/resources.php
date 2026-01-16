@@ -25,7 +25,7 @@ Route::get('/resources', [ResourceController::class, 'publicIndex'])
 // ROUTES PROTÉGÉES - GESTION DES RESSOURCES
 // ════════════════════════════════════════════════════════════
 
-// Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     
     // CRUD complet des ressources (liste, créer, voir, éditer, supprimer)
     Route::resource('resources', ResourceController::class);
@@ -37,7 +37,7 @@ Route::get('/resources', [ResourceController::class, 'publicIndex'])
     Route::resource('maintenances', MaintenanceController::class);
     
     // Routes additionnelles
-    // Route::get('/resources/available', [ResourceController::class, 'available'])->name('resources.available');
+    Route::get('/resources/available', [ResourceController::class, 'available'])->name('resources.available');
 
     // JOUR 5 & 6 : Gestion des incidents
     Route::get('/incidents', [IncidentController::class, 'index'])->name('incidents.index');
@@ -50,4 +50,4 @@ Route::get('/resources', [ResourceController::class, 'publicIndex'])
     Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
     Route::get('/statistics/my-resources', [StatisticsController::class, 'myResources'])->name('statistics.my_resources');
     
-// });
+});

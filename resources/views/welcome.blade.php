@@ -15,16 +15,8 @@
             <i class="fas fa-server"></i> DataCenter
         </div>
         <div class="nav-links">
-            @if (Route::has('login'))
-                @guest
-                    <a href="{{ route('login') }}" class="btn btn-outline">Se connecter</a>
-                    <a href="{{ route('register') }}" class="btn btn-primary">S'inscrire</a>
-                @else
-                    <a href="{{ url('/resources') }}" class="btn btn-primary">Accéder au Dashboard</a>
-                @endguest
-            @else
-                <a href="{{ url('/resources') }}" class="btn btn-primary">Accéder aux Ressources (Mode Test)</a>
-            @endif
+            <a href="{{ route('login') }}" class="btn btn-outline">Se connecter</a>
+            <a href="{{ route('register') }}" class="btn btn-primary">S'inscrire</a>
         </div>
     </nav>
 

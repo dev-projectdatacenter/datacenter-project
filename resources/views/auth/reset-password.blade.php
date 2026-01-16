@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.app')
 
 @section('title', 'Réinitialiser le mot de passe')
 
@@ -80,7 +80,8 @@
 
         <div class="auth-footer">
             <p>
-                <a href="{{ route('login') }}">Retour à la connexion</a>
+                <a href="{{ route('login') }}" class="auth-link">🔙 Retour à la connexion</a>
+                <a href="{{ route('register') }}" class="auth-link">📝 S'inscrire</a>
             </p>
         </div>
     </div>

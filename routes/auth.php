@@ -43,13 +43,28 @@ Route::post('/register', function () {
         'email' => 'required|email|max:255|unique:users',
         'phone' => 'nullable|string|max:20',
         'department' => 'required|string|max:100',
-        'role_requested' => 'required|string|in:user,tech_manager',
+        'role_requested' => 'required|string|in:user,tech_manager,admin,invite',
         'motivation' => 'required|string|max:500',
         'password' => 'required|string|min:8|confirmed',
     ]);
 
     // Déterminer le rôle selon la demande
-    $roleId = ($data['role_requested'] == 'tech_manager') ? 2 : 3; // TECH_MANAGER ou USER
+    switch($data['role_requested']) {
+        case 'admin':
+            $roleId = 1; // ADMIN
+            break;
+        case 'tech_manager':
+            $roleId = 2; // TECH_MANAGER
+            break;
+        case 'user':
+            $roleId = 3; // USER
+            break;
+        case 'invite':
+            $roleId = 4; // INVITE
+            break;
+        default:
+            $roleId = 3; // USER par défaut
+    }
 
     \App\Models\User::create([
         'name' => $data['name'],
@@ -77,7 +92,7 @@ Route::middleware(['auth'])->group(function () {
         request()->session()->invalidate();
         request()->session()->regenerateToken();
         return redirect('/');
-    });
+    })->name('logout');
 
     // Dashboard
     Route::get('/dashboard', function () {
@@ -157,6 +172,54 @@ Route::post('/forgot-password', function () {
 
     return redirect('/forgot-password')->with('success', 'Un lien de réinitialisation a été envoyé à votre adresse email.');
 })->name('password.email');
+
+// Page de réinitialisation du mot de passe
+Route::get('/reset-password/{token}', function ($token) {
+    // Vérifier si le token est valide et n'a pas expiré
+    if (!session('password_reset_token') || session('password_reset_token') !== $token || now()->gt(session('password_reset_expires'))) {
+        return redirect('/forgot-password')->with('error', 'Le lien de réinitialisation est invalide ou a expiré.');
+    }
+
+    return view('auth.reset-password', ['token' => $token]);
+})->name('password.reset');
+
+// Traitement de la réinitialisation
+Route::post('/reset-password', function () {
+    $data = request()->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|string|min:8|confirmed',
+    ], [
+        'password.required' => 'Le mot de passe est obligatoire.',
+        'password.min' => 'Le mot de passe doit faire au moins 8 caractères.',
+        'password.confirmed' => 'Les mots de passe ne correspondent pas.',
+    ]);
+
+    // Vérifier le token
+    if (!session('password_reset_token') || session('password_reset_token') !== $data['token']) {
+        return back()->with('error', 'Token invalide.');
+    }
+
+    // Vérifier l'email
+    if (session('password_reset_email') !== $data['email']) {
+        return back()->with('error', 'Email incorrect.');
+    }
+
+    // Mettre à jour le mot de passe
+    $user = \App\Models\User::where('email', $data['email'])->first();
+    if (!$user) {
+        return back()->with('error', 'Utilisateur non trouvé.');
+    }
+
+    $user->update([
+        'password' => bcrypt($data['password']),
+    ]);
+
+    // Nettoyer la session
+    session()->forget(['password_reset_token', 'password_reset_email', 'password_reset_expires']);
+
+    return redirect('/login')->with('success', 'Votre mot de passe a été réinitialisé avec succès!');
+})->name('password.update');
 
 // ════════════════════════════════════════════════════════════
 // ROUTES ADMINISTRATION (ZAHRAE)
