@@ -1,9 +1,4 @@
 <?php
-/**
- * MaintenanceController.php
- * Gestion des maintenances de ressources
- * Géré par OUARDA
- */
 
 namespace App\Http\Controllers;
 
@@ -14,125 +9,61 @@ use Illuminate\Http\Request;
 class MaintenanceController extends Controller
 {
     /**
-     * Afficher la liste des maintenances
+     * Affiche la liste des maintenances.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $query = Maintenance::with(['resource', 'resource.manager']);
-        
-        if ($request->filled('status')) {
-            if ($request->status === 'upcoming') {
-                $query->where('start_date', '>', now());
-            } elseif ($request->status === 'ongoing') {
-                $query->where('start_date', '<=', now())
-                      ->where('end_date', '>=', now());
-            } elseif ($request->status === 'completed') {
-                $query->where('end_date', '<', now());
-            }
-        }
-        
-        $maintenances = $query->orderBy('start_date', 'desc')->paginate(15);
-        
+        $maintenances = Maintenance::with('resource')->orderBy('start_date', 'asc')->get();
         return view('maintenances.index', compact('maintenances'));
     }
 
     /**
-     * Afficher le formulaire de création
+     * Formulaire pour planifier une maintenance.
      */
-    public function create(Resource $resource)
+    public function create(Request $request)
     {
-        return view('maintenances.create', compact('resource'));
+        $resourceId = $request->query('resource_id');
+        $resource = $resourceId ? Resource::findOrFail($resourceId) : null;
+        $resources = Resource::all();
+
+        return view('maintenances.create', compact('resource', 'resources'));
     }
 
     /**
-     * Créer une nouvelle maintenance
+     * Enregistre une maintenance.
      */
-    public function store(Request $request, Resource $resource)
+    public function store(Request $request)
     {
-        $request->validate([
-            'start_date' => 'required|date|after:now',
+        $validated = $request->validate([
+            'resource_id' => 'required|exists:resources,id',
+            'start_date' => 'required|date|after_or_equal:now',
             'end_date' => 'required|date|after:start_date',
-            'reason' => 'required|string|max:1000',
+            'reason' => 'required|string|max:500',
         ]);
 
-        // Vérifier les conflits avec les réservations
-        $conflicts = $resource->reservations()
-            ->where('status', 'approved')
-            ->where(function ($query) use ($request) {
-                $query->whereBetween('start_date', [$request->start_date, $request->end_date])
-                      ->orWhereBetween('end_date', [$request->start_date, $request->end_date])
-                      ->orWhere(function ($q) use ($request) {
-                          $q->where('start_date', '<=', $request->start_date)
-                            ->where('end_date', '>=', $request->end_date);
-                      });
-            })
-            ->exists();
+        Maintenance::create($validated);
 
-        if ($conflicts) {
-            return back()->with('error', 'Conflit détecté : des réservations existent pendant cette période.');
-        }
-
-        Maintenance::create([
-            'resource_id' => $resource->id,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'reason' => $request->reason,
-            'created_by' => auth()->id(),
-        ]);
-
-        // Mettre la ressource en maintenance
-        $resource->update(['is_in_maintenance' => true]);
+        // Mettre à jour le statut de la ressource si la maintenance commence maintenant
+        // Optionnel : on pourrait utiliser un job planifié pour ça.
+        $resource = Resource::find($validated['resource_id']);
+        $resource->update(['status' => 'maintenance']);
 
         return redirect()->route('maintenances.index')
-            ->with('success', 'Maintenance planifiée avec succès.');
+            ->with('success', 'Maintenance planifiée avec succès. Le serveur est passé en mode maintenance.');
     }
 
     /**
-     * Afficher le formulaire d'édition
-     */
-    public function edit(Maintenance $maintenance)
-    {
-        $maintenance->load('resource');
-        return view('maintenances.edit', compact('maintenance'));
-    }
-
-    /**
-     * Mettre à jour une maintenance
-     */
-    public function update(Request $request, Maintenance $maintenance)
-    {
-        $request->validate([
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after:start_date',
-            'reason' => 'required|string|max:1000',
-        ]);
-
-        $maintenance->update($request->all());
-
-        return redirect()->route('maintenances.index')
-            ->with('success', 'Maintenance mise à jour avec succès.');
-    }
-
-    /**
-     * Supprimer une maintenance
+     * Supprime/Annule une maintenance.
      */
     public function destroy(Maintenance $maintenance)
     {
         $resource = $maintenance->resource;
-        
         $maintenance->delete();
 
-        // Vérifier s'il y a d'autres maintenances actives pour cette ressource
-        $hasActiveMaintenance = $resource->maintenances()
-            ->where('start_date', '<=', now())
-            ->where('end_date', '>=', now())
-            ->exists();
-
-        if (!$hasActiveMaintenance) {
-            $resource->update(['is_in_maintenance' => false]);
-        }
-
+        // Remettre la ressource en 'available' après suppression ?
+        // On laisse l'utilisateur décider via l'édition de ressource pour plus de sécurité.
+        
         return redirect()->route('maintenances.index')
-            ->with('success', 'Maintenance supprimée avec succès.');
+            ->with('success', 'Maintenance annulée / supprimée.');
     }
 }

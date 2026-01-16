@@ -1,8 +1,8 @@
 <?php
 /**
- * ResourceController.php
- * Gestion des ressources du Data Center
- * Géré par OUARDA
+ * app/Http/Controllers/ResourceController.php
+ * Auteur : OUARDA
+ * Description : Gestion des ressources du Data Center
  */
 
 namespace App\Http\Controllers;
@@ -10,140 +10,205 @@ namespace App\Http\Controllers;
 use App\Models\Resource;
 use App\Models\ResourceCategory;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class ResourceController extends Controller
 {
+    // ════════════════════════════════════════════════════════════
+    // ROUTE PUBLIQUE - Voir les ressources (invités)
+    // ════════════════════════════════════════════════════════════
+    
     /**
-     * Afficher la liste des ressources
+     * Afficher la liste des ressources (VERSION PUBLIQUE - invités)
+     * Route : GET /resources (public)
      */
-    public function index(Request $request)
+    public function publicIndex(Request $request)
     {
-        $query = Resource::with(['category', 'manager']);
+        // Récupérer seulement les ressources disponibles
+        $query = Resource::with('category')
+            ->where('status', 'disponible');
         
-        // Filtres
-        if ($request->filled('category')) {
-            $query->where('category_id', $request->category);
-        }
-        
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-        
+        // Filtres de recherche
         if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
-            });
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+        
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('cpu')) {
+            $query->where('cpu', 'like', '%' . $request->cpu . '%');
+        }
+
+        if ($request->filled('ram')) {
+            $query->where('ram', 'like', '%' . $request->ram . '%');
+        }
+
+        if ($request->filled('os')) {
+            $query->where('os', 'like', '%' . $request->os . '%');
+        }
+
+        if ($request->filled('location')) {
+            $query->where('location', 'like', '%' . $request->location . '%');
         }
         
         $resources = $query->paginate(12);
         $categories = ResourceCategory::all();
         
+        return view('resources.public-index', compact('resources', 'categories'));
+    }
+    
+    // ════════════════════════════════════════════════════════════
+    // ROUTES PROTÉGÉES - Gestion complète (authentifiés)
+    // ════════════════════════════════════════════════════════════
+    
+    /**
+     * Afficher la liste des ressources (VERSION ADMIN - authentifiés)
+     * Route : GET /resources (avec auth)
+     */
+    public function index(Request $request)
+    {
+        // Récupérer TOUTES les ressources (tous statuts)
+        $query = Resource::with('category');
+        
+        // Filtres de recherche
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+        
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+        
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('cpu')) {
+            $query->where('cpu', 'like', '%' . $request->cpu . '%');
+        }
+
+        if ($request->filled('ram')) {
+            $query->where('ram', 'like', '%' . $request->ram . '%');
+        }
+
+        if ($request->filled('os')) {
+            $query->where('os', 'like', '%' . $request->os . '%');
+        }
+
+        if ($request->filled('location')) {
+            $query->where('location', 'like', '%' . $request->location . '%');
+        }
+        
+        $resources = $query->paginate(15);
+        $categories = ResourceCategory::all();
+        
         return view('resources.index', compact('resources', 'categories'));
     }
-
+    
     /**
      * Afficher le formulaire de création
+     * Route : GET /resources/create
      */
     public function create()
     {
         $categories = ResourceCategory::all();
         return view('resources.create', compact('categories'));
     }
-
+    
     /**
-     * Créer une nouvelle ressource
+     * Enregistrer une nouvelle ressource
+     * Route : POST /resources
      */
     public function store(Request $request)
     {
-        $request->validate([
+        // Validation des données
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
             'category_id' => 'required|exists:resource_categories,id',
-            'specifications' => 'required|array',
-            'location' => 'required|string|max:255',
-            'status' => 'required|in:active,inactive,maintenance',
+            'status' => 'required|in:available,busy,maintenance,hors_service',
+            'cpu' => 'nullable|string|max:255',
+            'ram' => 'nullable|string|max:255',
+            'storage' => 'nullable|string|max:255',
+            'os' => 'nullable|string|max:255',
+            'location' => 'nullable|string|max:255'
         ]);
-
-        $resource = Resource::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'category_id' => $request->category_id,
-            'specifications' => json_encode($request->specifications),
-            'location' => $request->location,
-            'status' => $request->status,
-            'managed_by' => auth()->id(),
-            'is_in_maintenance' => $request->status === 'maintenance',
-        ]);
-
-        return redirect()->route('resources.index')
-            ->with('success', 'Ressource créée avec succès.');
+        
+        // Créer la ressource
+        Resource::create($validated);
+        
+        return redirect()
+            ->route('resources.index')
+            ->with('success', 'Ressource créée avec succès !');
     }
-
+    
     /**
      * Afficher les détails d'une ressource
+     * Route : GET /resources/{id}
      */
     public function show(Resource $resource)
     {
-        $resource->load(['category', 'manager', 'reservations' => function ($query) {
-            $query->orderBy('start_date', 'desc')->limit(5);
-        }]);
+        // Charger les relations
+        $resource->load('category', 'reservations.user');
         
         return view('resources.show', compact('resource'));
     }
-
+    
     /**
      * Afficher le formulaire d'édition
+     * Route : GET /resources/{id}/edit
      */
     public function edit(Resource $resource)
     {
         $categories = ResourceCategory::all();
         return view('resources.edit', compact('resource', 'categories'));
     }
-
+    
     /**
      * Mettre à jour une ressource
+     * Route : PUT/PATCH /resources/{id}
      */
     public function update(Request $request, Resource $resource)
     {
-        $request->validate([
+        // Validation
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
             'category_id' => 'required|exists:resource_categories,id',
-            'specifications' => 'required|array',
-            'location' => 'required|string|max:255',
-            'status' => 'required|in:active,inactive,maintenance',
+            'status' => 'required|in:available,busy,maintenance,hors_service',
+            'cpu' => 'nullable|string|max:255',
+            'ram' => 'nullable|string|max:255',
+            'storage' => 'nullable|string|max:255',
+            'os' => 'nullable|string|max:255',
+            'location' => 'nullable|string|max:255'
         ]);
-
-        $resource->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'category_id' => $request->category_id,
-            'specifications' => json_encode($request->specifications),
-            'location' => $request->location,
-            'status' => $request->status,
-            'is_in_maintenance' => $request->status === 'maintenance',
-        ]);
-
-        return redirect()->route('resources.index')
-            ->with('success', 'Ressource mise à jour avec succès.');
+        
+        // Mettre à jour
+        $resource->update($validated);
+        
+        return redirect()
+            ->route('resources.index')
+            ->with('success', 'Ressource mise à jour avec succès !');
     }
-
+    
     /**
      * Supprimer une ressource
+     * Route : DELETE /resources/{id}
      */
     public function destroy(Resource $resource)
     {
-        // Vérifier qu'il n'y a pas de réservations actives
-        if ($resource->reservations()->whereIn('status', ['active', 'approved'])->exists()) {
-            return back()->with('error', 'Impossible de supprimer une ressource avec des réservations actives.');
+        // Vérifier s'il y a des réservations actives
+        $hasActiveReservations = $resource->reservations()
+            ->whereIn('status', ['en_attente', 'approuvee'])
+            ->exists();
+        
+        if ($hasActiveReservations) {
+            return back()->with('error', 'Impossible de supprimer : cette ressource a des réservations actives.');
         }
-
+        
         $resource->delete();
-
-        return redirect()->route('resources.index')
-            ->with('success', 'Ressource supprimée avec succès.');
+        
+        return redirect()
+            ->route('resources.index')
+            ->with('success', 'Ressource supprimée avec succès !');
     }
 }

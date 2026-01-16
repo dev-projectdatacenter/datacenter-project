@@ -27,7 +27,7 @@ class Resource extends Model
      */
     public function category()
     {
-        return $this->belongsTo(ResourceCategory::class);
+        return $this->belongsTo(ResourceCategory::class, 'category_id');
     }
 
     /**

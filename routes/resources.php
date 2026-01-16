@@ -1,83 +1,53 @@
 <?php
 /**
  * routes/resources.php
- * Routes de gestion des ressources et catégories
- * Géré par OUARDA
+ * Auteur : OUARDA
+ * Description : Gestion des ressources du Data Center
  */
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ResourceController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ResourceCategoryController;
+use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\StatisticsController;
-use Illuminate\Support\Facades\Route;
 
 // ════════════════════════════════════════════════════════════
-// RESSOURCES (Authentification requise)
+// ROUTES PUBLIQUES - CONSULTATION DES RESSOURCES
 // ════════════════════════════════════════════════════════════
 
-Route::middleware(['auth', 'throttle:60,1'])->group(function () {
+// Voir les ressources sans authentification (lecture seule)
+Route::get('/resources', [ResourceController::class, 'publicIndex'])
+    ->name('resources.public');
+
+
+// ════════════════════════════════════════════════════════════
+// ROUTES PROTÉGÉES - GESTION DES RESSOURCES
+// ════════════════════════════════════════════════════════════
+
+// Route::middleware(['auth'])->group(function () {
     
-    // ════════════════════════════════════════════════════════════
-    // RESSOURCES (Tous les utilisateurs authentifiés peuvent voir)
-    // ════════════════════════════════════════════════════════════
+    // CRUD complet des ressources (liste, créer, voir, éditer, supprimer)
+    Route::resource('resources', ResourceController::class);
     
-    Route::get('/resources', [ResourceController::class, 'index'])->name('resources.index');
-    Route::get('/resources/{resource}', [ResourceController::class, 'show'])->name('resources.show');
+    // JOUR 4 : CRUD complet des catégories
+    Route::resource('categories', ResourceCategoryController::class);
     
-    // ════════════════════════════════════════════════════════════
-    // GESTION RESSOURCES (Admin et Tech Manager uniquement)
-    // ════════════════════════════════════════════════════════════
+    // JOUR 6 : CRUD complet des maintenances
+    Route::resource('maintenances', MaintenanceController::class);
     
-    Route::middleware('role:tech_manager')->group(function () {
-        Route::get('/resources/create', [ResourceController::class, 'create'])->name('resources.create');
-        Route::post('/resources', [ResourceController::class, 'store'])->name('resources.store');
-        Route::get('/resources/{resource}/edit', [ResourceController::class, 'edit'])->name('resources.edit');
-        Route::put('/resources/{resource}', [ResourceController::class, 'update'])->name('resources.update');
-        Route::delete('/resources/{resource}', [ResourceController::class, 'destroy'])->name('resources.destroy');
-        
-        // Maintenance des ressources
-        Route::get('/resources/{resource}/maintenance', [MaintenanceController::class, 'create'])->name('resources.maintenance.create');
-        Route::post('/resources/{resource}/maintenance', [MaintenanceController::class, 'store'])->name('resources.maintenance.store');
-        Route::get('/maintenances', [MaintenanceController::class, 'index'])->name('maintenances.index');
-        Route::get('/maintenances/{maintenance}/edit', [MaintenanceController::class, 'edit'])->name('maintenances.edit');
-        Route::put('/maintenances/{maintenance}', [MaintenanceController::class, 'update'])->name('maintenances.update');
-        Route::delete('/maintenances/{maintenance}', [MaintenanceController::class, 'destroy'])->name('maintenances.destroy');
-    });
+    // Routes additionnelles
+    // Route::get('/resources/available', [ResourceController::class, 'available'])->name('resources.available');
+
+    // JOUR 5 & 6 : Gestion des incidents
+    Route::get('/incidents', [IncidentController::class, 'index'])->name('incidents.index');
+    Route::get('/incidents/report/{resource}', [IncidentController::class, 'create'])->name('incidents.report');
+    Route::get('/incidents/{incident}', [IncidentController::class, 'show'])->name('incidents.show');
+    Route::post('/incidents', [IncidentController::class, 'store'])->name('incidents.store');
+    Route::patch('/incidents/{incident}/resolve', [IncidentController::class, 'resolve'])->name('incidents.resolve');
+
+    // JOUR 7 & 8 : Statistiques
+    Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
+    Route::get('/statistics/my-resources', [StatisticsController::class, 'myResources'])->name('statistics.my_resources');
     
-    // ════════════════════════════════════════════════════════════
-    // CATÉGORIES (Admin uniquement)
-    // ════════════════════════════════════════════════════════════
-    
-    Route::middleware('role:admin')->prefix('categories')->name('categories.')->group(function () {
-        Route::get('/', [CategoryController::class, 'index'])->name('index');
-        Route::get('/create', [CategoryController::class, 'create'])->name('create');
-        Route::post('/', [CategoryController::class, 'store'])->name('store');
-        Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
-        Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
-        Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
-    });
-    
-    // ════════════════════════════════════════════════════════════
-    // STATISTIQUES
-    // ════════════════════════════════════════════════════════════
-    
-    Route::prefix('statistics')->name('statistics.')->group(function () {
-        // Statistiques globales (Admin uniquement)
-        Route::get('/global', [StatisticsController::class, 'global'])
-            ->middleware('role:admin')
-            ->name('global');
-        
-        // Statistiques des ressources gérées (Tech Manager)
-        Route::get('/my-resources', [StatisticsController::class, 'myResources'])
-            ->middleware('role:tech_manager')
-            ->name('my-resources');
-        
-        // Statistiques personnelles (Tous les utilisateurs)
-        Route::get('/personal', [StatisticsController::class, 'personal'])->name('personal');
-        
-        // API pour graphiques
-        Route::get('/api/usage-chart', [StatisticsController::class, 'usageChartData'])->name('api.usage-chart');
-        Route::get('/api/occupancy-rate', [StatisticsController::class, 'occupancyRateData'])->name('api.occupancy-rate');
-        Route::get('/api/top-resources', [StatisticsController::class, 'topResourcesData'])->name('api.top-resources');
-    });
-});
+// });

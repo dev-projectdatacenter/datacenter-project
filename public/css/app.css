@@ -1,0 +1,416 @@
+:root {
+    
+    --space-cadet: #2A2D4F;  
+    --delft-blue:  #424665;  
+    --paynes-gray: #646884;  
+    --cool-gray:   #8D8FA4;  
+    --french-gray: #B0B0C1;  
+    --white:       #ffffff;
+
+    /* structre */
+    --primary: var(--delft-blue);       
+    --primary-hover: var(--space-cadet); 
+    
+  
+    --secondary: #93A8AC;
+    
+    --info: #93A8AC;
+
+    --success: #788F76;       
+    --warning: #C4A77D;       
+    --danger: #7b2b2b;        
+    
+    /*  Arrière-plans */
+    
+    --bg-body: #f4f5f7;
+    --bg-card: #FFFFFF;
+    --bg-sidebar: var(--space-cadet);
+    --bg-dark: var(--space-cadet);
+    
+    
+    --font-main: -apple-system, BlinkMacSystemFont , "Segoe UI" , Roboto, "Helvetica Neue",Ariel, sans-serif;
+    --text-main:#1e293b; 
+    --text-muted:#64748b;
+    --border-color: #e2e8f0;
+
+
+    /*  FORMES  */
+    --radius: 8px; 
+    
+    /* Ombre teintée bleu gris */
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -1px rgb(0 0 0 / 0.06);
+
+    /*  ESPACEMENTS */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--text-main);
+    background-color: var(--bg-body);
+    -webkit-font-smoothing: antialiased; /* Rend le texte plus fin sur Mac */
+}
+
+
+/* reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+
+/*    UTILITAIRES   */
+
+/* Mise en page */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+}
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.gap-sm { gap: var(--space-sm); }
+.gap-md { gap: var(--space-md); }
+
+/* Texte */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.font-bold { font-weight: 600; }
+.text-sm { font-size: 0.875rem; }
+.text-danger { color: var(--danger); }
+.text-success { color: var(--success); }
+
+/* Marges (très utiles !) */
+.mt-1 { margin-top: var(--space-sm); }
+.mt-2 { margin-top: var(--space-md); }
+.mb-1 { margin-bottom: var(--space-sm); }
+.mb-2 { margin-bottom: var(--space-md); }
+
+
+/*  COMPOSANTS DE BASE  */
+
+/*  Card (pour les tableaux et formulaires) */
+.card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-md);
+    border: 1px solid var(--border-color);
+}
+
+/*  Bouton standard */
+.btn {
+    display: inline-flex;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    color: var(--white);
+}
+
+
+/*  FORMULAIRES  */
+.form-group {
+    margin-bottom: var(--space-md);
+}
+
+.form-label {
+    display: block;
+    margin-bottom: var(--space-xs);
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    background-color: var(--white);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(66, 70, 101, 0.1); /* Lueur couleur primary */
+}
+
+/* Style pour les messages d'erreur de Laravel */
+.invalid-feedback {
+    color: var(--danger);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+
+/*  TABLEAUX  */
+.table-container {
+    overflow-x: auto; /* Pour le responsive sur mobile */
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+thead {
+    background-color: var(--bg-body);
+    border-bottom: 2px solid var(--border-color);
+}
+
+th {
+    padding: 1rem;
+    font-weight: 600;
+    color: var(--delft-blue);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-main);
+}
+
+/* Effet zébré ou hover pour la lisibilité */
+tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+
+/*  BADGES / ÉTIQUETTES  */
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.75em;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 9999px; /* Forme pilule */
+    text-align: center;
+    white-space: nowrap;
+}
+
+.badge-warning { background-color: #fef3c7; color: #92400e; } /* En attente */
+.badge-success { background-color: #dcfce7; color: #166534; } /* Approuvée */
+.badge-danger  { background-color: #fee2e2; color: #991b1b; } /* Refusée */
+.badge-info    { background-color: #e0f2fe; color: #075985; } /* Info */
+
+
+/*  LAYOUT GUEST (Login / Register)  */
+.guest-page {
+    background-color: var(--bg-body);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.guest-container {
+    width: 100%;
+    max-width: 450px; 
+    padding: var(--space-md);
+}
+
+.guest-header {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
+.guest-header .logo-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: var(--space-sm);
+}
+
+.guest-header h2 {
+    color: var(--delft-blue);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.guest-content.card {
+    
+    background: white;
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.guest-footer {
+    text-align: center;
+    margin-top: var(--space-md);
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+
+/*  État d'erreur des formulaires  */
+.form-control.is-invalid {
+    border-color: var(--danger);
+    background-color: #fff5f5; /
+}
+
+.form-control.is-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2); 
+}
+
+.invalid-feedback {
+    color: var(--danger);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+
+/*  FOOTER  */
+.app-footer {
+    margin-top: auto; /* Pousse le footer tout en bas si la page est vide */
+    padding: var(--space-md);
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-body);
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.app-footer p {
+    margin-bottom: 0.5rem;
+}
+
+.app-footer .text-sm {
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+
+/* --- PAGE D'ACCUEIL (WELCOME) --- */
+
+/* Navigation Spéciale */
+.landing-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 5%;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.landing-nav .logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--delft-blue);
+}
+
+/* Hero Section (Bannière) */
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5rem 10%;
+    background-color: var(--bg-body);
+    min-height: 60vh;
+}
+
+.hero-content {
+    max-width: 50%;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: var(--delft-blue);
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.hero-image {
+    font-size: 15rem;
+    color: rgba(30, 58, 138, 0.1); /* Bleu très pâle */
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Grille des fonctionnalités */
+.features-section {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 4rem 5%;
+    background: white;
+    flex-wrap: wrap;
+}
+
+.feature-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    padding: 2rem;
+    border-radius: 12px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+}
+
+.feature-card .icon {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    margin-bottom: 1rem;
+    color: var(--delft-blue);
+}
+
+.landing-footer {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--delft-blue);
+    color: white;
+}

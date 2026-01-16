@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -7,73 +7,60 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Data Center Manager') }}</title>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
-    <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <!-- CSS Global -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Injection de CSS spécifique (Ouarda) -->
+    @stack('styles')
+    
+    <!-- Chart.js (Pour les statistiques d'Ouarda) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ asset('js/charts.js') }}" defer></script>
+    
+    <!-- Injection de JS spécifique (Ouarda) -->
+    @stack('scripts')
+    
+    <style>
+        /* Styles additionnels Ouarda */
+        .db-error-box { background: #fee; color: #c00; padding: 10px; border: 1px solid #c00; margin: 20px; text-align: center; font-weight: bold; }
+    </style>
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <main class="main-content">
+            
+            {{-- Nouveau composant de navigation de Fatima/Zahrae --}}
+            <x-navigation :title="$title ?? 'Data Center'" />
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
+            <div class="content-wrapper">
+                {{-- Messages Flash --}}
+                @if(session('success')) 
+                    <div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; border: 1px solid #c3e6cb; margin-bottom: 20px;">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if(session('error'))   
+                    <div style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px; border: 1px solid #f5c6cb; margin-bottom: 20px;">
+                        {{ session('error') }}
+                    </div>
+                @endif
 
-                    </ul>
+                {{-- Message d'erreur BDD d'Ouarda --}}
+                @if(isset($exception) && str_contains($exception->getMessage(), 'SQLSTATE'))
+                    <div class="db-error-box">
+                        🚨 Attention : Le serveur de base de données (MySQL) est éteint. Lancez MySQL dans XAMPP/Laragon.
+                    </div>
+                @endif
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
+                @yield('content')
             </div>
-        </nav>
 
-        <main class="py-4">
-            @yield('content')
+            {{-- Nouveau composant footer --}}
+            <x-footer />
+
         </main>
     </div>
 </body>
