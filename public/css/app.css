@@ -263,7 +263,6 @@ tbody tr:hover {
 }
 
 .guest-content.card {
-    
     background: white;
     padding: var(--space-lg);
     box-shadow: var(--shadow-md);

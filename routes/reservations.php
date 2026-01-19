@@ -59,10 +59,19 @@ Route::middleware(['auth', 'throttle:60,1'])->group(function () {
         Route::get('/reservations/pending', [TechReservationController::class, 'pending'])->name('reservations.pending');
         
         // Approuver une réservation
-        Route::patch('/reservations/{reservation}/approve', [TechReservationController::class, 'approve'])->name('reservations.approve');
+        Route::put('/reservations/{reservation}/approve', [TechReservationController::class, 'approve'])->name('reservations.approve');
         
         // Refuser une réservation
-        Route::patch('/reservations/{reservation}/reject', [TechReservationController::class, 'reject'])->name('reservations.reject');
+        Route::put('/reservations/{reservation}/reject', [TechReservationController::class, 'reject'])->name('reservations.reject');
+        
+        // Approuver plusieurs réservations
+        Route::put('/reservations/bulk-approve', [TechReservationController::class, 'bulkApprove'])->name('reservations.bulk-approve');
+        
+        // Refuser plusieurs réservations
+        Route::put('/reservations/bulk-reject', [TechReservationController::class, 'bulkReject'])->name('reservations.bulk-reject');
+        
+        // Statistiques des approbations
+        Route::get('/reservations/stats', [TechReservationController::class, 'stats'])->name('reservations.stats');
         
         // Toutes les réservations (pour les ressources gérées)
         Route::get('/reservations', [TechReservationController::class, 'index'])->name('reservations.index');
@@ -75,7 +84,7 @@ Route::middleware(['auth', 'throttle:60,1'])->group(function () {
     });
     
     // ════════════════════════════════════════════════════════════
-    // NOTIFICATIONS
+    // NOTIFICATIONS - Routes pour JavaScript pur
     // ════════════════════════════════════════════════════════════
     
     Route::prefix('notifications')->name('notifications.')->group(function () {
@@ -88,12 +97,19 @@ Route::middleware(['auth', 'throttle:60,1'])->group(function () {
         // Marquer toutes comme lues
         Route::patch('/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-read');
         
+        // Marquer plusieurs comme lues (pour JavaScript pur)
+        Route::patch('/mark-multiple-read', [NotificationController::class, 'markMultipleAsRead'])->name('mark-multiple-read');
+        
         // Supprimer notification
         Route::delete('/{notification}', [NotificationController::class, 'destroy'])->name('destroy');
+        
+        // Supprimer plusieurs notifications (pour JavaScript pur)
+        Route::delete('/delete-multiple', [NotificationController::class, 'destroyMultiple'])->name('delete-multiple');
         
         // API pour nouvelles notifications (polling)
         Route::get('/api/unread-count', [NotificationController::class, 'unreadCount'])->name('api.unread-count');
         Route::get('/api/recent', [NotificationController::class, 'recent'])->name('api.recent');
+        Route::get('/api/stats', [NotificationController::class, 'stats'])->name('api.stats');
     });
     
     // ════════════════════════════════════════════════════════════

@@ -14,7 +14,7 @@ class ReservationSeeder extends Seeder
      */
     public function run(): void
     {
-      $reservations = [
+        $reservations = [
             [
                 'user_id' => 3, // Fatima Zahrae
                 'resource_id' => 1, // Serveur Dell PowerEdge

@@ -1,4 +1,4 @@
-@props(['title' => 'Tableau de bord'])
+@props(['title' => 'Data Center'])
 
 <header class="topbar" style="background: white; border-bottom: 1px solid #ddd; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;">
     <div style="display: flex; align-items: center; gap: 20px;">
@@ -8,6 +8,7 @@
             <a href="{{ url('/reservations') }}" style="text-decoration: none; color: #333;">Réservations</a>
             <a href="{{ url('/incidents') }}" style="text-decoration: none; color: #333;">Incidents</a>
             <a href="{{ url('/maintenances') }}" style="text-decoration: none; color: #333;">Maintenances</a>
+            <a href="{{ route('notifications.index') }}" style="text-decoration: none; color: #333;">Notifications</a>
             <a href="{{ url('/statistics') }}" style="text-decoration: none; color: #333;">Statistiques</a>
             <a href="{{ url('/dashboard') }}" style="text-decoration: none; color: #333;">Dashboard</a>
         </nav>
