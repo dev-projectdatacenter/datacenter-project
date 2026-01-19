@@ -67,6 +67,7 @@
                                         <option value="{{ $resource->id }}" 
                                                 data-location="{{ $resource->location ?? '' }}"
                                                 data-category="{{ $resource->category->name ?? '' }}"
+                                                data-status="{{ $resource->status }}"
                                                 {{ old('resource_id') == $resource->id ? 'selected' : '' }}>
                                             {{ $resource->name }}
                                         </option>

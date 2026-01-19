@@ -47,7 +47,7 @@ Route::middleware(['auth', 'throttle:60,1'])->group(function () {
         Route::get('/stats', [ReservationController::class, 'stats'])->name('stats');
         
         // API vérification disponibilité
-        Route::get('/api/check-availability', [ReservationController::class, 'checkAvailability'])->name('api.check-availability');
+        Route::post('/api/check-availability', [ReservationController::class, 'checkAvailability'])->name('api.check-availability');
     });
     
     // ════════════════════════════════════════════════════════════

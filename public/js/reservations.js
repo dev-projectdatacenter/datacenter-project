@@ -49,13 +49,31 @@ function initializeResourceSelector() {
         const selectedOption = this.options[this.selectedIndex];
         
         if (this.value) {
-            // Afficher les détails de la ressource
+            // Afficher les détails de la ressource sélectionnée
             showResourceDetails(selectedOption);
         } else {
             // Cacher les détails
             if (resourceDetails) {
                 resourceDetails.style.display = 'none';
             }
+        }
+    });
+    
+    // Au chargement, filtrer les ressources disponibles
+    filterAvailableResources();
+}
+
+/**
+ * Filtre les ressources disponibles au chargement
+ */
+function filterAvailableResources() {
+    const resourceSelect = document.getElementById('resource_id');
+    if (!resourceSelect) return;
+    
+    Array.from(resourceSelect.options).forEach(option => {
+        if (option.value && option.dataset.status !== 'available') {
+            option.style.display = 'none';
+            option.disabled = true;
         }
     });
 }
@@ -78,9 +96,6 @@ function showResourceDetails(option) {
             <div><strong>Nom:</strong> ${resourceName}</div>
             <div><strong>Catégorie:</strong> ${category}</div>
             <div><strong>Emplacement:</strong> ${location}</div>
-            <div style="margin-top: 10px; padding: 10px; background-color: #f0f9ff; border-radius: 4px; border-left: 4px solid #0891b2;">
-                <small>💡 Cette ressource est disponible pour réservation. Veuillez vérifier les dates pour vous assurer de sa disponibilité.</small>
-            </div>
         </div>
     `;
 
@@ -174,7 +189,7 @@ async function checkAvailability() {
     checkBtn.disabled = true;
 
     try {
-        const response = await fetch(`/reservations/check-availability`, {
+        const response = await fetch(`/reservations/api/check-availability`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
