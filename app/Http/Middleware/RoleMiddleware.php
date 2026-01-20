@@ -37,9 +37,9 @@ class RoleMiddleware
         }
 
         // Vérifier le rôle
-        if (!$this->checkRole($user->role->name, $role)) {
+        if (!$this->checkRole(strtolower($user->role->name), $role)) {
             // Redirection selon le rôle de l'utilisateur
-            return $this->redirectToDashboard($user->role->name);
+            return $this->redirectToDashboard(strtolower($user->role->name));
         }
 
         return $next($request);
@@ -51,6 +51,10 @@ class RoleMiddleware
      */
     private function checkRole($userRole, $requiredRole)
     {
+        // Normaliser en minuscules
+        $userRole = strtolower($userRole);
+        $requiredRole = strtolower($requiredRole);
+        
         // Définir la hiérarchie des rôles
         $hierarchy = [
             'guest' => 0,
@@ -72,6 +76,8 @@ class RoleMiddleware
      */
     private function redirectToDashboard($role)
     {
+        $role = strtolower($role);
+        
         switch ($role) {
             case 'admin':
                 return redirect()->route('admin.dashboard');
