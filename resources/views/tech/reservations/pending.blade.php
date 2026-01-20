@@ -89,18 +89,8 @@
             @if($reservations->count() > 0)
                 <div class="card">
                     <div class="card-body">
-                        <div class="bulk-actions">
-                            <button class="btn btn-success" onclick="showBulkApproveModal()">
-                                <i class="fas fa-check"></i>
-                                Approuver la sélection
-                            </button>
-                            <button class="btn btn-danger" onclick="showBulkRejectModal()">
-                                <i class="fas fa-times"></i>
-                                Refuser la sélection
-                            </button>
-                            <span class="selection-info">
-                                <span id="selectedCount">0</span> réservation(s) sélectionnée(s)
-                            </span>
+                        <div class="bulk-info">
+                            <p><strong>Traitement des réservations en attente</strong></p>
                         </div>
                     </div>
                 </div>
@@ -117,9 +107,6 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>
-                                            <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
-                                        </th>
                                         <th>Utilisateur</th>
                                         <th>Ressource</th>
                                         <th>Période</th>
@@ -131,9 +118,6 @@
                                 <tbody>
                                     @foreach($reservations as $reservation)
                                         <tr>
-                                            <td>
-                                                <input type="checkbox" class="reservation-checkbox" value="{{ $reservation->id }}" onchange="updateSelectedCount()">
-                                            </td>
                                             <td>
                                                 <div class="user-info">
                                                     <strong>{{ $reservation->user->name }}</strong>
@@ -159,12 +143,7 @@
                                             </td>
                                             <td>
                                                 <div class="justification">
-                                                    {{ Str::limit($reservation->justification, 100) }}
-                                                    @if(Str::length($reservation->justification) > 100)
-                                                        <button class="btn btn-sm btn-link" onclick="showJustification({{ $reservation->id }})">
-                                                            Voir plus
-                                                        </button>
-                                                    @endif
+                                                    {{ $reservation->justification }}
                                                 </div>
                                             </td>
                                             <td>
@@ -209,14 +188,13 @@
 
     <!-- Modale de refus -->
     <div id="rejectModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="margin: 20px;">
             <div class="modal-header">
                 <h3>Refuser la réservation</h3>
-                <button class="modal-close" onclick="closeModal('rejectModal')">&times;</button>
             </div>
             <form id="rejectForm" method="POST" action="/tech/reservations/0/reject">
                 @csrf
-                <input type="hidden" name="_method" value="PUT">
+                @method('PUT')
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="rejection_reason">Raison du refus *</label>
@@ -232,69 +210,15 @@
     </div>
 
     <!-- Modale d'approbation groupée -->
-    <div id="bulkApproveModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Approuver les réservations sélectionnées</h3>
-                <button class="modal-close" onclick="closeModal('bulkApproveModal')">&times;</button>
-            </div>
-            <form id="bulkApproveForm" method="POST" action="/tech/reservations/bulk-approve">
-                @csrf
-                <input type="hidden" name="_method" value="PUT">
-                <div class="modal-body">
-                    <p>Vous êtes sur le point d'approuver <span id="bulkApproveCount">0</span> réservation(s).</p>
-                    <p class="warning">Cette action est irréversible. Les utilisateurs seront notifiés.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline" onclick="closeModal('bulkApproveModal')">Annuler</button>
-                    <button type="submit" class="btn btn-success">Approuver</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- Supprimée pour plus de simplicité -->
 
     <!-- Modale de refus groupé -->
-    <div id="bulkRejectModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Refuser les réservations sélectionnées</h3>
-                <button class="modal-close" onclick="closeModal('bulkRejectModal')">&times;</button>
-            </div>
-            <form id="bulkRejectForm" method="POST" action="/tech/reservations/bulk-reject">
-                @csrf
-                <input type="hidden" name="_method" value="PUT">
-                <div class="modal-body">
-                    <p>Vous êtes sur le point de refuser <span id="bulkRejectCount">0</span> réservation(s).</p>
-                    <div class="form-group">
-                        <label for="bulk_rejection_reason">Raison du refus *</label>
-                        <textarea name="reason" id="bulk_rejection_reason" class="form-control" rows="4" required placeholder="Expliquez pourquoi ces réservations sont refusées..."></textarea>
-                    </div>
-                    <p class="warning">Cette action est irréversible. Les utilisateurs seront notifiés.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline" onclick="closeModal('bulkRejectModal')">Annuler</button>
-                    <button type="submit" class="btn btn-danger">Refuser</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- Supprimée pour plus de simplicité -->
 
     <!-- Modale de justification complète -->
-    <div id="justificationModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Justification complète</h3>
-                <button class="modal-close" onclick="closeModal('justificationModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p id="fullJustification"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="closeModal('justificationModal')">Fermer</button>
-            </div>
-        </div>
-    </div>
+    <!-- Supprimée car inutile -->
 
+    <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/tech-reservations.js') }}"></script>
 </body>
 </html>
