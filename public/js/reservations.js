@@ -67,15 +67,8 @@ function initializeResourceSelector() {
  * Filtre les ressources disponibles au chargement
  */
 function filterAvailableResources() {
-    const resourceSelect = document.getElementById('resource_id');
-    if (!resourceSelect) return;
-    
-    Array.from(resourceSelect.options).forEach(option => {
-        if (option.value && option.dataset.status !== 'available') {
-            option.style.display = 'none';
-            option.disabled = true;
-        }
-    });
+    // Ne plus filtrer les ressources - toutes doivent être visibles
+    // La disponibilité sera vérifiée lors de la soumission
 }
 
 /**

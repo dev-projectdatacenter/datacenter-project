@@ -69,7 +69,10 @@
                                                 data-category="{{ $resource->category->name ?? '' }}"
                                                 data-status="{{ $resource->status }}"
                                                 {{ old('resource_id') == $resource->id ? 'selected' : '' }}>
-                                            {{ $resource->name }}
+                                            {{ $resource->name }} 
+                                            @if($resource->status != 'available')
+                                                ({{ $resource->status }})
+                                            @endif
                                         </option>
                                     @endforeach
                                 </select>

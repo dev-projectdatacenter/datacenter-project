@@ -53,9 +53,7 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        $resources = Resource::where('status', 'available')
-            ->with('category')
-            ->get();
+        $resources = Resource::with('category')->get();
 
         return view('reservations.create', compact('resources'));
     }
