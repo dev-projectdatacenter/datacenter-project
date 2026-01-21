@@ -33,8 +33,8 @@ class NotificationController extends Controller
             }
         }
         
-        $notifications = $query->orderBy('created_at', 'desc')->paginate(20);
-
+        $notifications = $query->orderBy('created_at', 'desc')->paginate(15);
+        
         return view('notifications.index', compact('notifications'));
     }
 

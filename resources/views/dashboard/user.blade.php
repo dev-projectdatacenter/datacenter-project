@@ -146,37 +146,37 @@
                 <div class="action-card">
                     <h3>🖥️ Réserver une ressource</h3>
                     <p>Consultez les disponibilités et réservez serveurs, VMs ou équipements</p>
-                    <a href="#" class="btn">Nouvelle réservation</a>
+                    <a href="{{ route('reservations.create') }}" class="btn">Nouvelle réservation</a>
                 </div>
                 
                 <div class="action-card">
                     <h3>📋 Mes réservations</h3>
                     <p>Gérez vos réservations actuelles et consultez l'historique</p>
-                    <a href="#" class="btn">Voir mes réservations</a>
+                    <a href="{{ route('reservations.index') }}" class="btn">Voir mes réservations</a>
                 </div>
                 
                 <div class="action-card">
                     <h3>📊 Mes statistiques</h3>
                     <p>Suivez votre utilisation des ressources et vos rapports personnels</p>
-                    <a href="#" class="btn">Mes statistiques</a>
+                    <a href="{{ route('statistics.my_resources') }}" class="btn">Mes statistiques</a>
                 </div>
                 
                 <div class="action-card">
                     <h3>⚠️ Signaler un incident</h3>
                     <p>Signalez des problèmes techniques ou des pannes sur les ressources</p>
-                    <a href="#" class="btn">Signaler un incident</a>
+                    <a href="{{ route('incidents.index') }}" class="btn">Signaler un incident</a>
                 </div>
                 
                 <div class="action-card">
                     <h3>📚 Documentation</h3>
                     <p>Consultez les guides d'utilisation et les bonnes pratiques</p>
-                    <a href="#" class="btn">Documentation</a>
+                    <a href="/resources" class="btn">Documentation</a>
                 </div>
                 
                 <div class="action-card">
                     <h3>👥 Support technique</h3>
                     <p>Contactez l'équipe technique pour obtenir de l'aide</p>
-                    <a href="#" class="btn">Contacter le support</a>
+                    <a href="/notifications" class="btn">Contacter le support</a>
                 </div>
             </div>
         </div>

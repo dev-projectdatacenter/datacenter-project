@@ -112,23 +112,13 @@
                             </div>
                         </a>
                         
-                        <a href="{{ route('reservations.index') }}" class="action-card">
+                        <a href="{{ route('tech.reservations.all') }}" class="action-card">
                             <div class="action-icon">
                                 <i class="fas fa-list"></i>
                             </div>
                             <div class="action-content">
                                 <h3>Voir toutes les réservations</h3>
                                 <p>Gestion complète</p>
-                            </div>
-                        </a>
-                        
-                        <a href="{{ route('notifications.index') }}" class="action-card">
-                            <div class="action-icon">
-                                <i class="fas fa-bell"></i>
-                            </div>
-                            <div class="action-content">
-                                <h3>Notifications</h3>
-                                <p>Gérer les alertes</p>
                             </div>
                         </a>
                     </div>

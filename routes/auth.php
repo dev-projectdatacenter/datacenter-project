@@ -37,12 +37,12 @@ Route::post('/login', function () {
                 'user_email' => $user->email,
                 'role_id' => $user->role_id,
                 'role_name' => $roleName,
-                'target_route' => $roleName === 'tech_manager' ? 'tech.reservations.pending' : '/dashboard'
+                'target_route' => $roleName === 'tech_manager' ? 'dashboard.tech' : '/dashboard'
             ]);
         }
 
         if ($roleName === 'tech_manager') {
-            return redirect()->route('tech.reservations.pending');
+            return redirect()->route('dashboard.tech');
         }
 
         return redirect('/dashboard');
@@ -106,14 +106,6 @@ Route::post('/register', function () {
 
 Route::middleware(['auth'])->group(function () {
 
-    // Déconnexion
-    Route::post('/logout', function () {
-        auth()->logout();
-        request()->session()->invalidate();
-        request()->session()->regenerateToken();
-        return redirect('/');
-    })->name('logout');
-
     // Dashboard
     Route::get('/dashboard', function () {
         $user = auth()->user();
@@ -131,6 +123,14 @@ Route::middleware(['auth'])->group(function () {
                 return redirect()->route('dashboard.guest');
         }
     })->name('dashboard');
+
+    // Déconnexion
+    Route::post('/logout', function () {
+        auth()->logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect('/');
+    })->name('logout');
 
     // Test base de données
     Route::get('/test-db', function () {

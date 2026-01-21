@@ -58,6 +58,9 @@ Route::middleware(['auth', 'throttle:60,1'])->group(function () {
         // Réservations en attente pour les ressources gérées
         Route::get('/reservations/pending', [TechReservationController::class, 'pending'])->name('reservations.pending');
         
+        // Toutes les réservations (approuvées, refusées, en attente)
+        Route::get('/reservations/all', [TechReservationController::class, 'all'])->name('reservations.all');
+        
         // Approuver une réservation
         Route::put('/reservations/{reservation}/approve', [TechReservationController::class, 'approve'])->name('reservations.approve');
         
@@ -110,6 +113,15 @@ Route::middleware(['auth', 'throttle:60,1'])->group(function () {
         Route::get('/api/unread-count', [NotificationController::class, 'unreadCount'])->name('api.unread-count');
         Route::get('/api/recent', [NotificationController::class, 'recent'])->name('api.recent');
         Route::get('/api/stats', [NotificationController::class, 'stats'])->name('api.stats');
+    });
+    
+    // ════════════════════════════════════════════════════════════
+    // NOTIFICATIONS TECH MANAGER
+    // ════════════════════════════════════════════════════════════
+    
+    Route::middleware('role:tech_manager')->prefix('tech/notifications')->name('tech.notifications.')->group(function () {
+        // Liste des notifications pour tech manager
+        Route::get('/', [NotificationController::class, 'techIndex'])->name('index');
     });
     
     // ════════════════════════════════════════════════════════════

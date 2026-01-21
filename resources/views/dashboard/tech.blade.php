@@ -97,7 +97,7 @@
                     <button class="btn">Gérer les ressources</button>
                 </div>
                 
-                <div class="action-card" onclick="window.location.href='{{ route('reservations.index') }}'">
+                <div class="action-card" onclick="window.location.href='{{ route('tech.reservations.pending') }}'">
                     <h3>📅 Validation des réservations</h3>
                     <p>Approuver ou rejeter les demandes de réservation des utilisateurs</p>
                     <button class="btn">Valider les réservations</button>

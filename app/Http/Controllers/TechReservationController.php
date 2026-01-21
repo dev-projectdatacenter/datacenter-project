@@ -24,6 +24,42 @@ class TechReservationController extends Controller
     }
 
     /**
+     * Liste de toutes les réservations (approuvées, refusées, en attente)
+     */
+    public function all(Request $request)
+    {
+        $query = Reservation::with(['user', 'resource'])
+            ->orderBy('created_at', 'desc');
+
+        // Filtres
+        if ($request->filled('resource_id')) {
+            $query->where('resource_id', $request->resource_id);
+        }
+
+        if ($request->filled('user_id')) {
+            $query->where('user_id', $request->user_id);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('date_from')) {
+            $query->where('start_date', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->where('end_date', '<=', $request->date_to);
+        }
+
+        $reservations = $query->paginate(15);
+        $resources = Resource::all();
+        $users = User::where('role_id', 3)->get(); // 3 = role 'user' uniquement
+
+        return view('tech.reservations.all', compact('reservations', 'resources', 'users'));
+    }
+
+    /**
      * Liste des réservations en attente d'approbation
      */
     public function pending(Request $request)

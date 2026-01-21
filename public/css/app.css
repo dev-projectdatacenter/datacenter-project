@@ -55,6 +55,38 @@ body {
     -webkit-font-smoothing: antialiased; /* Rend le texte plus fin sur Mac */
 }
 
+/*    LAYOUT PRINCIPAL   */
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-md);
+}
+
+.main-content {
+    padding: var(--space-md);
+}
+
+/* Navigation */
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: white !important;
+    border-bottom: 1px solid #ddd !important;
+    padding: 10px 20px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Ajouter un padding au contenu pour éviter la superposition */
+.main-content {
+    padding-top: 80px !important;
+}
+
 
 /* reset */
 * {
