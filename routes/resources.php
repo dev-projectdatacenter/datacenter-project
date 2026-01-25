@@ -17,7 +17,7 @@ use App\Http\Controllers\StatisticsController;
 // ════════════════════════════════════════════════════════════
 
 // Voir les ressources sans authentification (lecture seule)
-Route::get('/resources', [ResourceController::class, 'publicIndex'])
+Route::get('/all-resources', [ResourceController::class, 'publicIndex'])
     ->name('resources.public');
 
 

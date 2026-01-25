@@ -126,7 +126,7 @@ class ResourceController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:resource_categories,id',
-            'status' => 'required|in:available,busy,maintenance,hors_service',
+            'status' => 'required|in:available,busy,maintenance,out_of_service',
             'cpu' => 'nullable|string|max:255',
             'ram' => 'nullable|string|max:255',
             'storage' => 'nullable|string|max:255',
@@ -174,7 +174,7 @@ class ResourceController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:resource_categories,id',
-            'status' => 'required|in:available,busy,maintenance,hors_service',
+            'status' => 'required|in:available,busy,maintenance,out_of_service',
             'cpu' => 'nullable|string|max:255',
             'ram' => 'nullable|string|max:255',
             'storage' => 'nullable|string|max:255',
