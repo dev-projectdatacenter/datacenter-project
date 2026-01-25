@@ -87,12 +87,30 @@ class ResourceStatisticsService
      */
     public function getUserStats($userId)
     {
-        // Réservations par mois pour le graphique d'activité
-        $monthlyReservations = Reservation::where('user_id', $userId)
+        // On prépare les 6 derniers mois avec 0 par défaut
+        $monthlyActivity = collect();
+        for ($i = 5; $i >= 0; $i--) {
+            $month = now()->subMonths($i);
+            $monthlyActivity->put($month->format('n'), [
+                'month' => $month->format('n'),
+                'count' => 0
+            ]);
+        }
+
+        // On récupère les vraies données
+        $realData = Reservation::where('user_id', $userId)
+            ->where('created_at', '>=', now()->subMonths(5)->startOfMonth())
             ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
             ->groupBy('month')
-            ->orderBy('month')
             ->get();
+
+        // On fusionne les données réelles avec les 0
+        foreach ($realData as $data) {
+            $monthlyActivity->put($data->month, [
+                'month' => (int)$data->month,
+                'count' => (int)$data->count
+            ]);
+        }
 
         return [
             'my_reservations_count' => Reservation::where('user_id', $userId)->count(),
@@ -100,7 +118,7 @@ class ResourceStatisticsService
                                                  ->where('status', 'active')
                                                  ->count(),
             'my_incidents_count' => Incident::where('user_id', $userId)->count(),
-            'monthly_activity' => $monthlyReservations,
+            'monthly_activity' => $monthlyActivity->values(),
         ];
     }
 }

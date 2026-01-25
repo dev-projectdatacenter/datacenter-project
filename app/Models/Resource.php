@@ -20,6 +20,7 @@ class Resource extends Model
         'storage',
         'os',
         'location',
+        'managed_by',
     ];
 
     /**
@@ -52,5 +53,13 @@ class Resource extends Model
     public function incidents()
     {
         return $this->hasMany(Incident::class);
+    }
+
+    /**
+     * Relation : une ressource est gérée par un utilisateur (Tech Manager)
+     */
+    public function supervisor()
+    {
+        return $this->belongsTo(User::class, 'managed_by');
     }
 }

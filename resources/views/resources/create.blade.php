@@ -26,6 +26,26 @@
                 </select>
             </div>
             <div style="margin-bottom: 15px;">
+                <label>Statut :</label>
+                <select name="status" style="width: 100%; padding: 8px;" required>
+                    <option value="available">Disponible</option>
+                    <option value="busy">Occupée</option>
+                    <option value="maintenance">Maintenance</option>
+                    <option value="out_of_service">Hors service</option>
+                </select>
+            </div>
+            @can('admin')
+            <div style="margin-bottom: 15px;">
+                <label>Responsable technique (Tech Manager) :</label>
+                <select name="managed_by" style="width: 100%; padding: 8px;">
+                    <option value="">-- Aucun --</option>
+                    @foreach($techManagers as $tech)
+                        <option value="{{ $tech->id }}">{{ $tech->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            @endcan
+            <div style="margin-bottom: 15px;">
                 <label>CPU :</label>
                 <input type="text" name="cpu" style="width: 100%; padding: 8px;">
             </div>
@@ -33,7 +53,19 @@
                 <label>RAM :</label>
                 <input type="text" name="ram" style="width: 100%; padding: 8px;">
             </div>
-            <button type="submit" class="btn btn-filter">Enregistrer</button>
+            <div style="margin-bottom: 15px;">
+                <label>Stockage :</label>
+                <input type="text" name="storage" style="width: 100%; padding: 8px;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label>OS :</label>
+                <input type="text" name="os" style="width: 100%; padding: 8px;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label>Localisation :</label>
+                <input type="text" name="location" style="width: 100%; padding: 8px;">
+            </div>
+            <button type="submit" class="btn btn-primary" style="background: #3498db; width: 100%;">Enregistrer</button>
         </form>
     </div>
 </div>

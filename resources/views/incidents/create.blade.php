@@ -4,7 +4,11 @@
 <div class="container">
     <div style="margin-bottom: 2rem;">
         <h1>Signaler un incident</h1>
-        <p style="color: #666;">Ressource : <strong>{{ $resource->name }}</strong> ({{ $resource->category->name }})</p>
+        @if($resource)
+            <p style="color: #666;">Ressource : <strong>{{ $resource->name }}</strong> ({{ $resource->category->name ?? 'N/A' }})</p>
+        @else
+            <p style="color: #666;">Veuillez sélectionner la ressource concernée.</p>
+        @endif
     </div>
 
     @if ($errors->any())
@@ -20,11 +24,26 @@
     <div class="card" style="background: white; padding: 2rem; border-radius: 8px; border: 1px solid #ddd;">
         <form action="{{ route('incidents.store') }}" method="POST">
             @csrf
-            <input type="hidden" name="resource_id" value="{{ $resource->id }}">
+            
+            @if($resource)
+                <input type="hidden" name="resource_id" value="{{ $resource->id }}">
+            @else
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Ressource concernée</label>
+                    <select name="resource_id" required class="form-control">
+                        <option value="">-- Sélectionner une ressource --</option>
+                        @foreach($resources as $res)
+                            <option value="{{ $res->id }}" {{ old('resource_id') == $res->id ? 'selected' : '' }}>
+                                {{ $res->name }} ({{ $res->category->name ?? 'Sans catégorie' }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            @endif
 
             <div style="margin-bottom: 1.5rem;">
                 <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Description du problème</label>
-                <textarea name="description" rows="6" required placeholder="Décrivez précisément l'incident (ex: serveur injoignable, fumée, message d'erreur spécifique...)" style="width: 100%; padding: 0.7rem; border: 1px solid #ccc; border-radius: 4px; font-family: inherit;">{{ old('description') }}</textarea>
+                <textarea name="description" rows="6" required placeholder="Décrivez précisément l'incident (ex: serveur injoignable, fumée, message d'erreur spécifique...)" class="form-control" style="font-family: inherit;">{{ old('description') }}</textarea>
                 <small style="color: #666;">Minimum 10 caractères.</small>
             </div>
 
@@ -33,8 +52,8 @@
             </div>
 
             <div style="text-align: right;">
-                <a href="{{ route('resources.show', $resource) }}" style="text-decoration: none; color: #666; margin-right: 1.5rem;">Annuler</a>
-                <button type="submit" style="background: #e67e22; color: white; padding: 0.8rem 2.5rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                <a href="{{ $resource ? route('resources.show', $resource) : route('incidents.index') }}" style="text-decoration: none; color: #666; margin-right: 1.5rem;">Annuler</a>
+                <button type="submit" class="btn btn-primary" style="background: #e67e22; padding: 0.8rem 2.5rem; border: none;">
                     Envoyer le rapport d'incident
                 </button>
             </div>

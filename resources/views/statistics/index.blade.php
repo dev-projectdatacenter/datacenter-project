@@ -13,24 +13,26 @@
 
 @section('content')
 <div class="resources-container">
-    <div class="resources-header">
-        <h1>Tableau de Bord Statistiques</h1>
-        <a href="{{ route('statistics.my_resources') }}" class="btn btn-primary">Mes Stats</a>
+    <div class="resources-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 style="margin: 0;">Tableau de Bord Statistique</h1>
+        <a href="{{ route('statistics.my_resources') }}" class="btn btn-primary" style="background: #2a2d4f; border-radius: 12px; padding: 0.6rem 1.5rem;">
+            <i class="fas fa-user-chart"></i> Mes Statistiques
+        </a>
     </div>
 
     <div class="stats-grid">
-        <div class="stat-card">
+        <div class="stat-card stat-card-mint">
             <div class="stat-label">Taux d'Occupation</div>
             <div class="stat-value text-success">{{ $generalStats['occupancy_rate'] }}%</div>
             <div class="progress-bar-container">
                 <div class="progress-bar-fill bg-success" style="width: {{ $generalStats['occupancy_rate'] }}%;"></div>
             </div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card stat-card-blue">
             <div class="stat-label">Total Ressources</div>
             <div class="stat-value text-primary">{{ $generalStats['total_resources'] }}</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card stat-card-orange">
             <div class="stat-label">Incidents Actifs</div>
             <div class="stat-value text-danger">{{ $healthStats['open_incidents'] }}</div>
         </div>

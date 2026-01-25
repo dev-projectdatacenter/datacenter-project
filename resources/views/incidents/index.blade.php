@@ -8,6 +8,7 @@
 <div class="resources-container">
     <div class="resources-header">
         <h1>Liste des Incidents</h1>
+        <a href="{{ route('incidents.create') }}" class="btn btn-primary" style="background: #e67e22; border: none;">+ Signaler un Incident</a>
     </div>
 
     <div class="table-container">

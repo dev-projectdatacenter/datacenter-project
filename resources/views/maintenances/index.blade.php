@@ -4,7 +4,9 @@
 <div class="container">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
         <h1>Planning des Maintenances</h1>
-        <a href="{{ route('maintenances.create') }}" class="btn-primary" style="background: #f39c12; color: white; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; font-weight: bold;">+ Planifier une intervention</a>
+        @can('access-tech-panel')
+            <a href="{{ route('maintenances.create') }}" class="btn-primary" style="background: #f39c12; color: white; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; font-weight: bold;">+ Planifier une intervention</a>
+        @endcan
     </div>
 
     @if(session('success'))
@@ -38,11 +40,15 @@
                         {{ $maintenance->reason }}
                     </td>
                     <td style="padding: 1rem;">
-                        <form action="{{ route('maintenances.destroy', $maintenance) }}" method="POST" onsubmit="return confirm('Annuler cette maintenance ?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" style="background: none; border: none; color: #e74c3c; cursor: pointer; padding: 0; font-size: 0.9rem;">🗑️ Annuler</button>
-                        </form>
+                        @can('access-tech-panel')
+                            <form action="{{ route('maintenances.destroy', $maintenance) }}" method="POST" onsubmit="return confirm('Annuler cette maintenance ?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" style="background: none; border: none; color: #e74c3c; cursor: pointer; padding: 0; font-size: 0.9rem;">🗑️ Annuler</button>
+                            </form>
+                        @else
+                            <span style="color: #999; font-style: italic;">Consultation</span>
+                        @endcan
                     </td>
                 </tr>
                 @empty

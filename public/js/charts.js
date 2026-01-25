@@ -5,36 +5,52 @@
  */
 
 const DataCenterCharts = {
+    // Palette "Smartech" - Pastel (Blue, Green, Yellow, Orange)
     colors: [
-        '#3498db', '#1abc9c', '#e67e22', '#e74c3c', '#9b59b6',
-        '#34495e', '#2ecc71', '#f1c40f', '#8e44ad', '#2c3e50'
+        '#b3d1ff', // Blue
+        '#b8e2d2', // Mint
+        '#f9e8ad', // Yellow
+        '#ffcc99', // Orange
+        '#e2e8f0'  // Gray
     ],
 
-    // 1. Graphique en Camembert (Pie)
+    // 1. Graphique en Camembert (Pie) - Style épuré
     createPieChart(canvasId, labels, data, label) {
         const ctx = document.getElementById(canvasId).getContext('2d');
         return new Chart(ctx, {
-            type: 'pie',
+            type: 'doughnut', // Doughnut est plus moderne que Pie
             data: {
                 labels: labels,
                 datasets: [{
                     label: label,
                     data: data,
                     backgroundColor: this.colors,
-                    borderWidth: 1
+                    borderColor: '#ffffff',
+                    borderWidth: 5,
+                    hoverOffset: 0
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                cutout: '75%', // Très aéré
+                borderRadius: 20,
                 plugins: {
-                    legend: { position: 'bottom' }
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true,
+                            font: { family: 'inherit', size: 11, weight: '600' },
+                            color: '#64748b'
+                        }
+                    }
                 }
             }
         });
     },
 
-    // 2. Graphique en Barres (Bar)
+    // 2. Graphique en Barres (Horizontal pour la lisibilité des noms)
     createBarChart(canvasId, labels, data, label) {
         const ctx = document.getElementById(canvasId).getContext('2d');
         return new Chart(ctx, {
@@ -44,16 +60,29 @@ const DataCenterCharts = {
                 datasets: [{
                     label: label,
                     data: data,
-                    backgroundColor: '#3498db',
-                    borderColor: '#2980b9',
-                    borderWidth: 1
+                    backgroundColor: '#b3d1ff',
+                    borderRadius: 8,
+                    borderSkipped: false,
+                    barThickness: 40
                 }]
             },
             options: {
+                indexAxis: 'y', // Mode horizontal
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    y: { beginAtZero: true }
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { family: 'inherit', weight: '600' }, color: '#64748b' }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: {
+                            font: { family: 'inherit', weight: '600', size: 11 },
+                            color: '#2c3e50',
+                            // On assure que les labels ne se chevauchent pas
+                        }
+                    }
                 },
                 plugins: {
                     legend: { display: false }
@@ -62,9 +91,15 @@ const DataCenterCharts = {
         });
     },
 
-    // 3. Graphique en Ligne (Line)
+    // 3. Graphique en Ligne (Line) - Courbe lissée et dégradé
     createLineChart(canvasId, labels, data, label) {
         const ctx = document.getElementById(canvasId).getContext('2d');
+
+        // Création d'un dégradé sous la courbe
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(179, 209, 255, 0.4)');
+        gradient.addColorStop(1, 'rgba(179, 209, 255, 0)');
+
         return new Chart(ctx, {
             type: 'line',
             data: {
@@ -72,16 +107,29 @@ const DataCenterCharts = {
                 datasets: [{
                     label: label,
                     data: data,
-                    fill: false,
+                    fill: true,
+                    backgroundColor: gradient,
                     borderColor: '#3498db',
-                    tension: 0.1
+                    borderWidth: 4,
+                    pointBackgroundColor: '#ffffff',
+                    pointBorderColor: '#3498db',
+                    pointBorderWidth: 3,
+                    pointRadius: 6,
+                    tension: 0.4
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    y: { beginAtZero: true }
+                    y: { display: false },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { family: 'inherit', weight: '600' }, color: '#8e8288' }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
                 }
             }
         });

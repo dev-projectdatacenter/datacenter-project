@@ -15,24 +15,31 @@ class ResourceCategorySeeder extends Seeder
          $categories = [
             [
                 'name' => 'Serveurs physiques',
-                'description' => 'Serveurs dédiés hébergés dans le Data Center'
+                'description' => 'Serveurs dédiés hébergés dans le Data Center',
+                'image_url' => 'images/categories/servers.png'
             ],
             [
                 'name' => 'Machines virtuelles',
-                'description' => 'VMs créées sur les hyperviseurs pour différents services'
+                'description' => 'VMs créées sur les hyperviseurs pour différents services',
+                'image_url' => 'images/categories/vms.png'
             ],
             [
                 'name' => 'Stockage',
-                'description' => 'Équipements de stockage comme NAS ou SAN'
+                'description' => 'Équipements de stockage comme NAS ou SAN',
+                'image_url' => 'images/categories/storage.png'
             ],
             [
                 'name' => 'Équipements réseau',
-                'description' => 'Switches, routeurs et autres équipements réseau'
+                'description' => 'Switches, routeurs et autres équipements réseau',
+                'image_url' => 'images/categories/network.png'
             ],
         ];
 
         foreach ($categories as $category) {
-            ResourceCategory::create($category);
+            ResourceCategory::updateOrCreate(
+                ['name' => $category['name']],
+                $category
+            );
         }
     }
 }

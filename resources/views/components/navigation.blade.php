@@ -27,7 +27,9 @@
                     </span>
                 @endif
             </a>
-            <a href="{{ url('/statistics') }}" style="text-decoration: none; color: #333;">Statistiques</a>
+            @can('view-statistics')
+                <a href="{{ url('/statistics') }}" style="text-decoration: none; color: #333;">Statistiques</a>
+            @endcan
             <a href="{{ url('/dashboard') }}" style="text-decoration: none; color: #333;">Dashboard</a>
         </nav>
     </div>

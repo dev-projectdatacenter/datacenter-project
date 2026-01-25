@@ -19,11 +19,11 @@
     </div>
 
     <div class="stats-grid">
-        <div class="stat-card">
+        <div class="stat-card stat-card-blue">
             <div class="stat-label">Mes Réservations</div>
             <div class="stat-value">{{ $userStats['my_reservations_count'] }}</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card stat-card-orange">
             <div class="stat-label">Incidents Signalés</div>
             <div class="stat-value text-danger">{{ $userStats['my_incidents_count'] }}</div>
         </div>

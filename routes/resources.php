@@ -41,6 +41,7 @@ Route::middleware(['auth'])->group(function () {
 
     // JOUR 5 & 6 : Gestion des incidents
     Route::get('/incidents', [IncidentController::class, 'index'])->name('incidents.index');
+    Route::get('/incidents/create', [IncidentController::class, 'create'])->name('incidents.create');
     Route::get('/incidents/report/{resource}', [IncidentController::class, 'create'])->name('incidents.report');
     Route::get('/incidents/{incident}', [IncidentController::class, 'show'])->name('incidents.show');
     Route::post('/incidents', [IncidentController::class, 'store'])->name('incidents.store');

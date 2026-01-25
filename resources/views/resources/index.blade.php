@@ -8,12 +8,23 @@
 @section('content')
 <div class="resources-container">
     <div class="resources-header">
-        <h1>Gestion des ressources</h1>
-        <a href="{{ route('resources.create') }}" class="btn btn-primary">+ Ajouter</a>
+        <h1>
+            @can('admin')
+                Gestion de l'Inventaire
+            @else
+                Infrastructure du Data Center
+            @endcan
+        </h1>
+        @can('create', App\Models\Resource::class)
+            <a href="{{ route('resources.create') }}" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Ajouter</a>
+        @endcan
     </div>
     
     <form method="GET" class="filters-bar">
-        <input type="text" name="search" placeholder="Rechercher..." value="{{ request('search') }}">
+        <label style="position: relative; flex-grow: 1;">
+            <i class="fas fa-search" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #888;"></i>
+            <input type="text" name="search" placeholder="Rechercher..." value="{{ request('search') }}" style="padding-left: 35px; width: 100%;">
+        </label>
         <select name="category_id">
             <option value="">Catégorie</option>
             @foreach($categories as $category)
@@ -28,18 +39,18 @@
             <option value="busy" {{ request('status') == 'busy' ? 'selected' : '' }}>Occupée</option>
             <option value="maintenance" {{ request('status') == 'maintenance' ? 'selected' : '' }}>Maintenance</option>
         </select>
-        <button type="submit" class="btn-filter">Filtrer</button>
+        <button type="submit" class="btn-filter"><i class="fas fa-filter"></i> Filtrer</button>
     </form>
     
     <div class="table-container">
         <table class="resource-table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Nom</th>
-                    <th>CPU / RAM</th>
-                    <th>Statut</th>
-                    <th>Actions</th>
+                    <th><i class="fas fa-hashtag"></i> ID</th>
+                    <th><i class="fas fa-server"></i> Nom</th>
+                    <th><i class="fas fa-microchip"></i> CPU / <i class="fas fa-memory"></i> RAM</th>
+                    <th><i class="fas fa-signal"></i> Statut</th>
+                    <th><i class="fas fa-tools"></i> Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,9 +64,12 @@
                                 {{ $resource->status }}
                             </span>
                         </td>
+                        </td>
                         <td>
-                            <a href="{{ route('resources.show', $resource) }}" class="btn btn-sm">Détails</a>
-                            <a href="{{ route('resources.edit', $resource) }}" class="btn btn-sm" style="color: #3498db;">Editer</a>
+                            <a href="{{ route('resources.show', $resource) }}" class="btn btn-sm"><i class="fas fa-eye"></i> Détails</a>
+                            @can('update', $resource)
+                                <a href="{{ route('resources.edit', $resource) }}" class="btn btn-sm" style="color: #3498db;"><i class="fas fa-edit"></i> Editer</a>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

@@ -304,10 +304,9 @@ class ReservationController extends Controller
         }
 
         Incident::create([
-            'reservation_id' => $reservation->id,
-            'reported_by' => auth()->id(),
+            'user_id' => auth()->id(),
+            'resource_id' => $reservation->resource_id, // Utiliser la ressource liée à la réservation
             'description' => $request->description,
-            'severity' => $request->severity,
             'status' => 'open',
         ]);
 
@@ -319,8 +318,8 @@ class ReservationController extends Controller
      */
     public function myIncidents()
     {
-        $incidents = Incident::where('reported_by', auth()->id())
-            ->with(['reservation', 'reservation.resource'])
+        $incidents = Incident::where('user_id', auth()->id())
+            ->with(['resource'])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 

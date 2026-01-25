@@ -9,7 +9,7 @@ class ResourceCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'image_url'];
 
     /**
      * Une catégorie peut avoir plusieurs ressources.

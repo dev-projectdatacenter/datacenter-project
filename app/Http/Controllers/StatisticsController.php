@@ -19,6 +19,8 @@ class StatisticsController extends Controller
      */
     public function index()
     {
+        $this->authorize('view-statistics');
+        
         $generalStats = $this->statsService->getGeneralStats();
         $categoryDistribution = $this->statsService->getCategoryDistribution();
         $topResources = $this->statsService->getMostReservedResources();

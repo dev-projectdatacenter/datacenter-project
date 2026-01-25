@@ -112,8 +112,14 @@ class ResourceController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Resource::class);
+        
         $categories = ResourceCategory::all();
-        return view('resources.create', compact('categories'));
+        $techManagers = \App\Models\User::whereHas('role', function($q) {
+            $q->where('name', 'tech_manager');
+        })->get();
+
+        return view('resources.create', compact('categories', 'techManagers'));
     }
     
     /**
@@ -122,6 +128,8 @@ class ResourceController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Resource::class);
+
         // Validation des données
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -131,7 +139,8 @@ class ResourceController extends Controller
             'ram' => 'nullable|string|max:255',
             'storage' => 'nullable|string|max:255',
             'os' => 'nullable|string|max:255',
-            'location' => 'nullable|string|max:255'
+            'location' => 'nullable|string|max:255',
+            'managed_by' => 'nullable|exists:users,id'
         ]);
         
         // Créer la ressource
@@ -160,8 +169,14 @@ class ResourceController extends Controller
      */
     public function edit(Resource $resource)
     {
+        $this->authorize('update', $resource);
+
         $categories = ResourceCategory::all();
-        return view('resources.edit', compact('resource', 'categories'));
+        $techManagers = \App\Models\User::whereHas('role', function($q) {
+            $q->where('name', 'tech_manager');
+        })->get();
+
+        return view('resources.edit', compact('resource', 'categories', 'techManagers'));
     }
     
     /**
@@ -170,6 +185,8 @@ class ResourceController extends Controller
      */
     public function update(Request $request, Resource $resource)
     {
+        $this->authorize('update', $resource);
+
         // Validation
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -179,7 +196,8 @@ class ResourceController extends Controller
             'ram' => 'nullable|string|max:255',
             'storage' => 'nullable|string|max:255',
             'os' => 'nullable|string|max:255',
-            'location' => 'nullable|string|max:255'
+            'location' => 'nullable|string|max:255',
+            'managed_by' => 'nullable|exists:users,id'
         ]);
         
         // Mettre à jour
@@ -196,6 +214,8 @@ class ResourceController extends Controller
      */
     public function destroy(Resource $resource)
     {
+        $this->authorize('delete', $resource);
+
         // Vérifier s'il y a des réservations actives
         $hasActiveReservations = $resource->reservations()
             ->whereIn('status', ['pending', 'approved'])

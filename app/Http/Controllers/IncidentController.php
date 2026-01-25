@@ -12,9 +12,10 @@ class IncidentController extends Controller
     /**
      * Affiche le formulaire pour signaler un incident.
      */
-    public function create(Resource $resource)
+    public function create(Resource $resource = null)
     {
-        return view('incidents.create', compact('resource'));
+        $resources = Resource::all();
+        return view('incidents.create', compact('resource', 'resources'));
     }
 
     /**
