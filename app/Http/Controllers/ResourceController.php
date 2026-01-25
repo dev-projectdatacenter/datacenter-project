@@ -25,7 +25,7 @@ class ResourceController extends Controller
     {
         // Récupérer seulement les ressources disponibles
         $query = Resource::with('category')
-            ->where('status', 'disponible');
+            ->where('status', 'available');
         
         // Filtres de recherche
         if ($request->filled('search')) {
@@ -198,7 +198,7 @@ class ResourceController extends Controller
     {
         // Vérifier s'il y a des réservations actives
         $hasActiveReservations = $resource->reservations()
-            ->whereIn('status', ['en_attente', 'approuvee'])
+            ->whereIn('status', ['pending', 'approved'])
             ->exists();
         
         if ($hasActiveReservations) {
