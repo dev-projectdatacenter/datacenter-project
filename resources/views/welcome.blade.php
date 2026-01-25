@@ -26,7 +26,7 @@
             <p>Une plateforme centralisée pour gérer les serveurs, les machines virtuelles et les réservations d'accès pour vos équipes.</p>
             
             <div class="hero-actions">
-                <a href="{{ route('resources.public') }}" class="btn btn-primary btn-lg">
+                <a href="{{ url('/resources') }}" class="btn btn-primary btn-lg">
                          Accéder à la plateforme 
                 <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
                 </a>

@@ -117,10 +117,7 @@
 <body>
     <div class="dashboard-container">
         <div class="header">
-            <form action="{{ route('logout') }}" method="POST" class="logout-btn" style="border: none; padding: 0;">
-                @csrf
-                <button type="submit" style="background: none; border: none; color: white; cursor: pointer; font-size: 16px; font-weight: 500;">🚪 Déconnexion</button>
-            </form>
+            <a href="/logout" class="logout-btn">🚪 Déconnexion</a>
             <h1>👤 Dashboard Utilisateur</h1>
             <p>Bienvenue {{ $user->name }} - Réservation de ressources informatiques</p>
         </div>
@@ -129,19 +126,19 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <h3>📅 Mes réservations</h3>
-                    <div class="number">{{ $statistics['totalReservations'] ?? 0 }}</div>
+                    <div class="number">0</div>
                 </div>
                 <div class="stat-card">
                     <h3>🖥️ Ressources disponibles</h3>
-                    <div class="number">{{ $statistics['availableResources'] ?? 0 }}</div>
+                    <div class="number">0</div>
                 </div>
                 <div class="stat-card">
-                    <h3>⏰ Total Ressources</h3>
-                    <div class="number">{{ $statistics['totalResources'] ?? 0 }}</div>
+                    <h3>⏰ Réservations en cours</h3>
+                    <div class="number">0</div>
                 </div>
                 <div class="stat-card">
-                    <h3>📊 Total Utilisateurs</h3>
-                    <div class="number">{{ $statistics['totalUsers'] ?? 0 }}</div>
+                    <h3>📊 Utilisation ce mois</h3>
+                    <div class="number">0h</div>
                 </div>
             </div>
             

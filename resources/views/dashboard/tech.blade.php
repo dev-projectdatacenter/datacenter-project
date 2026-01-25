@@ -65,10 +65,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <form action="{{ route('logout') }}" method="POST" class="logout-btn" style="border: none; padding: 0;">
-                @csrf
-                <button type="submit" style="background: none; border: none; color: white; cursor: pointer; font-size: 16px;">🚪 Déconnexion</button>
-            </form>
+            <a href="/logout" class="logout-btn">🚪 Déconnexion</a>
             <h1>🛠️ Dashboard Responsable Technique</h1>
             <p>Bienvenue {{ $user->name }} - Supervision des ressources techniques</p>
         </div>

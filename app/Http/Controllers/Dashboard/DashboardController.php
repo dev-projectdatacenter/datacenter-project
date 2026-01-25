@@ -51,14 +51,11 @@ class DashboardController extends BaseController
         $user = Auth::user();
 
         $role = strtolower($user->role->name ?? 'guest');
-        
-        // Normalisation du rôle tech_manager (peut être 'tech_manager' ou 'tech-manager')
-        $normalizedRole = ($role === 'tech-manager') ? 'tech_manager' : $role;
-        
         // Convertir les noms de rôles pour correspondre aux noms de vues
-        $viewName = match($normalizedRole) {
+        $viewName = match($role) {
             'tech_manager' => 'tech',
-            default => $normalizedRole
+            'tech-manager' => 'tech',
+            default => $role
         };
 
         // Statistiques communes
@@ -138,16 +135,16 @@ class DashboardController extends BaseController
     public function validateReservation($id)
     {
         $reservation = \App\Models\Reservation::findOrFail($id);
-        $reservation->status = 'approved';
+        $reservation->status = 'validated';
         $reservation->save();
 
-        return redirect()->back()->with('success', 'Réservation approuvée.');
+        return redirect()->back()->with('success', 'Réservation validée.');
     }
 
     public function refuseReservation($id)
     {
         $reservation = \App\Models\Reservation::findOrFail($id);
-        $reservation->status = 'rejected';
+        $reservation->status = 'refused';
         $reservation->save();
 
         return redirect()->back()->with('success', 'Réservation refusée.');
