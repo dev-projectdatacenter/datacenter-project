@@ -5,6 +5,12 @@
     <link rel="stylesheet" href="{{ asset('css/statistics.css') }}">
 @endpush
 
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ asset('js/charts.js') }}"></script>
+    <script src="{{ asset('js/statistics.js') }}" defer></script>
+@endpush
+
 @section('content')
 <div class="resources-container">
     <div class="resources-header">
@@ -27,13 +33,13 @@
         <div class="chart-card">
             <h3>Mon Activité</h3>
             <div class="chart-wrapper">
-                <canvas id="activityChart"></canvas>
+                <canvas id="activityChart"
+                        data-labels='{!! json_encode($userStats['monthly_activity']->pluck("month")) !!}'
+                        data-values='{!! json_encode($userStats['monthly_activity']->pluck("count")) !!}'>
+                </canvas>
             </div>
         </div>
     </div>
 </div>
 
-@push('scripts')
-    <script src="{{ asset('js/statistics.js') }}" defer></script>
-@endpush
 @endsection

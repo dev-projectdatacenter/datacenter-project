@@ -5,6 +5,12 @@
     <link rel="stylesheet" href="{{ asset('css/statistics.css') }}">
 @endpush
 
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ asset('js/charts.js') }}"></script>
+    <script src="{{ asset('js/statistics.js') }}" defer></script>
+@endpush
+
 @section('content')
 <div class="resources-container">
     <div class="resources-header">
@@ -36,7 +42,8 @@
             <div class="chart-wrapper">
                 <canvas id="categoryChart" 
                         data-labels='{!! json_encode($categoryDistribution->pluck("name")) !!}'
-                        data-values='{!! json_encode($categoryDistribution->pluck("resources_count")) !!}'>
+                        data-values='{!! json_encode($categoryDistribution->pluck("resources_count")) !!}'
+                        data-colors='["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"]'>
                 </canvas>
             </div>
         </div>
@@ -45,14 +52,12 @@
             <div class="chart-wrapper">
                 <canvas id="topResourcesChart"
                         data-labels='{!! json_encode($topResources->pluck("name")) !!}'
-                        data-values='{!! json_encode($topResources->pluck("reservations_count")) !!}'>
+                        data-values='{!! json_encode($topResources->pluck("reservations_count")) !!}'
+                        data-colors='["#FF9F40", "#FF6384", "#C9CBCF", "#4BC0C0", "#36A2EB"]'>
                 </canvas>
             </div>
         </div>
     </div>
 </div>
 
-@push('scripts')
-    <script src="{{ asset('js/statistics.js') }}" defer></script>
-@endpush
 @endsection

@@ -29,10 +29,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // 2. Initialisation du graphique de la page MY-RESOURCES (Personnel)
     const activityCanvas = document.getElementById('activityChart');
     if (activityCanvas && typeof DataCenterCharts !== 'undefined') {
-        // Données d'activité (Simulation ou injectées)
-        const labels = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
-        const data = [1, 3, 2, 5, 4, 2, 3];
+        try {
+            // Récupération des données injectées dans le DOM
+            const actLabels = JSON.parse(activityCanvas.dataset.labels || '[]');
+            const actData = JSON.parse(activityCanvas.dataset.values || '[]');
 
-        DataCenterCharts.createLineChart('activityChart', labels, data, 'Heures d\'utilisation');
+            // Conversion des numéros de mois en noms
+            const monthNames = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
+            const labels = actLabels.map(month => monthNames[month - 1] || 'Mois ' + month);
+
+            DataCenterCharts.createLineChart('activityChart', labels, actData, 'Réservations mensuelles');
+        } catch (e) {
+            console.error("Erreur lors de l'initialisation du graphique d'activité:", e);
+        }
     }
 });

@@ -25,6 +25,26 @@ Route::post('/login', function () {
 
     if (auth()->attempt($credentials)) {
         request()->session()->regenerate();
+
+        $user = auth()->user();
+        $user->load('role'); // ensure role is loaded
+        $roleName = $user && $user->role ? $user->role->name : 'guest';
+
+        // Debug temporaire
+        if (request()->has('debug')) {
+            dd([
+                'user_id' => $user->id,
+                'user_email' => $user->email,
+                'role_id' => $user->role_id,
+                'role_name' => $roleName,
+                'target_route' => $roleName === 'tech_manager' ? 'dashboard.tech' : '/dashboard'
+            ]);
+        }
+
+        if ($roleName === 'tech_manager') {
+            return redirect()->route('dashboard.tech');
+        }
+
         return redirect('/dashboard');
     }
 
@@ -85,6 +105,24 @@ Route::post('/register', function () {
 // ════════════════════════════════════════════════════════════
 
 Route::middleware(['auth'])->group(function () {
+
+    // Dashboard
+    Route::get('/dashboard', function () {
+        $user = auth()->user();
+        $roleName = $user && $user->role ? $user->role->name : 'guest';
+        
+        // Dashboard selon le rôle
+        switch ($roleName) {
+            case 'admin':
+                return redirect()->route('admin.dashboard');
+            case 'tech_manager':
+                return redirect()->route('dashboard.tech');
+            case 'user':
+                return redirect()->route('dashboard.user');
+            default:
+                return redirect()->route('dashboard.guest');
+        }
+    })->name('dashboard');
 
     // Déconnexion
     Route::post('/logout', function () {

@@ -82,7 +82,7 @@ class RoleMiddleware
             case 'admin':
                 return redirect()->route('admin.dashboard');
             case 'tech_manager':
-                return redirect()->route('dashboard.tech');
+                return redirect()->route('tech.reservations.pending');
             case 'user':
                 return redirect()->route('dashboard.user');
             case 'guest':

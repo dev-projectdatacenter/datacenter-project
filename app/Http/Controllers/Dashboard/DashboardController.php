@@ -87,7 +87,7 @@ class DashboardController extends BaseController
         $activityLogs = [];
         $notifications = [];
 
-        if ($role === 'tech-manager') {
+        if ($role === 'tech_manager' || $role === 'tech-manager') {
             $statistics['pendingReservations'] = Reservation::where('status', 'pending')->count();
             $statistics['criticalResources'] = Resource::where('status', 'maintenance')
                 ->count();

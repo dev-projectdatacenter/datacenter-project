@@ -49,6 +49,25 @@ class ResourceStatisticsService
     }
 
     /**
+     * Récupère les statistiques générales complètes.
+     */
+    public function getGeneralStatsComplete()
+    {
+        $totalResources = Resource::count();
+        $availableResources = Resource::where('status', 'available')->count();
+        $busyResources = Resource::where('status', 'busy')->count();
+        $maintenanceResources = Resource::where('status', 'maintenance')->count();
+        
+        return [
+            'total_resources' => $totalResources,
+            'available_resources' => $availableResources,
+            'busy_resources' => $busyResources,
+            'maintenance_resources' => $maintenanceResources,
+            'occupancy_rate' => $totalResources > 0 ? round(($busyResources / $totalResources) * 100, 1) : 0,
+        ];
+    }
+
+    /**
      * Récupère les statistiques sur la santé du parc (Incidents & Maintenances).
      */
     public function getHealthStats()
@@ -68,12 +87,20 @@ class ResourceStatisticsService
      */
     public function getUserStats($userId)
     {
+        // Réservations par mois pour le graphique d'activité
+        $monthlyReservations = Reservation::where('user_id', $userId)
+            ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
         return [
             'my_reservations_count' => Reservation::where('user_id', $userId)->count(),
             'my_active_reservations' => Reservation::where('user_id', $userId)
                                                  ->where('status', 'active')
                                                  ->count(),
             'my_incidents_count' => Incident::where('user_id', $userId)->count(),
+            'monthly_activity' => $monthlyReservations,
         ];
     }
 }
