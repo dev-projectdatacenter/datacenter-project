@@ -44,6 +44,10 @@ class ResourceController extends Controller
             $query->where('ram', 'like', '%' . $request->ram . '%');
         }
 
+        if ($request->filled('bandwidth')) {
+            $query->where('bandwidth', 'like', '%' . $request->bandwidth . '%');
+        }
+
         if ($request->filled('os')) {
             $query->where('os', 'like', '%' . $request->os . '%');
         }
@@ -92,6 +96,10 @@ class ResourceController extends Controller
             $query->where('ram', 'like', '%' . $request->ram . '%');
         }
 
+        if ($request->filled('bandwidth')) {
+            $query->where('bandwidth', 'like', '%' . $request->bandwidth . '%');
+        }
+
         if ($request->filled('os')) {
             $query->where('os', 'like', '%' . $request->os . '%');
         }
@@ -137,6 +145,7 @@ class ResourceController extends Controller
             'status' => 'required|in:available,busy,maintenance,out_of_service',
             'cpu' => 'nullable|string|max:255',
             'ram' => 'nullable|string|max:255',
+            'bandwidth' => 'nullable|string|max:255',
             'storage' => 'nullable|string|max:255',
             'os' => 'nullable|string|max:255',
             'location' => 'nullable|string|max:255',
@@ -158,7 +167,7 @@ class ResourceController extends Controller
     public function show(Resource $resource)
     {
         // Charger les relations
-        $resource->load('category', 'reservations.user');
+        $resource->load('category', 'reservations.user', 'comments.user');
         
         return view('resources.show', compact('resource'));
     }
@@ -194,6 +203,7 @@ class ResourceController extends Controller
             'status' => 'required|in:available,busy,maintenance,out_of_service',
             'cpu' => 'nullable|string|max:255',
             'ram' => 'nullable|string|max:255',
+            'bandwidth' => 'nullable|string|max:255',
             'storage' => 'nullable|string|max:255',
             'os' => 'nullable|string|max:255',
             'location' => 'nullable|string|max:255',

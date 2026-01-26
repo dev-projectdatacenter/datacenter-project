@@ -55,6 +55,10 @@
                 <input type="text" name="ram" value="{{ $resource->ram }}" style="width: 100%; padding: 8px;">
             </div>
             <div style="margin-bottom: 15px;">
+                <label>Bande Passante :</label>
+                <input type="text" name="bandwidth" value="{{ $resource->bandwidth }}" style="width: 100%; padding: 8px;" placeholder="ex: 1 Gbps">
+            </div>
+            <div style="margin-bottom: 15px;">
                 <label>Stockage :</label>
                 <input type="text" name="storage" value="{{ $resource->storage }}" style="width: 100%; padding: 8px;">
             </div>

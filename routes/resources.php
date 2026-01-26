@@ -11,6 +11,7 @@ use App\Http\Controllers\ResourceCategoryController;
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\ResourceCommentController;
 
 // ════════════════════════════════════════════════════════════
 // ROUTES PUBLIQUES - CONSULTATION DES RESSOURCES
@@ -51,4 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
     Route::get('/statistics/my-resources', [StatisticsController::class, 'myResources'])->name('statistics.my_resources');
     
+    // JOUR 9 : Discussions et commentaires
+    Route::post('/resources/{resource}/comments', [ResourceCommentController::class, 'store'])->name('comments.store');
+    Route::delete('/comments/{comment}', [ResourceCommentController::class, 'destroy'])->name('comments.destroy');
 });
