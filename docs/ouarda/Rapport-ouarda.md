@@ -248,4 +248,8 @@ Ce projet est développé dans le cadre d'un projet académique.
 [![PHP](https://img.shields.io/badge/PHP-8.2+-blue.svg)](https://php.net)
 [![Chart.js](https://img.shields.io/badge/Chart.js-4.4-green.svg)](https://chartjs.org)
 
+<<<<<<< HEAD
 </div>
+=======
+</div>
+>>>>>>> 2f7661282626c60d45ac63b71b3febedebf2e96e
