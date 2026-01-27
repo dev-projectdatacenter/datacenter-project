@@ -235,7 +235,7 @@ http://localhost:8000/resources
 ![Planifier maintenance](screenshots/planifier-maintenance.png)
 
 ### Dashboard statistiques
-![Stats](screenshots/statistics-dashboard.png)
+![Stats](screenshots/dashboard-preview.png)
 
 ### Statistiques personnalisées
 ![Statistiques personnalisées](screenshots/statistiques-personnalisees.png)
