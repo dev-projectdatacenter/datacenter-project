@@ -1,77 +1,51 @@
 <?php
+/**
+ * routes/web.php
+ * Fichier principal - Import des routes de l'équipe
+ * Géré par FATIMA (coordinatrice)
+ */
+
 use Illuminate\Support\Facades\Route;
-use App\Models\Resource;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthenticatedSessionController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group.
-|
-*/
+// ══════════════════════════════════════════════════════════
+// PAGE D'ACCUEIL
+// ══════════════════════════════════════════════════════════
 
-// ============================================
-// ROUTES PUBLIQUES
-// ============================================
-
-// Page d'accueil
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-// Consultation des ressources (lecture seule)
-Route::get('/resources', function () {
-    $resources = Resource::all();
-    return view('resources.index', compact('resources'));
-})->name('resources.index');
+// ══════════════════════════════════════════════════════════
+// DÉCONNEXION
+// ══════════════════════════════════════════════════════════
 
-// ============================================
-// ROUTES D'AUTHENTIFICATION (publiques)
-// ============================================
+// Déconnexion (POST recommandé pour la sécurité)
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');
 
-<<<<<<< Updated upstream
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+// Route GET temporaire pour la déconnexion (à supprimer en production)
+Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout.get');
 
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
+// Paramètres utilisateur
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+});
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+// ══════════════════════════════════════════════════════════
+// IMPORT DES ROUTES DE CHAQUE MEMBRE DE L'ÉQUIPE
+// ══════════════════════════════════════════════════════════
 
-// ============================================
-// ROUTES PRIVÉES (authentifiées)
-// ============================================
-=======
 // Authentification & Admin - ZAHRAE
-//require __DIR__.'/auth.php';
+require __DIR__.'/auth.php';
 
 // Gestion des Ressources - OUARDA
-//require __DIR__.'/resources.php';
+require __DIR__.'/resources.php';
 
 // Gestion des Réservations - HALIMA
-//require __DIR__.'/reservations.php';
+require __DIR__.'/reservations.php';
 
 // Dashboards - FATIMA
 require __DIR__.'/dashboard.php';
->>>>>>> Stashed changes
-
-Route::middleware(['auth'])->group(function () {
-    // Tableau de bord
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-
-    // Réservations
-    Route::get('/reservations', function () {
-        return view('reservations.index');
-    })->name('reservations.index');
-
-    // Panel admin (Admin et Tech Manager seulement)
-    Route::get('/admin-panel', function () {
-        return view('admin.panel');
-    })->name('admin.panel')->middleware('role:ADMIN,TECH_MANAGER');
-});

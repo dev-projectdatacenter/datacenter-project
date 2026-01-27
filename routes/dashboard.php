@@ -1,74 +1,237 @@
 <?php
-
 /**
  * routes/dashboard.php
- * Auteur : FATIMA
- * Description : Dashboards selon les rôles
+ * Routes des tableaux de bord selon les rôles
+ * Géré par FATIMA (coordinatrice)
  */
 
+use App\Http\Controllers\Dashboard\DashboardController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\TestServicesController;
 
-/*
-|--------------------------------------------------------------------------
-| ROUTES DE TEST (SANS AUTHENTIFICATION)
-|--------------------------------------------------------------------------
-| Ces routes servent UNIQUEMENT à tester le backend
-| sans frontend (login automatique par ID)
-*/
+// ════════════════════════════════════════════════════════════
+// DASHBOARD INVITÉ (Public - accessible sans authentification)
+// ════════════════════════════════════════════════════════════
 
-// Tester les services
-Route::get('/test-services', [TestServicesController::class, 'test']);
+Route::get('/dashboard/guest', [DashboardController::class, 'guest'])
+    ->name('dashboard.guest');
 
-// ===== LOGIN DE TEST PAR RÔLE =====
-Route::get('/login-test-admin', function () {
-    Auth::loginUsingId(1); // ADMIN
-    return redirect('/dashboard');
-});
+// ════════════════════════════════════════════════════════════
+// DASHBOARDS PROTÉGÉS (Authentification requise)
+// ════════════════════════════════════════════════════════════
 
-Route::get('/login-test-user', function () {
-    Auth::loginUsingId(3); // USER
-    return redirect('/dashboard');
-});
-
-Route::get('/login-test-tech-manager', function () {
-    Auth::loginUsingId(2); // TECH_MANAGER
-    return redirect('/dashboard');
-});
-
-Route::get('/login-test-invite', function () {
-    Auth::loginUsingId(7); // INVITE
-    return redirect('/dashboard');
-});
-
-// ===== LOGOUT DE TEST =====
-Route::get('/logout-test', function () {
-    Auth::logout();
-    request()->session()->invalidate();
-    request()->session()->regenerateToken();
-    return redirect('/');
-});
-
-/*
-|--------------------------------------------------------------------------
-| ROUTES PROTÉGÉES - DASHBOARD
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth'])->group(function () {
-    // Dashboard principal (auto selon rôle)
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-        ->name('dashboard');
-
-    // Réservations : Valider / Refuser
-    Route::post('/reservation/{id}/validate', [DashboardController::class, 'validateReservation'])->name('reservation.validate');
-    Route::post('/reservation/{id}/refuse', [DashboardController::class, 'refuseReservation'])->name('reservation.refuse');
-
-    // Ressources : Maintenance
-    Route::post('/resource/{id}/maintenance', [DashboardController::class, 'toggleMaintenance'])->name('resource.maintenance');
-
-    // Incidents : Supprimer
-    Route::post('/incident/{id}/delete', [DashboardController::class, 'deleteIncident'])->name('incident.delete');
+Route::middleware(['auth', 'throttle:60,1'])->group(function () {
+    
+    // ════════════════════════════════════════════════════════════
+    // DASHBOARD ADMIN (Admin uniquement)
+    // ════════════════════════════════════════════════════════════
+    
+    Route::get('/admin/dashboard', [DashboardController::class, 'admin'])
+        ->middleware('role:admin')
+        ->name('admin.dashboard');
+    
+    // ════════════════════════════════════════════════════════════
+    // DASHBOARD TECH MANAGER (Tech Manager uniquement)
+    // ════════════════════════════════════════════════════════════
+    
+    Route::get('/dashboard/tech', [DashboardController::class, 'tech'])
+        ->middleware('role:tech_manager')
+        ->name('dashboard.tech');
+    
+    // ════════════════════════════════════════════════════════════
+    // DASHBOARD UTILISATEUR (User, Tech Manager, Admin)
+    // ════════════════════════════════════════════════════════════
+    
+    Route::get('/dashboard/user', [DashboardController::class, 'user'])
+        ->middleware('role:user')
+        ->name('dashboard.user');
+    
+    // ════════════════════════════════════════════════════════════
+    // ADMINISTRATION
+    // ════════════════════════════════════════════════════════════
+    
+    // Gestion des utilisateurs (Admin uniquement)
+    Route::prefix('admin/users')->name('admin.users.')->middleware('role:admin')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('index');
+        Route::get('/create', [\App\Http\Controllers\Admin\UserController::class, 'create'])->name('create');
+        Route::post('/', [\App\Http\Controllers\Admin\UserController::class, 'store'])->name('store');
+        Route::get('/{user}', [\App\Http\Controllers\Admin\UserController::class, 'show'])->name('show');
+        Route::get('/{user}/edit', [\App\Http\Controllers\Admin\UserController::class, 'edit'])->name('edit');
+        Route::put('/{user}', [\App\Http\Controllers\Admin\UserController::class, 'update'])->name('update');
+        Route::patch('/{user}/toggle-status', [\App\Http\Controllers\Admin\UserController::class, 'toggleStatus'])->name('toggle-status');
+        Route::delete('/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('destroy');
+    });
+    
+    // Gestion des utilisateurs
+    Route::prefix('admin/users')
+        ->name('admin.users.')
+        ->middleware('role:admin')
+        ->group(function () {
+            Route::get('/', [\App\Http\Controllers\AdminUserController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\AdminUserController::class, 'create'])->name('create');
+            Route::post('/', [\App\Http\Controllers\AdminUserController::class, 'store'])->name('store');
+            Route::get('/{user}', [\App\Http\Controllers\AdminUserController::class, 'show'])->name('show');
+            Route::get('/{user}/edit', [\App\Http\Controllers\AdminUserController::class, 'edit'])->name('edit');
+            Route::put('/{user}', [\App\Http\Controllers\AdminUserController::class, 'update'])->name('update');
+            Route::patch('/{user}/toggle-status', [\App\Http\Controllers\AdminUserController::class, 'toggleStatus'])->name('toggle-status');
+            Route::delete('/{user}', [\App\Http\Controllers\AdminUserController::class, 'destroy'])->name('destroy');
+        });
+    
+    // Gestion des rôles - Désactivée pour le moment
+    /*
+    Route::prefix('admin/roles')
+        ->name('admin.roles.')
+        ->middleware('role:admin')
+        ->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\RoleController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\Admin\RoleController::class, 'create'])->name('create');
+            Route::post('/', [\App\Http\Controllers\Admin\RoleController::class, 'store'])->name('store');
+            Route::get('/{role}/edit', [\App\Http\Controllers\Admin\RoleController::class, 'edit'])->name('edit');
+            Route::put('/{role}', [\App\Http\Controllers\Admin\RoleController::class, 'update'])->name('update');
+            Route::delete('/{role}', [\App\Http\Controllers\Admin\RoleController::class, 'destroy'])->name('destroy');
+        });
+    */
+    
+    // Statistiques
+    Route::get('/admin/statistics', [\App\Http\Controllers\StatisticsController::class, 'index'])
+        ->name('admin.statistics.index')
+        ->middleware('role:admin');
+        
+    // Mes statistiques
+    Route::get('/my-statistics', [\App\Http\Controllers\StatisticsController::class, 'myResources'])
+        ->name('statistics.my_resources')
+        ->middleware('auth');
+    
+    // Logs d'activité
+    // Logs d'activité
+    Route::prefix('admin/logs')
+        ->name('admin.logs.')
+        ->middleware('role:admin')
+        ->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\LogController::class, 'index'])->name('index');
+            Route::get('/{log}', [\App\Http\Controllers\Admin\LogController::class, 'show'])->name('show');
+            Route::get('/export/csv', [\App\Http\Controllers\Admin\LogController::class, 'export'])->name('export');
+            Route::get('/statistics', [\App\Http\Controllers\Admin\LogController::class, 'statistics'])->name('statistics');
+            Route::post('/clear', [\App\Http\Controllers\Admin\LogController::class, 'clear'])->name('clear');
+        });
+    
+    // Gestion des ressources
+    Route::prefix('admin/resources')
+        ->name('admin.resources.')
+        ->middleware('role:admin,tech_manager')
+        ->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\ResourceController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\Admin\ResourceController::class, 'create'])->name('create');
+            Route::post('/', [\App\Http\Controllers\Admin\ResourceController::class, 'store'])->name('store');
+            Route::get('/{resource}/edit', [\App\Http\Controllers\Admin\ResourceController::class, 'edit'])->name('edit');
+            Route::put('/{resource}', [\App\Http\Controllers\Admin\ResourceController::class, 'update'])->name('update');
+            Route::delete('/{resource}', [\App\Http\Controllers\Admin\ResourceController::class, 'destroy'])->name('destroy');
+        });
+    
+    // Gestion des réservations
+    Route::prefix('admin/reservations')
+        ->name('admin.reservations.')
+        ->middleware('role:admin,tech_manager')
+        ->group(function () {
+            // Utilisation de la méthode all() du contrôleur TechReservationController
+            Route::get('/', [\App\Http\Controllers\TechReservationController::class, 'all'])->name('index');
+            
+            // Désactiver temporairement les routes non essentielles
+            // Route::get('/create', [\App\Http\Controllers\ReservationController::class, 'create'])->name('create');
+            // Route::post('/', [\App\Http\Controllers\ReservationController::class, 'store'])->name('store');
+            // Utilisation du contrôleur TechReservationController existant pour les opérations CRUD
+            Route::get('/pending', [\App\Http\Controllers\TechReservationController::class, 'pending'])->name('pending');
+            Route::get('/{reservation}', [\App\Http\Controllers\TechReservationController::class, 'show'])->name('show');
+            Route::put('/{reservation}/approve', [\App\Http\Controllers\TechReservationController::class, 'approve'])->name('approve');
+            Route::put('/{reservation}/reject', [\App\Http\Controllers\TechReservationController::class, 'reject'])->name('reject');
+            
+            // Désactiver temporairement les autres routes
+            // Route::get('/{reservation}/edit', [\App\Http\Controllers\ReservationController::class, 'edit'])->name('edit');
+            // Route::put('/{reservation}', [\App\Http\Controllers\ReservationController::class, 'update'])->name('update');
+            // Route::delete('/{reservation}', [\App\Http\Controllers\ReservationController::class, 'destroy'])->name('destroy');
+            // Route::put('/{reservation}/status', [\App\Http\Controllers\ReservationController::class, 'updateStatus'])->name('updateStatus');
+        });
+    
+    // Configuration système
+    Route::prefix('admin/settings')
+        ->name('admin.settings.')
+        ->middleware('role:admin')
+        ->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('index');
+            Route::put('/', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('update');
+        });
+    
+    // ════════════════════════════════════════════════════════════
+    // API POUR LES DASHBOARDS (Données en temps réel)
+    // ════════════════════════════════════════════════════════════
+    
+    Route::prefix('dashboard/api')->name('dashboard.api.')->group(function () {
+        
+        // API Admin
+        Route::get('/admin/stats', [DashboardController::class, 'adminStats'])
+            ->middleware('role:admin')
+            ->name('admin.stats');
+        
+        Route::get('/admin/recent-activities', [DashboardController::class, 'adminRecentActivities'])
+            ->middleware('role:admin')
+            ->name('admin.recent-activities');
+        
+        Route::get('/admin/system-status', [DashboardController::class, 'adminSystemStatus'])
+            ->middleware('role:admin')
+            ->name('admin.system-status');
+        
+        // API Tech Manager
+        Route::get('/tech/stats', [DashboardController::class, 'techStats'])
+            ->middleware('role:tech_manager')
+            ->name('tech.stats');
+        
+        Route::get('/tech/pending-reservations', [DashboardController::class, 'techPendingReservations'])
+            ->middleware('role:tech_manager')
+            ->name('tech.pending-reservations');
+        
+        Route::get('/tech/resource-status', [DashboardController::class, 'techResourceStatus'])
+            ->middleware('role:tech_manager')
+            ->name('tech.resource-status');
+        
+        // API User
+        Route::get('/user/stats', [DashboardController::class, 'userStats'])
+            ->middleware('role:user')
+            ->name('user.stats');
+        
+        Route::get('/user/active-reservations', [DashboardController::class, 'userActiveReservations'])
+            ->middleware('role:user')
+            ->name('user.active-reservations');
+        
+        Route::get('/user/recent-activity', [DashboardController::class, 'userRecentActivity'])
+            ->middleware('role:user')
+            ->name('user.recent-activity');
+        
+        // API Guest (publique)
+        Route::get('/guest/resource-overview', [DashboardController::class, 'guestResourceOverview'])
+            ->name('guest.resource-overview');
+    });
+    
+    // ════════════════════════════════════════════════════════════
+    // ROUTE DE DÉFAUT (Redirection selon rôle)
+    // ════════════════════════════════════════════════════════════
+    
+    Route::get('/dashboard', function () {
+        $user = auth()->user();
+        
+        if (!$user) {
+            return redirect()->route('dashboard.guest');
+        }
+        
+        $roleName = $user->role ? $user->role->name : 'guest';
+        
+        switch ($roleName) {
+            case 'admin':
+                return redirect()->route('admin.dashboard');
+            case 'tech_manager':
+                return redirect()->route('dashboard.tech');
+            case 'user':
+                return redirect()->route('dashboard.user');
+            default:
+                return redirect()->route('dashboard.guest');
+        }
+    })->name('dashboard');
 });

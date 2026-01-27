@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de Bord Admin</title>
+    <title>Tableau de Bord Technique - DataCenter</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -13,6 +13,7 @@
             --success: #28a745;
             --danger: #dc3545;
             --warning: #ffc107;
+            --info: #17a2b8;
             --light: #f8f9fa;
             --dark: #343a40;
             --gray: #6c757d;
@@ -111,6 +112,12 @@
             font-size: 1.5rem;
             font-weight: 600;
             color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        .header-subtitle {
+            color: var(--gray);
+            font-size: 0.9rem;
         }
         
         .user-menu {
@@ -150,7 +157,7 @@
         }
         
         .logout-btn:hover {
-            background-color: rgba(248, 37, 133, 0.1);
+            background-color: rgba(239, 68, 68, 0.1);
             color: var(--danger);
         }
         
@@ -195,7 +202,7 @@
             font-size: 0.9rem;
         }
         
-        /* Recent Activity */
+        /* Cards */
         .card {
             background: white;
             border-radius: 12px;
@@ -217,6 +224,9 @@
             font-size: 1.2rem;
             font-weight: 600;
             color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .btn {
@@ -229,6 +239,7 @@
             align-items: center;
             transition: all 0.3s ease;
             border: none;
+            font-size: 0.9rem;
         }
         
         .btn i {
@@ -242,11 +253,47 @@
         
         .btn-primary:hover {
             background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background-color: #d97706;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+        
+        .btn-info {
+            background-color: var(--info);
+            color: white;
+        }
+        
+        .btn-info:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
         
         /* Table */
         .table-responsive {
             overflow-x: auto;
+            margin-top: 15px;
         }
         
         table {
@@ -255,81 +302,79 @@
         }
         
         th, td {
-            padding: 12px 15px;
+            padding: 12px;
             text-align: left;
             border-bottom: 1px solid var(--light-gray);
         }
         
         th {
+            background-color: var(--light);
             font-weight: 600;
-            color: var(--gray);
+            color: var(--dark);
             font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.05em;
         }
         
         tr:hover {
-            background-color: rgba(67, 97, 238, 0.03);
+            background-color: var(--light);
         }
         
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 20px;
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
             font-size: 0.75rem;
-            font-weight: 500;
-            text-transform: capitalize;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
         
-        .status-active {
-            background-color: rgba(40, 167, 69, 0.1);
-            color: #28a745;
+        .badge-success {
+            background-color: #d1fae5;
+            color: #065f46;
         }
         
-        .status-pending {
-            background-color: rgba(255, 193, 7, 0.1);
-            color: #ffc107;
+        .badge-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .badge-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .badge-info {
+            background-color: #dbeafe;
+            color: #1e40af;
         }
         
         /* Responsive */
-        @media (max-width: 992px) {
+        @media (max-width: 768px) {
             .sidebar {
-                width: 70px;
-                overflow: hidden;
-            }
-            
-            .sidebar .logo span,
-            .sidebar .nav-link span {
-                display: none;
-            }
-            
-            .sidebar .nav-link {
-                justify-content: center;
-                padding: 15px 0;
-            }
-            
-            .sidebar .nav-link i {
-                margin-right: 0;
-                font-size: 1.2rem;
+                transform: translateX(-100%);
             }
             
             .main-content {
-                margin-left: 70px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
+                margin-left: 0;
+                padding: 15px;
             }
             
             .header {
                 flex-direction: column;
-                text-align: center;
+                align-items: flex-start;
                 gap: 15px;
             }
             
-            .user-menu {
-                margin-top: 10px;
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 10px;
             }
         }
     </style>
@@ -345,38 +390,32 @@
                 <ul class="nav-menu">
                     <li class="nav-item">
                         <a href="#" class="nav-link active">
-                            <i class="fas fa-home"></i>
+                            <i class="fas fa-tachometer-alt"></i>
                             <span>Tableau de bord</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('admin.users.index') }}" class="nav-link">
-                            <i class="fas fa-users"></i>
-                            <span>Utilisateurs</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('admin.resources.index') }}" class="nav-link">
+                        <a href="{{ route('resources.index') }}" class="nav-link">
                             <i class="fas fa-server"></i>
                             <span>Ressources</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('reservations.index') }}" class="nav-link">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>Réservations</span>
+                        <a href="{{ route('maintenances.index') }}" class="nav-link">
+                            <i class="fas fa-tools"></i>
+                            <span>Maintenances</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('incidents.index') }}" class="nav-link">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Incidents</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('statistics.index') }}" class="nav-link">
-                            <i class="fas fa-chart-bar"></i>
+                            <i class="fas fa-chart-line"></i>
                             <span>Statistiques</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('admin.settings.index') }}" class="nav-link">
-                            <i class="fas fa-cog"></i>
-                            <span>Paramètres</span>
                         </a>
                     </li>
                 </ul>
@@ -388,7 +427,8 @@
             <!-- Header -->
             <header class="header">
                 <div class="header-title">
-                    <h1>Tableau de bord</h1>
+                    <h1>Tableau de bord technique</h1>
+                    <p class="header-subtitle">Gestion des ressources et maintenance du datacenter</p>
                 </div>
                 <div class="user-menu">
                     <span class="user-name">{{ Auth::user()->name }}</span>
@@ -404,87 +444,128 @@
             
             <!-- Stats Cards -->
             <div class="stats-grid">
-                <div class="stat-card" onclick="window.location.href='{{ route('admin.resources.index') }}'">
+                <div class="stat-card" onclick="window.location.href='{{ route('resources.index') }}'">
                     <i class="fas fa-server"></i>
                     <div class="stat-value">{{ $statistics['totalResources'] ?? 0 }}</div>
-                    <div class="stat-label">Ressources totales</div>
+                    <div class="stat-label">Ressources gérées</div>
                 </div>
-                <div class="stat-card" onclick="window.location.href='{{ route('admin.resources.index') }}?status=available'">
+                <div class="stat-card" onclick="window.location.href='{{ route('maintenances.index') }}'">
+                    <i class="fas fa-tools"></i>
+                    <div class="stat-value">{{ $statistics['pendingMaintenance'] ?? 0 }}</div>
+                    <div class="stat-label">Maintenances en attente</div>
+                </div>
+                <div class="stat-card" onclick="window.location.href='{{ route('incidents.index') }}'">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div class="stat-value">{{ $statistics['openIncidents'] ?? 0 }}</div>
+                    <div class="stat-label">Incidents ouverts</div>
+                </div>
+                <div class="stat-card" onclick="window.location.href='{{ route('incidents.index') }}?status=resolved'">
                     <i class="fas fa-check-circle"></i>
-                    <div class="stat-value">{{ $statistics['availableResources'] ?? 0 }}</div>
-                    <div class="stat-label">Disponibles</div>
-                </div>
-                <div class="stat-card" onclick="window.location.href='{{ route('admin.users.index') }}'">
-                    <i class="fas fa-users"></i>
-                    <div class="stat-value">{{ $statistics['totalUsers'] ?? 0 }}</div>
-                    <div class="stat-label">Utilisateurs</div>
-                </div>
-                <div class="stat-card" onclick="window.location.href='{{ route('admin.reservations.index') }}'">
-                    <i>📅</i>
-                    <div class="stat-value">{{ $statistics['totalReservations'] ?? 0 }}</div>
-                    <div class="stat-label">Réservations</div>
+                    <div class="stat-value">{{ $statistics['resolvedIncidents'] ?? 0 }}</div>
+                    <div class="stat-label">Incidents résolus (7j)</div>
                 </div>
             </div>
-
-            @if(isset($statistics['reservationsByStatus']) && count($statistics['reservationsByStatus']) > 0)
-            <h2 class="section-title">📊 Statut des réservations</h2>
-            <div class="stats-grid">
-                @foreach($statistics['reservationsByStatus'] as $status => $count)
-                    <div class="stat-card" 
-                         onclick="window.location.href='{{ route('admin.reservations.index') }}?status={{ $status }}'"
-                         style="border-left-color: {{ 
-                             $status === 'confirmed' ? '#38a169' : 
-                             ($status === 'pending' ? '#d69e2e' : 
-                             ($status === 'cancelled' ? '#e53e3e' : '#718096')) 
-                         }};">
-                        <i>
-                            @if($status === 'confirmed') ✅
-                            @elseif($status === 'pending') ⏳
-                            @elseif($status === 'cancelled') ❌
-                            @elseif($status === 'completed') ✔️
-                            @else 📊
-                            @endif
-                        </i>
-                        <div class="stat-value">{{ $count }}</div>
-                        <div class="stat-label">{{ __("reservation.status.$status") }}</div>
-                    </div>
-                @endforeach
+            
+            <!-- Quick Actions -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-bolt"></i>
+                        Actions rapides
+                    </h3>
+                </div>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <a href="{{ route('resources.index') }}" class="btn btn-primary">
+                        <i class="fas fa-server"></i> Voir les ressources
+                    </a>
+                    <a href="{{ route('maintenances.index') }}" class="btn btn-warning">
+                        <i class="fas fa-tools"></i> Planifier maintenance
+                    </a>
+                    <a href="{{ route('incidents.create') }}" class="btn btn-danger">
+                        <i class="fas fa-plus"></i> Nouvel incident
+                    </a>
+                    <a href="{{ route('statistics.index') }}" class="btn btn-info">
+                        <i class="fas fa-file-export"></i> Voir les statistiques
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Recent Reservations -->
+            @if(isset($reservations) && $reservations->count() > 0)
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-calendar-check"></i>
+                        Réservations récentes
+                    </h3>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Utilisateur</th>
+                                <th>Ressource</th>
+                                <th>Date</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($reservations->take(5) as $reservation)
+                            <tr>
+                                <td>{{ $reservation->user->name }}</td>
+                                <td>{{ $reservation->resource->name }}</td>
+                                <td>{{ $reservation->created_at->format('d/m/Y H:i') }}</td>
+                                <td>
+                                    <span class="badge badge-{{ $reservation->status == 'validated' ? 'success' : ($reservation->status == 'pending' ? 'warning' : 'danger') }}">
+                                        {{ $reservation->status }}
+                                    </span>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
             @endif
             
-            <div class="actions-grid">
-                <div class="action-card" onclick="window.location.href='{{ route('admin.users.index') }}'">
-                    <h3>👥 Gestion des utilisateurs</h3>
-                    <p>Créer, modifier, supprimer des comptes utilisateurs et gérer les rôles</p>
-                    <div class="btn">Gérer les utilisateurs</div>
+            <!-- Recent Incidents -->
+            @if(isset($incidents) && $incidents->count() > 0)
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Incidents en attente
+                    </h3>
                 </div>
-                
-                
-                <div class="action-card" onclick="window.location.href='{{ route('admin.statistics.index') }}'">
-                    <h3>📊 Statistiques globales</h3>
-                    <p>Voir les rapports d'utilisation et les métriques du système</p>
-                    <div class="btn">Voir les statistiques</div>
-                </div>
-                
-                <div class="action-card" onclick="window.location.href='{{ route('admin.logs.index') }}'">
-                    <h3>📝 Logs d'activité</h3>
-                    <p>Consulter l'historique des actions et les audits de sécurité</p>
-                    <div class="btn">Voir les logs</div>
-                </div>
-                
-                <div class="action-card" onclick="window.location.href='{{ route('admin.resources.index') }}'">
-                    <h3>🖥️ Gestion des ressources</h3>
-                    <p>Administrer les serveurs, VMs et équipements réseau</p>
-                    <div class="btn">Gérer les ressources</div>
-                </div>
-                
-                <div class="action-card" onclick="window.location.href='{{ route('admin.settings.index') }}'">
-                    <h3>⚙️ Configuration système</h3>
-                    <p>Paramètres généraux et configuration du Data Center</p>
-                    <div class="btn">Configuration</div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Utilisateur</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                                <th>Priorité</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($incidents->take(5) as $incident)
+                            <tr>
+                                <td>{{ $incident->user->name }}</td>
+                                <td>{{ Str::limit($incident->description, 50) }}</td>
+                                <td>{{ $incident->created_at->format('d/m/Y H:i') }}</td>
+                                <td>
+                                    <span class="badge badge-warning">
+                                        {{ $incident->priority ?? 'Moyenne' }}
+                                    </span>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
+            @endif
+        </main>
     </div>
 </body>
 </html>

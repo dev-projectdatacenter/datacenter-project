@@ -43,7 +43,41 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'is_active' => 'boolean',
     ];
+
+    /**
+     * Relation avec les notifications
+     */
+    public function notifications()
+    {
+        return $this->hasMany(\App\Models\Notification::class, 'user_id');
+    }
+    
+    /**
+     * Obtenir le nombre de notifications non lues
+     * 
+     * @return int
+     */
+    public function unreadNotificationsCount()
+    {
+        return $this->notifications()->where('read', false)->count();
+    }
+
+    /**
+     * Accesseur pour vérifier si l'utilisateur est actif
+     */
+    public function getIsActiveAttribute()
+    {
+        return $this->status === 'active';
+    }
+
+    /**
+     * Charger automatiquement la relation role.
+     *
+     * @var array<int, string>
+     */
+    protected $with = ['role'];
 
     /**
      * Relation : un utilisateur appartient à un rôle.
