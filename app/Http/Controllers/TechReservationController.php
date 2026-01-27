@@ -56,7 +56,7 @@ class TechReservationController extends Controller
         $resources = Resource::all();
         $users = User::where('role_id', 3)->get(); // 3 = role 'user' uniquement
 
-        return view('tech.reservations.all', compact('reservations', 'resources', 'users'));
+return view('reservations.index', compact('reservations', 'resources', 'users'));
     }
 
     /**

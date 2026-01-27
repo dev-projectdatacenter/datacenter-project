@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="resources-container">
-    <h1>Toutes les Ressources</h1>
+    <h1>Ressources Disponibles</h1>
     
     <div class="resources-grid">
         @foreach($resources as $resource)
@@ -24,7 +24,7 @@
                     <h3>{{ $resource->name }}</h3>
                     <p><strong>{{ $resource->category->name }}</strong></p>
                     <div style="margin: 15px 0;">
-                        <span class="status-badge status-{{ $resource->status }}">{{ $resource->status }}</span>
+                        <span class="status-badge status-available">{{ $resource->status }}</span>
                     </div>
                     <p><small>{{ $resource->cpu }} / {{ $resource->ram }}</small></p>
                     <a href="{{ route('resources.public.show', $resource) }}" class="btn btn-filter" style="display: block; text-align: center; margin-top: 15px;">Voir plus</a>

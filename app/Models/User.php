@@ -47,6 +47,24 @@ class User extends Authenticatable
     ];
 
     /**
+     * Relation avec les notifications
+     */
+    public function notifications()
+    {
+        return $this->hasMany(\App\Models\Notification::class, 'user_id');
+    }
+    
+    /**
+     * Obtenir le nombre de notifications non lues
+     * 
+     * @return int
+     */
+    public function unreadNotificationsCount()
+    {
+        return $this->notifications()->where('read', false)->count();
+    }
+
+    /**
      * Accesseur pour vérifier si l'utilisateur est actif
      */
     public function getIsActiveAttribute()

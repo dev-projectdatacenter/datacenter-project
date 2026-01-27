@@ -1,68 +1,11 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Tech Manager</title>
-    <style>
-        /* Styles de base */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f5f5f5;
-        }
-        
-        /* Conteneur principal */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        /* En-tête */
-        .header {
-            background: #2e7d32;
-            color: white;
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            position: relative;
-            text-align: center;
-        }
-        
-        /* Boutons */
-        .btn {
-            display: inline-block;
-            background: #2e7d32;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 4px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background 0.3s;
-        }
-        .btn:hover {
-            background: #1b5e20;
-        }
-        
-        /* Bouton de déconnexion */
-        .logout-btn {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 4px;
-            text-decoration: none;
-        }
-        .logout-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
-    </style>
+@extends('layouts.app')
+
+@section('title', 'Tableau de Bord Technique')
+
+@section('content')
 </head>
 <body>
+<<<<<<< HEAD
     <div class="container">
         <div class="header">
             <a href="/logout" class="logout-btn">🚪 Déconnexion</a>
@@ -139,5 +82,194 @@
             });
         });
     </script>
+=======
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span>DataCenter</span>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Tableau de bord</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('resources.index') }}" class="nav-link">
+                            <i class="fas fa-server"></i>
+                            <span>Ressources</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('maintenances.index') }}" class="nav-link">
+                            <i class="fas fa-tools"></i>
+                            <span>Maintenances</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('incidents.index') }}" class="nav-link">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Incidents</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('statistics.index') }}" class="nav-link">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Statistiques</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-title">
+                    <h1>Tableau de bord technique</h1>
+                    <p class="header-subtitle">Gestion des ressources et maintenance du datacenter</p>
+                </div>
+                <div class="user-menu">
+                    <span class="user-name">{{ Auth::user()->name }}</span>
+                    <div class="user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</div>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="logout-btn" title="Déconnexion">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </form>
+                </div>
+            </header>
+            
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card" onclick="window.location.href='{{ route('resources.index') }}'">
+                    <i class="fas fa-server"></i>
+                    <div class="stat-value">{{ $statistics['totalResources'] ?? 0 }}</div>
+                    <div class="stat-label">Ressources gérées</div>
+                </div>
+                <div class="stat-card" onclick="window.location.href='{{ route('maintenances.index') }}'">
+                    <i class="fas fa-tools"></i>
+                    <div class="stat-value">{{ $statistics['pendingMaintenance'] ?? 0 }}</div>
+                    <div class="stat-label">Maintenances en attente</div>
+                </div>
+                <div class="stat-card" onclick="window.location.href='{{ route('incidents.index') }}'">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div class="stat-value">{{ $statistics['openIncidents'] ?? 0 }}</div>
+                    <div class="stat-label">Incidents ouverts</div>
+                </div>
+                <div class="stat-card" onclick="window.location.href='{{ route('incidents.index') }}?status=resolved'">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="stat-value">{{ $statistics['resolvedIncidents'] ?? 0 }}</div>
+                    <div class="stat-label">Incidents résolus (7j)</div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-bolt"></i>
+                        Actions rapides
+                    </h3>
+                </div>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <a href="{{ route('resources.index') }}" class="btn btn-primary">
+                        <i class="fas fa-server"></i> Voir les ressources
+                    </a>
+                    <a href="{{ route('maintenances.index') }}" class="btn btn-warning">
+                        <i class="fas fa-tools"></i> Planifier maintenance
+                    </a>
+                    <a href="{{ route('incidents.create') }}" class="btn btn-danger">
+                        <i class="fas fa-plus"></i> Nouvel incident
+                    </a>
+                    <a href="{{ route('statistics.index') }}" class="btn btn-info">
+                        <i class="fas fa-file-export"></i> Voir les statistiques
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Recent Reservations -->
+            @if(isset($reservations) && $reservations->count() > 0)
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-calendar-check"></i>
+                        Réservations récentes
+                    </h3>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Utilisateur</th>
+                                <th>Ressource</th>
+                                <th>Date</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($reservations->take(5) as $reservation)
+                            <tr>
+                                <td>{{ $reservation->user->name }}</td>
+                                <td>{{ $reservation->resource->name }}</td>
+                                <td>{{ $reservation->created_at->format('d/m/Y H:i') }}</td>
+                                <td>
+                                    <span class="badge badge-{{ $reservation->status == 'validated' ? 'success' : ($reservation->status == 'pending' ? 'warning' : 'danger') }}">
+                                        {{ $reservation->status }}
+                                    </span>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @endif
+            
+            <!-- Recent Incidents -->
+            @if(isset($incidents) && $incidents->count() > 0)
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Incidents en attente
+                    </h3>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Utilisateur</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                                <th>Priorité</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($incidents->take(5) as $incident)
+                            <tr>
+                                <td>{{ $incident->user->name }}</td>
+                                <td>{{ Str::limit($incident->description, 50) }}</td>
+                                <td>{{ $incident->created_at->format('d/m/Y H:i') }}</td>
+                                <td>
+                                    <span class="badge badge-warning">
+                                        {{ $incident->priority ?? 'Moyenne' }}
+                                    </span>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @endif
+        </main>
+    </div>
+>>>>>>> feature/backend/-database
 </body>
 </html>

@@ -9,7 +9,14 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 // ════════════════════════════════════════════════════════════
-// TABLEAUX DE BORD (Authentification requise)
+// DASHBOARD INVITÉ (Public - accessible sans authentification)
+// ════════════════════════════════════════════════════════════
+
+Route::get('/dashboard/guest', [DashboardController::class, 'guest'])
+    ->name('dashboard.guest');
+
+// ════════════════════════════════════════════════════════════
+// DASHBOARDS PROTÉGÉS (Authentification requise)
 // ════════════════════════════════════════════════════════════
 
 Route::middleware(['auth', 'throttle:60,1'])->group(function () {
@@ -39,15 +46,20 @@ Route::middleware(['auth', 'throttle:60,1'])->group(function () {
         ->name('dashboard.user');
     
     // ════════════════════════════════════════════════════════════
-    // DASHBOARD INVITÉ (Public - redirection depuis login)
-    // ════════════════════════════════════════════════════════════
-    
-    Route::get('/dashboard/guest', [DashboardController::class, 'guest'])
-        ->name('dashboard.guest');
-    
-        // ════════════════════════════════════════════════════════════
     // ADMINISTRATION
     // ════════════════════════════════════════════════════════════
+    
+    // Gestion des utilisateurs (Admin uniquement)
+    Route::prefix('admin/users')->name('admin.users.')->middleware('role:admin')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('index');
+        Route::get('/create', [\App\Http\Controllers\Admin\UserController::class, 'create'])->name('create');
+        Route::post('/', [\App\Http\Controllers\Admin\UserController::class, 'store'])->name('store');
+        Route::get('/{user}', [\App\Http\Controllers\Admin\UserController::class, 'show'])->name('show');
+        Route::get('/{user}/edit', [\App\Http\Controllers\Admin\UserController::class, 'edit'])->name('edit');
+        Route::put('/{user}', [\App\Http\Controllers\Admin\UserController::class, 'update'])->name('update');
+        Route::patch('/{user}/toggle-status', [\App\Http\Controllers\Admin\UserController::class, 'toggleStatus'])->name('toggle-status');
+        Route::delete('/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('destroy');
+    });
     
     // Gestion des utilisateurs
     Route::prefix('admin/users')
@@ -90,12 +102,16 @@ Route::middleware(['auth', 'throttle:60,1'])->group(function () {
         ->middleware('auth');
     
     // Logs d'activité
+    // Logs d'activité
     Route::prefix('admin/logs')
         ->name('admin.logs.')
         ->middleware('role:admin')
         ->group(function () {
             Route::get('/', [\App\Http\Controllers\Admin\LogController::class, 'index'])->name('index');
             Route::get('/{log}', [\App\Http\Controllers\Admin\LogController::class, 'show'])->name('show');
+            Route::get('/export/csv', [\App\Http\Controllers\Admin\LogController::class, 'export'])->name('export');
+            Route::get('/statistics', [\App\Http\Controllers\Admin\LogController::class, 'statistics'])->name('statistics');
+            Route::post('/clear', [\App\Http\Controllers\Admin\LogController::class, 'clear'])->name('clear');
         });
     
     // Gestion des ressources
@@ -116,13 +132,23 @@ Route::middleware(['auth', 'throttle:60,1'])->group(function () {
         ->name('admin.reservations.')
         ->middleware('role:admin,tech_manager')
         ->group(function () {
-            Route::get('/', [\App\Http\Controllers\Admin\ReservationController::class, 'index'])->name('index');
-            Route::get('/create', [\App\Http\Controllers\Admin\ReservationController::class, 'create'])->name('create');
-            Route::post('/', [\App\Http\Controllers\Admin\ReservationController::class, 'store'])->name('store');
-            Route::get('/{reservation}/edit', [\App\Http\Controllers\Admin\ReservationController::class, 'edit'])->name('edit');
-            Route::put('/{reservation}', [\App\Http\Controllers\Admin\ReservationController::class, 'update'])->name('update');
-            Route::delete('/{reservation}', [\App\Http\Controllers\Admin\ReservationController::class, 'destroy'])->name('destroy');
-            Route::put('/{reservation}/status', [\App\Http\Controllers\Admin\ReservationController::class, 'updateStatus'])->name('updateStatus');
+            // Utilisation de la méthode all() du contrôleur TechReservationController
+            Route::get('/', [\App\Http\Controllers\TechReservationController::class, 'all'])->name('index');
+            
+            // Désactiver temporairement les routes non essentielles
+            // Route::get('/create', [\App\Http\Controllers\ReservationController::class, 'create'])->name('create');
+            // Route::post('/', [\App\Http\Controllers\ReservationController::class, 'store'])->name('store');
+            // Utilisation du contrôleur TechReservationController existant pour les opérations CRUD
+            Route::get('/pending', [\App\Http\Controllers\TechReservationController::class, 'pending'])->name('pending');
+            Route::get('/{reservation}', [\App\Http\Controllers\TechReservationController::class, 'show'])->name('show');
+            Route::put('/{reservation}/approve', [\App\Http\Controllers\TechReservationController::class, 'approve'])->name('approve');
+            Route::put('/{reservation}/reject', [\App\Http\Controllers\TechReservationController::class, 'reject'])->name('reject');
+            
+            // Désactiver temporairement les autres routes
+            // Route::get('/{reservation}/edit', [\App\Http\Controllers\ReservationController::class, 'edit'])->name('edit');
+            // Route::put('/{reservation}', [\App\Http\Controllers\ReservationController::class, 'update'])->name('update');
+            // Route::delete('/{reservation}', [\App\Http\Controllers\ReservationController::class, 'destroy'])->name('destroy');
+            // Route::put('/{reservation}/status', [\App\Http\Controllers\ReservationController::class, 'updateStatus'])->name('updateStatus');
         });
     
     // Configuration système

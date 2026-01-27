@@ -190,7 +190,26 @@ class DashboardController extends BaseController
 
     public function guest()
     {
-        return $this->index();
+        // Statistiques publiques pour les invités
+        $statistics = [
+            'totalResources' => $this->stats->totalResources(),
+            'availableResources' => $this->stats->availableResources(),
+            'totalUsers' => $this->stats->totalUsers(),
+        ];
+
+        // Données vides pour les invités
+        $reservations = collect([]);
+        $resources = collect([]);
+        $incidents = collect([]);
+        $users = collect([]);
+        $accountRequests = collect([]);
+        $activityLogs = collect([]);
+        $notifications = collect([]);
+        
+        // Utilisateur fictif pour éviter les erreurs
+        $user = null;
+
+        return view("dashboard.invite", compact('statistics', 'user', 'reservations', 'resources', 'incidents', 'users', 'accountRequests', 'activityLogs', 'notifications'));
     }
 
     // API methods

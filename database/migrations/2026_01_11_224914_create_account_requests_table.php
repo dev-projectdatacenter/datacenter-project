@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('account_requests', function (Blueprint $table) {
             $table->id();
             $table->string('name'); 
-            $table->string('email', 191)->unique();
+            $table->string('email')->unique();
              $table->string('phone')->nullable(); 
              $table->string('status')->default('pending'); 
              $table->string('role_requested');

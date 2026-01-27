@@ -83,7 +83,7 @@
                                     <tr>
                                         <td>{{ $log->created_at->format('d/m/Y H:i:s') }}</td>
                                         <td>
-                                            <span class="badge bg-{{ $log->getActionColor() }}">
+                                            <span class="action-badge {{ $log->getActionColor() }}">
                                                 {{ $log->getActionLabel() }}
                                             </span>
                                         </td>
@@ -164,6 +164,49 @@
 
 @push('styles')
 <style>
+    /* Styles pour les badges d'action */
+    .action-badge {
+        display: inline-block;
+        padding: 0.25rem 0.6rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: white;
+    }
+
+    .action-create {
+        background-color: #10b981; /* Vert */
+    }
+
+    .action-update {
+        background-color: #3b82f6; /* Bleu */
+    }
+
+    .action-delete {
+        background-color: #ef4444; /* Rouge */
+    }
+
+    .action-login {
+        background-color: #8b5cf6; /* Violet */
+    }
+
+    .action-logout {
+        background-color: #6b7280; /* Gris */
+    }
+
+    .action-error {
+        background-color: #f59e0b; /* Orange */
+    }
+
+    .action-warning {
+        background-color: #f59e0b; /* Orange */
+    }
+
+    .action-default {
+        background-color: #6b7280; /* Gris */
+    }
     .badge {
         font-size: 0.8em;
     }

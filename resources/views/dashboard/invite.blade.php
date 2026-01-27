@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>Dashboard Invité - Data Center</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -59,115 +60,7 @@
             gap: 1.5rem;
         }
         .action-card {
-            background: white;
-            border: 2px solid #e2e8f0;
-            padding: 1.5rem;
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-        .action-card:hover {
-            border-color: #718096;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        .action-card h3 {
-            color: #333;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .action-card p {
-            color: #666;
-            margin-bottom: 1rem;
-        }
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            background: #718096;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: background 0.3s;
-        }
-        .btn:hover {
-            background: #4a5568;
-        }
-        .btn-primary {
-            background: #667eea;
-        }
-        .btn-primary:hover {
-            background: #5a67d8;
-        }
-        .logout-btn {
-            position: absolute;
-            top: 2rem;
-            right: 2rem;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            text-decoration: none;
-            transition: background 0.3s;
-        }
-        .logout-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        .info-box {
-            background: #e6fffa;
-            border: 1px solid #81e6d9;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 1rem;
-        }
-        .info-box h4 {
-            color: #234e52;
-            margin-bottom: 0.5rem;
-        }
-        .info-box p {
-            color: #2c7a7b;
-            font-size: 0.9rem;
-        }
-    </style>
-</head>
-<body>
     <div class="dashboard-container">
-        <div class="header">
-            <a href="/logout" class="logout-btn">🚪 Déconnexion</a>
-            <h1>👥 Dashboard Invité</h1>
-            <p>Bienvenue {{ $user->name }} - Accès limité en consultation</p>
-        </div>
-        
-        <div class="content">
-            <div class="welcome-card">
-                <h2>🌟 Bienvenue dans le Data Center Management</h2>
-                <p>
-                    Vous êtes actuellement connecté en tant qu'invité. Ce statut vous permet d'explorer 
-                    les ressources disponibles et de comprendre le fonctionnement du système avant de demander 
-                    un accès complet.
-                </p>
-                <p>
-                    Le Data Center Management est une plateforme conçue pour faciliter la réservation 
-                    et la gestion des ressources informatiques au sein de notre organisation. 
-                    Vous pouvez réserver des serveurs, des machines virtuelles, et d'autres équipements 
-                    pour vos projets et besoins professionnels.
-                </p>
-                <div class="info-box">
-                    <h4>📋 Pourquoi demander un compte complet ?</h4>
-                    <p>
-                        Un compte complet vous permettra de réserver des ressources, 
-                        suivre vos réservations, signaler des incidents, et accéder à 
-                        des fonctionnalités avancées adaptées à votre profil.
-                    </p>
-                </div>
-            </div>
-            
-            <div class="actions-grid">
-                <div class="action-card">
-                    <h3>🔍 Explorer les ressources</h3>
-                    <p>Découvrez les serveurs, VMs et équipements disponibles dans notre Data Center</p>
-                    <a href="#" class="btn">Explorer les ressources</a>
-                </div>
                 
                 <div class="action-card">
                     <h3>📚 Documentation</h3>
@@ -179,9 +72,261 @@
                     <h3>📝 Demander un compte</h3>
                     <p>Accédez à toutes les fonctionnalités en demandant un compte utilisateur complet</p>
                     <a href="/register" class="btn btn-primary">Demander un compte</a>
+=======
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span>DataCenter</span>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">
+                            <i class="fas fa-home"></i>
+                            <span>Tableau de bord</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('resources.public') }}" class="nav-link">
+                            <i class="fas fa-server"></i>
+                            <span>Ressources</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('public.resources.available') }}" class="nav-link">
+                            <i class="fas fa-calendar"></i>
+                            <span>Disponibilités</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-title">
+                    <h1>Tableau de bord invité</h1>
+                </div>
+                <div class="user-menu">
+                    <span class="user-name">Invité</span>
+                    <div class="user-avatar">I</div>
+                    <a href="{{ route('login') }}" class="logout-btn" title="Se connecter">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </a>
+                </div>
+            </header>
+            
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <div class="welcome-icon">
+                    <i class="fas fa-hand-wave"></i>
+                </div>
+                <h1 class="welcome-title">Bienvenue, Invité !</h1>
+            </section>
+            
+            <!-- Features Grid -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3 class="feature-title">Ressources disponibles</h3>
+                    <p class="feature-text">
+                        Parcourez et consultez les ressources disponibles sur notre plateforme.
+                        Visualisez les détails et les spécifications techniques.
+                    </p>
+                    <a href="{{ route('resources.public') }}" class="btn btn-outline">
+                        <i class="fas fa-eye"></i> Voir les ressources
+                    </a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Disponibilités</h3>
+                    <p class="feature-text">
+                        Consultez les créneaux disponibles pour les ressources partagées.
+                        Parfait pour planifier vos futures réservations.
+                    </p>
+                    <a href="{{ route('public.resources.available') }}" class="btn btn-outline">
+                        <i class="far fa-calendar"></i> Voir les disponibilités
+                    </a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="feature-title">Support & Assistance</h3>
+                    <p class="feature-text">
+                        Notre équipe est là pour vous accompagner.
+                    </p>
+                    <a href="#" onclick="showContactModal()" class="btn btn-outline">
+                        <i class="fas fa-envelope"></i> Nous contacter
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Informations de Contact</h3>
+                <span class="close" onclick="closeContactModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                @php
+                    $settings = \App\Models\Setting::all()->pluck('value', 'key');
+                    $contactEmail = $settings['contact_email'] ?? 'contact@example.com';
+                    $siteName = $settings['site_name'] ?? 'Data Center Manager';
+                @endphp
+                <div class="contact-modal-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>{{ $contactEmail }}</span>
+                </div>
+                <div class="contact-modal-item">
+                    <i class="fas fa-building"></i>
+                    <span>{{ $siteName }}</span>
+                </div>
+                <div class="contact-modal-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+33 1 23 45 67 89</span>
+                </div>
+                <div class="contact-modal-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Lun-Ven: 9h-18h</span>
+>>>>>>> feature/backend/-database
                 </div>
             </div>
         </div>
     </div>
+<<<<<<< HEAD
+=======
+
+    <script>
+        function showContactModal() {
+            document.getElementById('contactModal').style.display = 'block';
+        }
+
+        function closeContactModal() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            var modal = document.getElementById('contactModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+
+    <style>
+        .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 0;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid #e9ecef;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .close {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover {
+            opacity: 0.7;
+        }
+
+        .modal-body {
+            padding: 30px 25px;
+        }
+
+        .contact-modal-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .contact-modal-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-modal-item i {
+            width: 24px;
+            margin-right: 15px;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .contact-modal-item span {
+            font-size: 1rem;
+            color: #333;
+            font-weight: 500;
+        }
+    </style>
+    
+    <script>
+        // Script pour les interactions utilisateur (optionnel)
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Tableau de bord invité chargé');
+            
+            // Animation au survol des cartes de fonctionnalités
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                    this.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.1)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.05)';
+                });
+            });
+        });
+    </script>
+>>>>>>> feature/backend/-database
 </body>
 </html>

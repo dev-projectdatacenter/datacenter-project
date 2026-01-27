@@ -6,7 +6,7 @@
  */
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\Admin\ResourceController;
 use App\Http\Controllers\ResourceCategoryController;
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\MaintenanceController;
@@ -17,8 +17,26 @@ use App\Http\Controllers\StatisticsController;
 // ════════════════════════════════════════════════════════════
 
 // Voir les ressources sans authentification (lecture seule)
-Route::get('/all-resources', [ResourceController::class, 'publicIndex'])
-    ->name('resources.public');
+Route::get('/all-resources', function() {
+    $resources = \App\Models\Resource::with('category')
+        ->get();
+        
+    return view('resources.public-index', compact('resources'));
+})->name('resources.public');
+
+// Voir uniquement les ressources disponibles
+Route::get('/disponibilites', function() {
+    $resources = \App\Models\Resource::with('category')
+        ->where('status', 'available')
+        ->get();
+        
+    return view('resources.available-index', compact('resources'));
+})->name('public.resources.available');
+
+// Voir le détail d'une ressource spécifique
+Route::get('/resource/{resource}', function(\App\Models\Resource $resource) {
+    return view('resources.public-show', compact('resource'));
+})->name('resources.public.show');
 
 
 // ════════════════════════════════════════════════════════════
