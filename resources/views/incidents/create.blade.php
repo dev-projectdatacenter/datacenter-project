@@ -42,6 +42,17 @@
             @endif
 
             <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Gravité de l'incident</label>
+                <select name="severity" required class="form-control">
+                    <option value="">-- Sélectionner la gravité --</option>
+                    <option value="low" {{ old('severity') == 'low' ? 'selected' : '' }}>Faible</option>
+                    <option value="medium" {{ old('severity') == 'medium' ? 'selected' : '' }}>Moyenne</option>
+                    <option value="high" {{ old('severity') == 'high' ? 'selected' : '' }}>Élevée</option>
+                    <option value="critical" {{ old('severity') == 'critical' ? 'selected' : '' }}>Critique</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
                 <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Description du problème</label>
                 <textarea name="description" rows="6" required placeholder="Décrivez précisément l'incident (ex: serveur injoignable, fumée, message d'erreur spécifique...)" class="form-control" style="font-family: inherit;">{{ old('description') }}</textarea>
                 <small style="color: #666;">Minimum 10 caractères.</small>

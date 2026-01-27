@@ -4,19 +4,20 @@
  * Description : Styles pour la gestion des ressources, incidents et catégories
  */
 
-.resources-container {
-    padding: 2rem 0;
-}
-
-.resources-header {
+/* ÉCRASER LES STYLES DE APP.CSS - SPÉCIFICITÉ ÉLEVÉE */
+.resources-container .resources-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
 }
 
+.resources-container {
+    padding: 2rem 0;
+}
+
 /* Filtres de recherche */
-.filters-bar {
+.resources-container .filters-bar {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
@@ -27,15 +28,15 @@
     border: 1px solid #e2e8f0;
 }
 
-.filters-bar input,
-.filters-bar select {
+.resources-container .filters-bar input,
+.resources-container .filters-bar select {
     padding: 0.6rem;
     border: 1px solid #cbd5e1;
     border-radius: 6px;
     background: white;
 }
 
-.btn-filter {
+.resources-container .btn-filter {
     background: #3498db;
     color: white;
     border: none;
@@ -46,12 +47,12 @@
     transition: background 0.2s;
 }
 
-.btn-filter:hover {
+.resources-container .btn-filter:hover {
     background: #2980b9;
 }
 
 /* Table des ressources */
-.resource-table {
+.resources-container .resource-table {
     width: 100%;
     border-collapse: collapse;
     background: white;
@@ -60,7 +61,7 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.resource-table th {
+.resources-container .resource-table th {
     background: #f1f5f9;
     padding: 1rem;
     text-align: left;
@@ -70,13 +71,13 @@
     letter-spacing: 0.025em;
 }
 
-.resource-table td {
+.resources-container .resource-table td {
     padding: 1rem;
     border-bottom: 1px solid #f1f5f9;
 }
 
 /* Badges de statut */
-.status-badge {
+.resources-container .status-badge {
     padding: 0.3rem 0.8rem;
     border-radius: 12px;
     font-size: 0.75rem;
@@ -84,22 +85,22 @@
     text-transform: uppercase;
 }
 
-.status-available {
+.resources-container .status-available {
     background: #dcfce7;
     color: #166534;
 }
 
-.status-busy {
+.resources-container .status-busy {
     background: #fef3c7;
     color: #92400e;
 }
 
-.status-maintenance {
+.resources-container .status-maintenance {
     background: #fee2e2;
     color: #991b1b;
 }
 
-.status-hors_service {
+.resources-container .status-hors_service {
     background: #f1f5f9;
     color: #475569;
 }
@@ -139,13 +140,125 @@
     border: 1px solid #ddd;
 }
 
-.specs-list {
-    list-style: none;
-    padding: 0;
-}
-
-.specs-list li {
+.resources-container .specs-list li {
     margin-bottom: 0.8rem;
     border-bottom: 1px solid #f8f9fa;
     padding-bottom: 0.4rem;
+}
+
+/* Badges de gravité pour les incidents */
+.resources-container .severity-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.resources-container .severity-low {
+    background: #e8f5e8;
+    color: #2d6a2d;
+}
+
+.resources-container .severity-medium {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.resources-container .severity-high {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.resources-container .severity-critical {
+    background: #dc3545;
+    color: white;
+}
+
+/* Boutons spécifiques pour les actions d'incidents */
+.resources-container .btn-success {
+    background: #28a745;
+    color: white;
+    border: none;
+}
+
+.resources-container .btn-success:hover {
+    background: #218838;
+}
+
+.resources-container .btn-warning {
+    background: #ffc107;
+    color: #212529;
+    border: none;
+}
+
+.resources-container .btn-warning:hover {
+    background: #e0a800;
+}
+
+/* Boutons - ÉCRASER APP.CSS */
+.resources-container .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #2a2d4f;
+    color: white;
+}
+
+.resources-container .btn-primary:hover {
+    background: #1a1d3f;
+    transform: translateY(-1px);
+}
+
+/* Boutons dans le tableau - STYLE ORIGINAL */
+.resources-container .btn-sm {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    color: #333;
+    transition: all 0.2s ease;
+}
+
+.resources-container .btn-sm:hover {
+    background: #f8f9fa;
+    border-color: #3498db;
+    color: #3498db;
+}
+
+/* Bouton Retour - STYLE COMME "MES STATISTIQUES" */
+.resources-container .btn-secondary,
+.resources-container .btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0;
+    border: none;
+    background: none;
+    color: #333;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.resources-container .btn-secondary:hover,
+.resources-container .btn-back:hover {
+    color: #007bff;
+    background: none;
+    transform: none;
 }

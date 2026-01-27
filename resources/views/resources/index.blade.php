@@ -64,17 +64,26 @@
                                 {{ $resource->status }}
                             </span>
                         </td>
-                        </td>
                         <td>
-                            <a href="{{ route('resources.show', $resource) }}" class="btn btn-sm"><i class="fas fa-eye"></i> Détails</a>
-                            @can('update', $resource)
-                                <a href="{{ route('resources.edit', $resource) }}" class="btn btn-sm" style="color: #3498db;"><i class="fas fa-edit"></i> Editer</a>
-                            @endcan
+                            <div class="table-actions">
+                                <a href="{{ route('resources.show', $resource) }}" class="btn btn-sm"><i class="fas fa-eye"></i> Détails</a>
+                                @can('update', $resource)
+                                    <a href="{{ route('resources.edit', $resource) }}" class="btn btn-sm" style="color: #3498db;"><i class="fas fa-edit"></i> Editer</a>
+                                @endcan
+                                @can('delete', $resource)
+                                    <form action="{{ route('resources.destroy', $resource) }}" method="POST" style="display: inline;" onsubmit="return confirm('Supprimer cette ressource ?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm" style="color: #e74c3c;" title="Supprimer">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                @endcan
+                            </div>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
-</div>
 @endsection

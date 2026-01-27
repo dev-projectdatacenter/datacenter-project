@@ -47,6 +47,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/incidents/{incident}', [IncidentController::class, 'show'])->name('incidents.show');
     Route::post('/incidents', [IncidentController::class, 'store'])->name('incidents.store');
     Route::patch('/incidents/{incident}/resolve', [IncidentController::class, 'resolve'])->name('incidents.resolve');
+    Route::post('/incidents/{incident}/convert-to-maintenance', [IncidentController::class, 'convertToMaintenance'])->name('incidents.convert-to-maintenance');
 
     // JOUR 7 & 8 : Statistiques
     Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');

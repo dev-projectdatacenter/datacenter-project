@@ -147,8 +147,6 @@ routes/
 └── resources.php           (25+ routes)
 ```
 
----
-
 ## 🔐 Sécurité & Permissions
 
 ### Niveaux d'accès
@@ -209,14 +207,40 @@ http://localhost:8000/resources
 ### Interface principale
 ![Liste ressources](screenshots/resources-list.png)
 
-### Formulaire de création
+### Formulaire de création de ressource
 ![Création](screenshots/create-form.png)
+
+### Formulaire de modification de ressource
+![Modification](screenshots/edit-form.png)
+
+### Gestion des catégories
+![Catégories](screenshots/categories-list.png)
+
+### Formulaire de création de catégorie
+![Création catégorie](screenshots/ajouter-catégorie.png)
+
+### Formulaire de modification de catégorie
+![Modification catégorie](screenshots/modifier-catégorie.png)
+
+### Gestion incidents
+![Incidents](screenshots/incidents-list.png)
+
+### Afficher détail incident
+![Détail incident](screenshots/incident-detail.png)
+
+### Gestion maintenance
+![Maintenance](screenshots/maintenance-list.png)
+
+### Planifier maintenance
+![Planifier maintenance](screenshots/planifier-maintenance.png)
 
 ### Dashboard statistiques
 ![Stats](screenshots/statistics-dashboard.png)
 
-### Gestion incidents
-![Incidents](screenshots/incidents-management.png)
+### Statistiques personnalisées
+![Statistiques personnalisées](screenshots/statistiques-personnalisees.png)
+
+
 
 </details>
 
@@ -238,7 +262,7 @@ Ce projet est développé dans le cadre d'un projet académique.
 
 ---
 
-<div align="center">
+<div align="center">c
 
 **🌟 Fait avec passion et rigueur par OUARDA 🌟**
 
@@ -248,8 +272,4 @@ Ce projet est développé dans le cadre d'un projet académique.
 [![PHP](https://img.shields.io/badge/PHP-8.2+-blue.svg)](https://php.net)
 [![Chart.js](https://img.shields.io/badge/Chart.js-4.4-green.svg)](https://chartjs.org)
 
-<<<<<<< HEAD
 </div>
-=======
-</div>
->>>>>>> 2f7661282626c60d45ac63b71b3febedebf2e96e

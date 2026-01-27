@@ -73,7 +73,7 @@ class ResourceController extends Controller
     public function index(Request $request)
     {
         // Récupérer TOUTES les ressources (tous statuts)
-        $query = Resource::with('category');
+        $query = Resource::with(['category', 'supervisor']);
         
         // Filtres de recherche
         if ($request->filled('search')) {
@@ -151,6 +151,11 @@ class ResourceController extends Controller
             'location' => 'nullable|string|max:255',
             'managed_by' => 'nullable|exists:users,id'
         ]);
+        
+        // Si c'est un tech manager qui crée la ressource, l'assigner automatiquement
+        if (auth()->user()->role->name === 'tech_manager') {
+            $validated['managed_by'] = auth()->user()->id;
+        }
         
         // Créer la ressource
         Resource::create($validated);
