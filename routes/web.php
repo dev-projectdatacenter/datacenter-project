@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticatedSessionController;
 
 // ══════════════════════════════════════════════════════════
+// DASHBOARD INVITÉ (Public - accessible sans authentification)
+// ════════════════════════════════════════════════════════════
+
+Route::get('/dashboard/guest', [\App\Http\Controllers\Dashboard\DashboardController::class, 'guest'])
+    ->name('dashboard.guest');
+
+// ══════════════════════════════════════════════════════════
 // PAGE D'ACCUEIL
 // ══════════════════════════════════════════════════════════
 

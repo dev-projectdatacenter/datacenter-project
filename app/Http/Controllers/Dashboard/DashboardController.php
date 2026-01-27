@@ -190,26 +190,47 @@ class DashboardController extends BaseController
 
     public function guest()
     {
-        // Statistiques publiques pour les invités
-        $statistics = [
-            'totalResources' => $this->stats->totalResources(),
-            'availableResources' => $this->stats->availableResources(),
-            'totalUsers' => $this->stats->totalUsers(),
-        ];
+        try {
+            // Statistiques publiques pour les invités
+            $statistics = [
+                'totalResources' => $this->stats->totalResources(),
+                'availableResources' => $this->stats->availableResources(),
+                'totalUsers' => $this->stats->totalUsers(),
+            ];
 
-        // Données vides pour les invités
-        $reservations = collect([]);
-        $resources = collect([]);
-        $incidents = collect([]);
-        $users = collect([]);
-        $accountRequests = collect([]);
-        $activityLogs = collect([]);
-        $notifications = collect([]);
-        
-        // Utilisateur fictif pour éviter les erreurs
-        $user = null;
+            // Données vides pour les invités
+            $reservations = collect([]);
+            $resources = collect([]);
+            $incidents = collect([]);
+            $users = collect([]);
+            $accountRequests = collect([]);
+            $activityLogs = collect([]);
+            $notifications = collect([]);
+            
+            // Utilisateur fictif pour éviter les erreurs
+            $user = null;
 
-        return view("dashboard.invite", compact('statistics', 'user', 'reservations', 'resources', 'incidents', 'users', 'accountRequests', 'activityLogs', 'notifications'));
+            return view("dashboard.invite", compact('statistics', 'user', 'reservations', 'resources', 'incidents', 'users', 'accountRequests', 'activityLogs', 'notifications'));
+        } catch (\Exception $e) {
+            // En cas d'erreur, retourner une vue simple avec des données statiques
+            $statistics = [
+                'totalResources' => 0,
+                'availableResources' => 0,
+                'totalUsers' => 0,
+            ];
+            
+            return view("dashboard.invite", [
+                'statistics' => $statistics,
+                'user' => null,
+                'reservations' => collect([]),
+                'resources' => collect([]),
+                'incidents' => collect([]),
+                'users' => collect([]),
+                'accountRequests' => collect([]),
+                'activityLogs' => collect([]),
+                'notifications' => collect([])
+            ]);
+        }
     }
 
     // API methods
