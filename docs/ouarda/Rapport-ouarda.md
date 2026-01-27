@@ -262,7 +262,7 @@ Ce projet est développé dans le cadre d'un projet académique.
 
 ---
 
-<div align="center">c
+<div align="center">
 
 **🌟 Fait avec passion et rigueur par OUARDA 🌟**
 
