@@ -18,6 +18,11 @@ return new class extends Migration
              $table->string('phone')->nullable(); 
              $table->string('status')->default('pending'); 
              $table->string('role_requested');
+            $table->text('rejection_reason')->nullable();
+            $table->foreignId('approved_by')->nullable();
+            $table->foreignId('rejected_by')->nullable();
+            $table->timestamp('approved_at')->nullable();
+            $table->timestamp('rejected_at')->nullable();
             $table->timestamps();
         });
     }

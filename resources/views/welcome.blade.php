@@ -17,8 +17,8 @@
             <i class="fas fa-server"></i> DataCenter
         </div>
         <div class="nav-links">
-            <a href="#" class="btn btn-outline">Se connecter</a>
-            <a href="#" class="btn btn-primary">S'inscrire</a>
+            <a href="{{ route('login') }}" class="btn btn-outline">Se connecter</a>
+            <a href="{{ route('register') }}" class="btn btn-primary">S'inscrire</a>
         </div>
     </nav>
 
@@ -29,7 +29,7 @@
                 pour vos équipes.</p>
 
             <div class="hero-actions">
-                <a href="#" class="btn btn-primary btn-lg">
+                <a href="{{ url('/resources') }}" class="btn btn-primary btn-lg">
                     Accéder à la plateforme
                     <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
                 </a>

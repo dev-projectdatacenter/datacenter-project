@@ -6,18 +6,26 @@
  */
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthenticatedSessionController;
 
-// ════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
 // PAGE D'ACCUEIL
-// ════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
+
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+// ══════════════════════════════════════════════════════════
+// DÉCONNEXION
+// ══════════════════════════════════════════════════════════
 
-// ════════════════════════════════════════════════════════════
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');
+
+// ══════════════════════════════════════════════════════════
 // IMPORT DES ROUTES DE CHAQUE MEMBRE DE L'ÉQUIPE
-// ════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
 
 // Authentification & Admin - ZAHRAE
 require __DIR__.'/auth.php';
@@ -30,10 +38,3 @@ require __DIR__.'/reservations.php';
 
 // Dashboards - FATIMA
 require __DIR__.'/dashboard.php';
-
-
-// ════════════════════════════════════════════════════════════
-// FIN
-// Ne rien ajouter après cette ligne
-// Ajoutez vos routes dans VOTRE fichier dédié
-// ════════════════════════════════════════════════════════════

@@ -13,38 +13,62 @@ class AccountRequestSeeder extends Seeder
     public function run(): void
     {
         $requests = [
+            // Demandes en attente
             [
-                'name' => 'Sara Benali',
-                'email' => 'sara.benali@example.com',
-                'phone' => '0661112233',
+                'name' => 'Jean Dupont',
+                'email' => 'jean.dupont@entreprise.com',
+                'phone' => '+212600123456',
+                'role_requested' => 'user',
                 'status' => 'pending',
-                'role_requested' => 'USER',
+                'created_at' => now()->subDays(2),
             ],
             [
-                'name' => 'Karim El Fassi',
-                'email' => 'karim.elfassi@example.com',
-                'phone' => '0672223344',
+                'name' => 'Marie Curie',
+                'email' => 'marie.curie@labo.fr',
+                'phone' => '+212600789012',
+                'role_requested' => 'tech_manager',
                 'status' => 'pending',
-                'role_requested' => 'INVITE',
+                'created_at' => now()->subDay(),
             ],
             [
-                'name' => 'Amina Rahimi',
-                'email' => 'amina.rahimi@example.com',
-                'phone' => '0683334455',
+                'name' => 'Pierre Martin',
+                'email' => 'pierre.martin@startup.ma',
+                'phone' => '+212600345678',
+                'role_requested' => 'user',
+                'status' => 'pending',
+                'created_at' => now()->subHours(6),
+            ],
+            // Demandes déjà traitées
+            [
+                'name' => 'Sophie Laurent',
+                'email' => 'sophie.laurent@tech.com',
+                'phone' => '+212600111222',
+                'role_requested' => 'user',
                 'status' => 'approved',
-                'role_requested' => 'USER',
+                'created_at' => now()->subDays(5),
             ],
             [
-                'name' => 'Mohamed Idrissi',
-                'email' => 'mohamed.idrissi@example.com',
-                'phone' => null,
+                'name' => 'Thomas Bernard',
+                'email' => 'thomas.bernard@suspicious.com',
+                'phone' => '+212600999888',
+                'role_requested' => 'admin',
                 'status' => 'rejected',
-                'role_requested' => 'TECH_MANAGER',
+                'created_at' => now()->subDays(2),
             ],
         ];
 
         foreach ($requests as $request) {
             AccountRequest::create($request);
         }
+
+        $this->command->info('Demandes de compte créées avec succès !');
+        $this->command->info('📋 Demandes en attente : 3');
+        $this->command->info('✅ Demandes approuvées : 1');
+        $this->command->info('❌ Demandes refusées : 1');
+        $this->command->info('');
+        $this->command->info('📧 Emails de test pour les demandes en attente :');
+        $this->command->info('- jean.dupont@entreprise.com (Utilisateur interne)');
+        $this->command->info('- marie.curie@labo.fr (Responsable technique)');
+        $this->command->info('- pierre.martin@startup.ma (Utilisateur interne)');
     }
 }

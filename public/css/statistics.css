@@ -1,0 +1,145 @@
+/* 
+ * public/css/statistics.css
+ * Auteur : OUARDA
+ * Description : Dashboard style "Smart" - Pastel & Cute
+ */
+
+:root {
+    --pastel-blue: #b3d1ff;
+    --pastel-mint: #b8e2d2;
+    --pastel-orange: #ffcc99;
+    --pastel-yellow: #f9e8ad;
+    --text-dark: #2c3e50;
+    --text-muted: #64748b;
+}
+
+.resources-container {
+    padding: 1.5rem 0;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 25px;
+    border: none;
+    text-align: left;
+    box-shadow: 0 10px 20px rgba(74, 63, 68, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(74, 63, 68, 0.08);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.stat-value {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1;
+}
+
+.progress-bar-container {
+    margin-top: 20px;
+    background: #f1f1f1;
+    height: 10px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 20px;
+    transition: width 1s ease-in-out;
+}
+
+.charts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.chart-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 25px;
+    border: none;
+    box-shadow: 0 10px 20px rgba(74, 63, 68, 0.05);
+}
+
+.chart-card h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    text-align: left;
+    color: var(--text-dark);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.chart-wrapper {
+    height: 250px;
+    position: relative;
+}
+
+/* Backgrounds des cartes stat */
+.stat-card-mint {
+    border-top: 6px solid var(--pastel-mint);
+}
+
+.stat-card-blue {
+    border-top: 6px solid var(--pastel-blue);
+}
+
+.stat-card-yellow {
+    border-top: 6px solid var(--pastel-yellow);
+}
+
+.stat-card-orange {
+    border-top: 6px solid var(--pastel-orange);
+}
+
+/* Helpers Couleurs Textes */
+.text-success {
+    color: #27ae60;
+}
+
+.text-primary {
+    color: #3498db;
+}
+
+.text-danger {
+    color: #e74c3c;
+}
+
+.text-warning {
+    color: #f39c12;
+}
+
+.bg-success {
+    background-color: var(--pastel-mint);
+}
+
+.bg-primary {
+    background-color: var(--pastel-blue);
+}
+
+.bg-warning {
+    background-color: var(--pastel-orange);
+}

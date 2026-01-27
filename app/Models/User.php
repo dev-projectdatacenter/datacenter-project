@@ -43,7 +43,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'is_active' => 'boolean',
     ];
+
+    /**
+     * Accesseur pour vérifier si l'utilisateur est actif
+     */
+    public function getIsActiveAttribute()
+    {
+        return $this->status === 'active';
+    }
+
+    /**
+     * Charger automatiquement la relation role.
+     *
+     * @var array<int, string>
+     */
+    protected $with = ['role'];
 
     /**
      * Relation : un utilisateur appartient à un rôle.

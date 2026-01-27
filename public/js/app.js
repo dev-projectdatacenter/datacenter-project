@@ -1,107 +1,206 @@
-/*  Gestion complète (Dropdowns, Modals, Tabs, DatePicker) */
+/* ============================================
+   CSS PERSONNALISÉ - APP.JS (JavaScript global)
+   ============================================ */
 
-document.addEventListener('DOMContentLoaded', function() {
-    console.log(' UI Engine Loaded');
-
+// Variables globales
+window.App = {
+    // Configuration
+    config: {
+        apiBaseUrl: '/api',
+        csrfToken: document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+    },
     
-    // 1. GESTION DES DROPDOWNS
- 
-    const dropdownTriggers = document.querySelectorAll('.dropdown-trigger');
+    // Utilitaires
+    utils: {},
     
-    dropdownTriggers.forEach(trigger => {
-        trigger.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const targetId = this.getAttribute('data-target');
-            const dropdown = document.getElementById(targetId);
-            
-            // Ferme les autres
-            document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                if(menu.id !== targetId) menu.classList.add('hidden');
-            });
-            
-            dropdown.classList.toggle('hidden');
-        });
-    });
+    // Composants
+    components: {},
+    
+    // État global
+    state: {}
+};
 
-    // Fermer au clic extérieur
-    window.addEventListener('click', function() {
-        document.querySelectorAll('.dropdown-menu').forEach(menu => {
-            menu.classList.add('hidden');
-        });
-    });
-
-    // 2. GESTION DES MODALES (Pop-ups)
-   
-      // Ouvrir une modale
-    document.querySelectorAll('[data-modal-target]').forEach(button => {
-        button.addEventListener('click', function() {
-            const modalId = this.getAttribute('data-modal-target');
-            const modal = document.getElementById(modalId);
-            if(modal) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex'); // Pour centrer avec Flexbox
-                document.body.style.overflow = 'hidden'; // Empêche le scroll derrière
+// Utilitaires
+App.utils = {
+    // Créer une requête fetch avec CSRF
+    fetch: function(url, options = {}) {
+        const defaultOptions = {
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': App.config.csrfToken
             }
-        });
-    });
-
-    // Fermer une modale (Bouton X ou Annuler)
-    document.querySelectorAll('[data-modal-close]').forEach(button => {
-        button.addEventListener('click', function() {
-            const modal = this.closest('.modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            document.body.style.overflow = 'auto'; // Réactive le scroll
-        });
-    });
-
-    // Fermer en cliquant en dehors (sur le fond gris)
-    document.querySelectorAll('.modal').forEach(modal => {
-        modal.addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.add('hidden');
-                this.classList.remove('flex');
-                document.body.style.overflow = 'auto';
-            }
-        });
-    });
-
-  
-    // 3. GESTION DES TABS (Onglets)
+        };
+        
+        return fetch(url, { ...defaultOptions, ...options });
+    },
     
-    document.querySelectorAll('.tab-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            // 1. Désactiver tous les onglets du groupe
-            const container = this.closest('.tabs-container');
-            container.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('border-blue-600', 'text-blue-600');
-                btn.classList.add('border-transparent', 'text-gray-500');
-            });
-
-            // 2. Cacher tous les contenus
-            container.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.add('hidden');
-            });
-
-            // 3. Activer l'onglet cliqué
-            this.classList.remove('border-transparent', 'text-gray-500');
-            this.classList.add('border-blue-600', 'text-blue-600');
-
-            // 4. Afficher le contenu lié
-            const targetId = this.getAttribute('data-tab-target');
-            document.getElementById(targetId).classList.remove('hidden');
-        });
-    });
-
+    // Afficher une notification
+    showNotification: function(message, type = 'info') {
+        // Créer l'élément de notification
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <span class="notification-icon">${this.getIcon(type)}</span>
+            <span class="notification-message">${message}</span>
+            <button class="notification-close" onclick="this.parentElement.remove()">×</button>
+        `;
+        
+        // Ajouter au DOM
+        document.body.appendChild(notification);
+        
+        // Animation d'entrée
+        setTimeout(() => notification.classList.add('show'), 100);
+        
+        // Auto-suppression après 5 secondes
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        }, 5000);
+    },
     
-    // 4. DATE PICKER INTELLIGENT
+    // Obtenir l'icône selon le type
+    getIcon: function(type) {
+        const icons = {
+            success: '✓',
+            error: '✗',
+            warning: '⚠️',
+            info: 'ℹ️'
+        };
+        return icons[type] || icons.info;
+    },
     
-    // Empêche de sélectionner une date passée pour les réservations
-    const dateInputs = document.querySelectorAll('.datepicker-future');
-    if(dateInputs.length > 0) {
-        const today = new Date().toISOString().split('T')[0];
-        dateInputs.forEach(input => {
-            input.setAttribute('min', today);
-        });
+    // Débouncer
+    debounce: function(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    },
+    
+    // Vérifier si un élément est visible
+    isInViewport: function(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
     }
+};
+
+// Composants réutilisables
+App.components = {
+    // Modal
+    modal: {
+        show: function(content, title = '') {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal">
+                    <div class="modal-header">
+                        <h3>${title}</h3>
+                        <button class="modal-close" onclick="App.components.modal.hide()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        ${content}
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            setTimeout(() => modal.classList.add('show'), 100);
+        },
+        
+        hide: function() {
+            const modal = document.querySelector('.modal-overlay');
+            if (modal) {
+                modal.classList.remove('show');
+                setTimeout(() => modal.remove(), 300);
+            }
+        }
+    },
+    
+    // Dropdown
+    dropdown: {
+        toggle: function(trigger) {
+            const dropdown = trigger.nextElementSibling;
+            if (dropdown && dropdown.classList.contains('dropdown-menu')) {
+                dropdown.classList.toggle('show');
+                
+                // Fermer les autres dropdowns
+                document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+                    if (menu !== dropdown) {
+                        menu.classList.remove('show');
+                    }
+                });
+            }
+        },
+        
+        close: function() {
+            document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        }
+    }
+};
+
+// Initialisation quand le DOM est prêt
+document.addEventListener('DOMContentLoaded', function() {
+    // Fermer les dropdowns en cliquant ailleurs
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown-trigger')) {
+            App.components.dropdown.close();
+        }
+    });
+    
+    // Gérer les touches Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            App.components.modal.hide();
+            App.components.dropdown.close();
+        }
+    });
+    
+    // Initialiser les tooltips simples
+    initializeTooltips();
 });
+
+// Initialiser les tooltips
+function initializeTooltips() {
+    const tooltipElements = document.querySelectorAll('[title]');
+    
+    tooltipElements.forEach(element => {
+        element.addEventListener('mouseenter', function(e) {
+            const title = this.getAttribute('title');
+            this.removeAttribute('title'); // Éviter le tooltip natif
+            
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.textContent = title;
+            document.body.appendChild(tooltip);
+            
+            const rect = this.getBoundingClientRect();
+            tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
+            tooltip.style.top = rect.top - tooltip.offsetHeight - 5 + 'px';
+            
+            this.setAttribute('data-tooltip', title);
+        });
+        
+        element.addEventListener('mouseleave', function() {
+            const tooltip = document.querySelector('.tooltip');
+            if (tooltip) {
+                tooltip.remove();
+            }
+            this.setAttribute('title', this.getAttribute('data-tooltip'));
+        });
+    });
+}
+
+// Exporter pour utilisation globale
+window.App = App;

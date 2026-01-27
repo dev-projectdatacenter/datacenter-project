@@ -2,24 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ActivityLog extends Model
 {
-    use HasFactory;
-       // Champs pouvant être remplis en masse
+    // Nom exact de la table (important)
+    protected $table = 'activity_logs';
+
+    // Autoriser l'accès aux colonnes
     protected $fillable = [
         'user_id',
         'action',
-        'entity_type',
-        'entity_id',
         'description',
+        'ip_address',
+        'user_agent',
     ];
 
-    /**
-     * Relation : un log d'activité appartient à un utilisateur.
-     */
+    // Relation simple avec users
     public function user()
     {
         return $this->belongsTo(User::class);
