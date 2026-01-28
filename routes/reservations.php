@@ -125,11 +125,6 @@ Route::middleware(['auth', 'throttle:60,1'])->group(function () {
     // INCIDENTS (Tous les utilisateurs peuvent signaler)
     // ════════════════════════════════════════════════════════════
     
-    Route::prefix('incidents')->name('incidents.')->group(function () {
-        // Signaler un incident
-        Route::post('/', [ReservationController::class, 'reportIncident'])->name('store');
-        
-        // Voir ses incidents
-        Route::get('/', [ReservationController::class, 'myIncidents'])->name('index');
-    });
+    // Routes d'incidents déplacées vers resources.php pour éviter les conflits
+    
 });

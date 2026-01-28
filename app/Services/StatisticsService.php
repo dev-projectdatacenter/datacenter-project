@@ -2,121 +2,85 @@
 
 namespace App\Services;
 
-use App\Models\User;
 use App\Models\Resource;
 use App\Models\Reservation;
+use App\Models\User;
 
 class StatisticsService
 {
-    /**
-     * Récupère le nombre total d'utilisateurs
-     *
-     * @return int
-     */
-    public function getTotalUsers(): int
-    {
-        return User::count();
-    }
-
-    /**
-     * Récupère le nombre d'utilisateurs actifs
-     *
-     * @return int
-     */
-    public function getActiveUsers(): int
-    {
-        return User::where('status', 'active')->count();
-    }
-
-    /**
-     * Get total number of resources
-     *
-     * @return int
-     */
+    // Total ressources
     public function totalResources(): int
     {
         return Resource::count();
     }
 
-    /**
-     * Get number of available resources
-     *
-     * @return int
-     */
+    // Ressources disponibles
     public function availableResources(): int
     {
         return Resource::where('status', 'available')->count();
     }
 
-    /**
-     * Get total number of users (alias for getTotalUsers for backward compatibility)
-     *
-     * @return int
-     */
-    public function totalUsers(): int
-    {
-        return $this->getTotalUsers();
-    }
-
-    /**
-     * Get total number of reservations
-     *
-     * @param int|null $userId Optional user ID to filter by user
-     * @return int
-     */
+    // Total réservations
     public function totalReservations(?int $userId = null): int
     {
         $query = Reservation::query();
-        
+
         if ($userId) {
             $query->where('user_id', $userId);
         }
-        
+
         return $query->count();
     }
 
-    /**
-     * Get reservations grouped by status
-     *
-     * @param int|null $userId Optional user ID to filter by user
-     * @return array
-     */
+    // Réservations groupées par statut
     public function reservationsByStatus(?int $userId = null): array
     {
         $query = Reservation::query();
-        
+
         if ($userId) {
             $query->where('user_id', $userId);
         }
-        
-        return $query->selectRaw('status, count(*) as count')
+
+        return $query->selectRaw('status, COUNT(*) as total')
             ->groupBy('status')
-            ->pluck('count', 'status')
+            ->pluck('total', 'status')
             ->toArray();
     }
 
-    /**
-     * Get monthly usage hours for a user
-     *
-     * @param int|null $userId Optional user ID to filter by user
-     * @return float
-     */
-    public function monthlyHours(?int $userId = null): float
+    // Total utilisateurs
+    public function totalUsers(): int
     {
-        $query = Reservation::query()
-            ->where('status', 'active')
-            ->whereMonth('start_date', now()->month)
-            ->whereYear('start_date', now()->year);
-        
-        if ($userId) {
-            $query->where('user_id', $userId);
-        }
-        
-        // Calculer les heures en fonction de la durée des réservations
-        return $query->get()->sum(function($reservation) {
-            $start = \Carbon\Carbon::parse($reservation->start_date);
-            $end = \Carbon\Carbon::parse($reservation->end_date);
-            return $start->diffInHours($end);
-        });
+        return User::count();
     }
+
+    // Réservations en attente (pending)
+    public function pendingReservations(): int
+    {
+        return Reservation::where('status', 'pending')->count();
+    }
+
+
+    // Ressources critiques (busy)
+    public function criticalResources(): int
+    {
+        return Resource::where('status', 'busy')->count();
+    }
+
+    // --- New Methods for Tech Manager Dashboard List View ---
+
+    public function getAllReservations()
+    {
+        return Reservation::with(['user', 'resource'])->orderBy('created_at', 'desc')->get();
+    }
+
+    public function getAllResources()
+    {
+        return Resource::with('category')->get();
+    }
+
+    public function getPendingIncidents()
+    {
+        return \App\Models\Incident::where('status', 'open')->with(['user', 'resource'])->get();
+    }
+
 }

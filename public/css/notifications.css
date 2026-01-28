@@ -9,6 +9,8 @@
    RÉINITIALISATION ET VARIABLES
    ======================================== */
 
+
+
 * {
     margin: 0;
     padding: 0;
@@ -16,59 +18,63 @@
 }
 
 :root {
-    /* Couleurs principales */
-    --primary-color: #007bff;
-    --primary-hover: #0056b3;
-    --secondary-color: #6c757d;
-    --secondary-hover: #545b62;
+    
+    --primary-color: #0f1e3f;    /* Bleu Nuit */
+    --primary-hover: #213a56;    /* Bleu Delft */
+    --secondary-color: #997953;  /* Doré Ocre */
+    --secondary-hover: #826646;  /* Doré plus sombre */
     --success-color: #28a745;
     --success-hover: #1e7e34;
     --danger-color: #dc3545;
     --danger-hover: #c82333;
     --warning-color: #ffc107;
     --warning-hover: #e0a800;
-    --info-color: #17a2b8;
-    --info-hover: #138496;
+    --info-color: #213a56;       /* Bleu Delft */
+    --info-hover: #0f1e3f;       /* Bleu Nuit */
     
     /* Couleurs de fond */
     --bg-primary: #ffffff;
-    --bg-secondary: #f8f9fa;
-    --bg-dark: #343a40;
-    --bg-light: #e9ecef;
+    --bg-secondary: #fdfaf5;     /* Nuance Crème très légère pour le fond */
+    --bg-dark: #424665;          /* Bleu Nuit */
+    --bg-light: #cdccca;         /* Crème */
     
     /* Couleurs de texte */
-    --text-primary: #212529;
-    --text-secondary: #6c757d;
-    --text-muted: #868e96;
+    --text-primary: #0f1e3f;     /* Bleu Nuit */
+    --text-secondary: #213a56;   /* Bleu Delft */
+    --text-muted: #997953;       /* Doré Ocre pour le texte secondaire */
     --text-white: #ffffff;
     
-    /* Espacements */
+    /* Espacements (Inchangés) */
     --spacing-xs: 4px;
     --spacing-sm: 8px;
     --spacing-md: 16px;
     --spacing-lg: 24px;
     --spacing-xl: 32px;
     
-    /* Bordures */
-    --border-radius: 4px;
+    /* Bordures (Adaptées au Doré) */
+    --border-radius: 10px;
     --border-radius-lg: 8px;
-    --border-color: #dee2e6;
+    --border-color: #e2d1b9;     /* Crème */
     
-    /* Ombres */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+    /* Ombres (Inchangées) */
+    --shadow-sm: 0 1px 3px rgba(15, 30, 63, 0.1);
+    --shadow-md: 0 4px 6px rgba(15, 30, 63, 0.1);
+    --shadow-lg: 0 10px 25px rgba(15, 30, 63, 0.15);
     
-    /* Transitions */
+    /* Transitions (Inchangées) */
     --transition: all 0.3s ease;
     --transition-fast: all 0.2s ease;
 }
+
+/* LE RESTE DU CODE RESTE IDENTIQUE MAIS UTILISERA 
+   DÉSORMAIS LES NOUVELLES VARIABLES CI-DESSUS 
+*/
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
     color: var(--text-primary);
-    background-color: var(--bg-secondary);
+    background-color: var(--bg-secondarys);
 }
 
 /* ========================================
@@ -79,7 +85,8 @@ body {
     background-color: var(--bg-dark);
     color: var(--text-white);
     padding: 0;
-    box-shadow: var(--shadow-sm);
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -125,10 +132,11 @@ body {
 .nav-link:hover,
 .nav-link.active {
     background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-white);
 }
 
 .notification-badge {
-    background-color: var(--danger-color);
+    background-color: var(--secondary-color); /* Doré au lieu de rouge pour rester élégant */
     color: var(--text-white);
     font-size: 0.75rem;
     font-weight: bold;
@@ -159,9 +167,11 @@ body {
     background-color: transparent;
     color: var(--text-white);
     border: 1px solid var(--text-white);
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: var(--border-radius);
-    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
     transition: var(--transition-fast);
 }
 
@@ -230,7 +240,7 @@ body {
 }
 
 .btn-primary {
-    background-color: var(--primary-color);
+    background-color: var(--primary-hover);
     color: var(--text-white);
 }
 
@@ -350,6 +360,7 @@ body {
     padding: var(--spacing-lg);
     margin-bottom: var(--spacing-xl);
     box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color); /* Ajout d'une touche Crème */
 }
 
 .filter-form {
@@ -387,8 +398,8 @@ body {
 
 .form-control:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    border-color: var(--secondary-color); /* Focus en Doré */
+    box-shadow: 0 0 0 2px rgba(153, 121, 83, 0.25);
 }
 
 .filter-buttons {
@@ -416,11 +427,13 @@ body {
     align-items: center;
     gap: var(--spacing-md);
     transition: var(--transition-fast);
+    border: 1px solid var(--border-color);
 }
 
 .stat-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
+    border-color: var(--secondary-color);
 }
 
 .stat-icon {
@@ -431,7 +444,8 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: var(--bg-light);
+    background-color: var(--bg-light); /* Fond Crème */
+    color: var(--primary-color);
 }
 
 .stat-card.warning .stat-icon {
@@ -462,7 +476,7 @@ body {
    ======================================== */
 
 .bulk-actions {
-    background-color: var(--info-color);
+    background-color: var(--info-color); /* Bleu Delft */
     color: var(--text-white);
     border-radius: var(--border-radius-lg);
     padding: var(--spacing-md);
@@ -485,6 +499,7 @@ body {
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-sm);
     overflow: hidden;
+    border: 1px solid var(--border-color);
 }
 
 .notifications-list {
@@ -502,12 +517,12 @@ body {
 }
 
 .notification-item:hover {
-    background-color: var(--bg-secondary);
+    background-color: #fdfaf5; /* Survol Crème très léger */
 }
 
 .notification-item.unread {
-    background-color: #f0f8ff;
-    border-left: 4px solid var(--primary-color);
+    background-color: #f8faff; /* Nuance bleu nuit très légère */
+    border-left: 4px solid var(--secondary-color); /* Indicateur Doré */
 }
 
 .notification-item.read {
@@ -525,6 +540,7 @@ body {
     flex-shrink: 0;
     width: 24px;
     text-align: center;
+    color: var(--secondary-color); /* Icônes en Doré */
 }
 
 .notification-content {
@@ -545,7 +561,7 @@ body {
     align-items: center;
     gap: var(--spacing-md);
     font-size: 0.75rem;
-    color: var(--text-secondary);
+    color: var(--text-muted); /* Texte en Doré Ocre */
 }
 
 .notification-date {
@@ -559,7 +575,7 @@ body {
 }
 
 /* ========================================
-   BADGES
+   BADGES (Adaptés)
    ======================================== */
 
 .badge {
@@ -582,8 +598,8 @@ body {
 }
 
 .badge-info {
-    background-color: #d1ecf1;
-    color: #0c5460;
+    background-color: var(--bg-light); /* Crème */
+    color: var(--primary-color);
 }
 
 .badge-danger {
@@ -598,7 +614,7 @@ body {
 .empty-state {
     text-align: center;
     padding: var(--spacing-xl) var(--spacing-lg);
-    color: var(--text-secondary);
+    color: var(--text-muted);
 }
 
 .empty-icon {
@@ -618,7 +634,7 @@ body {
 }
 
 /* ========================================
-   PAGINATION
+   PAGINATION (Adaptée)
    ======================================== */
 
 .pagination {
@@ -645,9 +661,9 @@ body {
 }
 
 .pagination-link:hover:not(.disabled) {
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color); /* Doré au survol */
     color: var(--text-white);
-    border-color: var(--primary-color);
+    border-color: var(--secondary-color);
 }
 
 .pagination-link.active {
@@ -657,7 +673,7 @@ body {
 }
 
 .pagination-link.disabled {
-    color: var(--text-muted);
+    color: var(--bg-light);
     cursor: not-allowed;
     opacity: 0.6;
 }
@@ -684,7 +700,7 @@ body {
     transform: translateX(100%);
     opacity: 0;
     transition: var(--transition);
-    border-left: 4px solid var(--info-color);
+    border-left: 4px solid var(--secondary-color); /* Bordure Dorée par défaut */
 }
 
 .toast.show {
@@ -710,7 +726,7 @@ body {
 }
 
 .toast-info {
-    border-left-color: var(--info-color);
+    border-left-color: var(--primary-color);
 }
 
 .toast-content {
@@ -756,6 +772,7 @@ body {
     text-align: center;
     padding: var(--spacing-lg) 0;
     margin-top: var(--spacing-xl);
+    border-top: 2px solid var(--secondary-color); /* Ligne Dorée */
 }
 
 .footer p {
@@ -764,7 +781,7 @@ body {
 }
 
 /* ========================================
-   RESPONSIVE DESIGN
+   RESPONSIVE DESIGN (Inchangé)
    ======================================== */
 
 @media (max-width: 768px) {
@@ -876,7 +893,7 @@ body {
 .btn:focus,
 .form-control:focus,
 .nav-link:focus {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid var(--secondary-color); /* Focus Doré */
     outline-offset: 2px;
 }
 

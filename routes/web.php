@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticatedSessionController;
 
 // ══════════════════════════════════════════════════════════
+// DASHBOARD INVITÉ (Public - accessible sans authentification)
+// ════════════════════════════════════════════════════════════
+
+Route::get('/dashboard/guest', [\App\Http\Controllers\Dashboard\DashboardController::class, 'guest'])
+    ->name('dashboard.guest');
+
+// ══════════════════════════════════════════════════════════
 // PAGE D'ACCUEIL
 // ══════════════════════════════════════════════════════════
 
@@ -16,12 +23,12 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-// ══════════════════════════════════════════════════════════
-// DÉCONNEXION
-// ══════════════════════════════════════════════════════════
 
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->name('logout');
+// Paramètres utilisateur
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+});
 
 // ══════════════════════════════════════════════════════════
 // IMPORT DES ROUTES DE CHAQUE MEMBRE DE L'ÉQUIPE

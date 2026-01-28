@@ -6,19 +6,19 @@
 <div class="auth-container">
     <div class="auth-card">
         <div class="auth-header">
-            <h1>🔐 Mot de passe oublié</h1>
-            <p>Entrez votre adresse email pour recevoir un lien de réinitialisation</p>
+            <h1>Mot de passe oublié</h1>
+            <p>Entrez votre adresse email pour réinitialiser votre mot de passe (mode développement)</p>
         </div>
 
         @if(session('success'))
             <div class="alert alert-success">
-                ✅ {{ session('success') }}
+                {{ session('success') }}
             </div>
         @endif
 
         @if(session('error'))
             <div class="alert alert-danger">
-                ❌ {{ session('error') }}
+                {{ session('error') }}
             </div>
         @endif
 
@@ -40,16 +40,16 @@
             </div>
 
             <button type="submit" class="btn btn-primary">
-                📧 Envoyer le lien de réinitialisation
+                � Générer le lien de réinitialisation
             </button>
         </form>
 
         <div class="auth-links">
             <a href="{{ route('login') }}" class="auth-link">
-                🔙 Retour à la connexion
+                Retour à la connexion
             </a>
             <a href="{{ route('register') }}" class="auth-link">
-                📝 S'inscrire
+                S'inscrire
             </a>
         </div>
     </div>

@@ -6,20 +6,36 @@
  */
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\Admin\ResourceController;
 use App\Http\Controllers\ResourceCategoryController;
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\ResourceCommentController;
 
 // ════════════════════════════════════════════════════════════
 // ROUTES PUBLIQUES - CONSULTATION DES RESSOURCES
 // ════════════════════════════════════════════════════════════
 
 // Voir les ressources sans authentification (lecture seule)
-Route::get('/all-resources', [ResourceController::class, 'publicIndex'])
-    ->name('resources.public');
+Route::get('/all-resources', function() {
+    $resources = \App\Models\Resource::with('category')
+        ->get();
+        
+    return view('resources.public-index', compact('resources'));
+})->name('resources.public');
 
+// Voir les détails d'une ressource sans authentification (lecture seule)
+Route::get('/resource/{resource}', function(\App\Models\Resource $resource) {
+    return view('resources.public-show', compact('resource'));
+})->name('resources.public.show');
+Route::get('/disponibilites', function() {
+    $resources = \App\Models\Resource::with('category')
+        ->where('status', 'available')
+        ->get();
+        
+    return view('resources.available-index', compact('resources'));
+})->name('public.resources.available');
 
 // ════════════════════════════════════════════════════════════
 // ROUTES PROTÉGÉES - GESTION DES RESSOURCES
@@ -46,9 +62,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/incidents/{incident}', [IncidentController::class, 'show'])->name('incidents.show');
     Route::post('/incidents', [IncidentController::class, 'store'])->name('incidents.store');
     Route::patch('/incidents/{incident}/resolve', [IncidentController::class, 'resolve'])->name('incidents.resolve');
+    Route::post('/incidents/{incident}/convert-to-maintenance', [IncidentController::class, 'convertToMaintenance'])->name('incidents.convert-to-maintenance');
 
     // JOUR 7 & 8 : Statistiques
-    Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
-    Route::get('/statistics/my-resources', [StatisticsController::class, 'myResources'])->name('statistics.my_resources');
+    Route::get('/statistics', [StatisticsController::class, 'index'])
+        ->name('statistics.index')
+        ->middleware('can:view-global-statistics');
+    Route::get('/statistics/my-resources', [StatisticsController::class, 'myResources'])
+        ->name('statistics.my_resources')
+        ->middleware('can:view-personal-statistics');
     
+    // JOUR 9 : Discussions et commentaires
+    Route::post('/resources/{resource}/comments', [ResourceCommentController::class, 'store'])->name('comments.store');
+    Route::delete('/comments/{comment}', [ResourceCommentController::class, 'destroy'])->name('comments.destroy');
 });

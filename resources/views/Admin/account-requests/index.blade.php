@@ -3,6 +3,184 @@
 @section('title', 'Demandes de compte')
 
 @section('content')
+
+<style>
+    :root {
+        --primary-slate: #434861;   /* Bleu Ardoise */
+        --accent-orange: #e67e22;   /* Orange Accent */
+        --bg-perle: #f3f4f6;        /* Gris Perle */
+        --white: #ffffff;
+        --success: #27ae60;
+        --danger: #e74c3c;
+        --text-dark: #2d3748;
+        --text-gray: #718096;
+        --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .admin-container {
+        padding: 30px 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+        font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    /* --- Header & Badges --- */
+    .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .admin-header h1 {
+        color: var(--primary-slate);
+        font-weight: 800;
+        margin: 0;
+    }
+
+    .badge-info {
+        background: var(--primary-slate);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    /* --- Alertes --- */
+    .alert {
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
+    .alert-success { background: #d1fae5; color: #065f46; border-left: 5px solid var(--success); }
+    .alert-danger { background: #fee2e2; color: #991b1b; border-left: 5px solid var(--danger); }
+
+    /* --- Request Cards --- */
+    .admin-card {
+        background: transparent;
+        border: none;
+    }
+
+    .request-card {
+        background: var(--white);
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: var(--shadow);
+        border: 1px solid #edf2f7;
+        transition: transform 0.2s;
+    }
+
+    .request-card:hover {
+        transform: translateY(-3px);
+    }
+
+    .request-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        border-bottom: 1px solid #f1f5f9;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+    }
+
+    .request-info h3 {
+        margin: 0;
+        color: var(--primary-slate);
+        font-size: 1.25rem;
+    }
+
+    .request-email { color: var(--accent-orange); font-weight: 600; margin: 5px 0; }
+    .request-phone { color: var(--text-gray); font-size: 0.9rem; }
+
+    /* --- Roles & Dates --- */
+    .role-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+    .role-user { background: #e0e7ff; color: #4338ca; }
+    .role-tech_manager { background: #fef3c7; color: #92400e; }
+    .role-admin { background: #fee2e2; color: #991b1b; }
+
+    .date-badge {
+        display: block;
+        font-size: 0.8rem;
+        color: var(--text-gray);
+        text-align: right;
+    }
+
+    /* --- Messages --- */
+    .request-message {
+        background: var(--bg-perle);
+        padding: 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+        font-size: 0.95rem;
+        color: var(--text-dark);
+        border-left: 3px solid #cbd5e1;
+    }
+
+    /* --- Actions & Buttons --- */
+    .request-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+        border: none;
+        transition: 0.3s;
+        font-size: 0.9rem;
+    }
+
+    .btn-success { background: var(--success); color: white; }
+    .btn-success:hover { background: #219150; box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3); }
+
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-danger:hover { background: #c0392b; box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3); }
+
+    .btn-secondary { background: #94a3b8; color: white; }
+
+    /* --- Rejection Form --- */
+    .reject-form {
+        margin-top: 20px;
+        padding: 20px;
+        background: #fff5f5;
+        border-radius: 8px;
+        border: 1px solid #feb2b2;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #cbd5e1;
+        margin-top: 8px;
+    }
+
+    /* --- Empty State --- */
+    .empty-state {
+        text-align: center;
+        padding: 60px;
+        background: var(--white);
+        border-radius: 12px;
+        color: var(--text-gray);
+    }
+
+    .empty-icon { font-size: 4rem; margin-bottom: 20px; }
+</style>
+
 <div class="admin-container">
     <div class="admin-header">
         <h1>Demandes de compte</h1>
@@ -125,270 +303,6 @@
     @endif
 </div>
 @endsection
-
-@push('styles')
-<style>
-.admin-container {
-    padding: 20px;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.admin-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.admin-header h1 {
-    color: #2d3748;
-    font-size: 28px;
-    font-weight: 700;
-    margin: 0;
-}
-
-.header-actions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.badge {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.badge-info {
-    background-color: #ebf8ff;
-    color: #2a4e7c;
-    border: 1px solid #4299e1;
-}
-
-.admin-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-.request-card {
-    padding: 24px;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.request-card:last-child {
-    border-bottom: none;
-}
-
-.request-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.request-info h3 {
-    color: #2d3748;
-    font-size: 18px;
-    font-weight: 600;
-    margin: 0 0 4px 0;
-}
-
-.request-email {
-    color: #718096;
-    font-size: 14px;
-    margin: 0;
-}
-
-.request-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-end;
-}
-
-.role-badge {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.role-admin {
-    background-color: #fed7d7;
-    color: #742a2a;
-}
-
-.role-tech_manager {
-    background-color: #feebc8;
-    color: #7c2d12;
-}
-
-.role-user {
-    background-color: #bee3f8;
-    color: #2a4e7c;
-}
-
-.role-guest {
-    background-color: #e2e8f0;
-    color: #4a5568;
-}
-
-.date-badge {
-    background-color: #f7fafc;
-    color: #718096;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 500;
-}
-
-.request-message {
-    background-color: #f7fafc;
-    padding: 16px;
-    border-radius: 8px;
-    margin-bottom: 16px;
-}
-
-.request-message strong {
-    color: #4a5568;
-    font-size: 14px;
-}
-
-.request-message p {
-    color: #2d3748;
-    font-size: 14px;
-    margin: 8px 0 0 0;
-    line-height: 1.5;
-}
-
-.request-actions {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.reject-form {
-    margin-top: 16px;
-    padding: 16px;
-    background-color: #fff5f5;
-    border: 1px solid #fed7d7;
-    border-radius: 8px;
-}
-
-.form-group {
-    margin-bottom: 16px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    color: #4a5568;
-    font-size: 14px;
-}
-
-.form-control {
-    width: 100%;
-    padding: 10px 14px;
-    border: 2px solid #e2e8f0;
-    border-radius: 6px;
-    font-size: 14px;
-    transition: all 0.2s ease;
-    background-color: white;
-    resize: vertical;
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: #e53e3e;
-    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
-}
-
-.form-actions {
-    display: flex;
-    gap: 12px;
-}
-
-.empty-state {
-    text-align: center;
-    padding: 60px 20px;
-}
-
-.empty-icon {
-    font-size: 64px;
-    margin-bottom: 16px;
-}
-
-.empty-state h3 {
-    color: #2d3748;
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0 0 8px 0;
-}
-
-.empty-state p {
-    color: #718096;
-    font-size: 16px;
-    margin: 0 0 24px 0;
-}
-
-.pagination-wrapper {
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .admin-container {
-        padding: 15px;
-    }
-    
-    .admin-header {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .request-header {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .request-meta {
-        align-items: flex-start;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-    
-    .request-actions {
-        flex-direction: column;
-    }
-    
-    .request-actions .btn {
-        width: 100%;
-    }
-    
-    .form-actions {
-        flex-direction: column;
-    }
-    
-    .form-actions .btn {
-        width: 100%;
-    }
-}
-</style>
-@endpush
 
 @push('scripts')
 <script>

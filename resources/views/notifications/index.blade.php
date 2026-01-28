@@ -21,10 +21,10 @@
             </div>
             <div class="header-right">
                 <span class="user-name">{{ auth()->user()->name }}</span>
-                <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display: none;">
+                <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                     @csrf
+                    <button type="submit" class="logout-btn" style="background: none; border: none; color: white; cursor: pointer; text-decoration: none;">Déconnexion</button>
                 </form>
-                <button type="button" class="logout-btn" onclick="document.getElementById('logout-form').submit();">Déconnexion</button>
             </div>
         </div>
     </header>

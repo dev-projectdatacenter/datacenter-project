@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,14 +9,16 @@
     <title>{{ config('app.name', 'Data Center') }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/icons.css') }}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body class="guest-page">
 
     <div class="guest-container">
         <div class="guest-header">
             <div class="logo-icon">
-                <span class="icon-server"></span>
+                <i class="fas fa-server"></i>
             </div>
             <h2>Data Center Manager</h2>
         </div>
@@ -29,5 +32,7 @@
         </div>
     </div>
 
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
+
 </html>

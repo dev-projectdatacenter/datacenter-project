@@ -17,7 +17,7 @@
             <div class="page-header">
                 <h1 class="page-title">Mes Réservations</h1>
                 <div class="page-actions">
-                    <a href="{{ route('reservations.create') }}" class="btn btn-primary">
+                    <a href="{{ route('reservations.create') }}" class="btn btn-primary" >
                         <span class="btn-icon">+</span>
                         Nouvelle Réservation
                     </a>
@@ -121,7 +121,7 @@
                                             </td>
                                             <td>
                                                 <div class="justification" title="{{ $reservation->justification }}">
-                                                    {{ Str::limit($reservation->justification, 50) }}
+                                                    {{ strlen($reservation->justification) > 50 ? substr($reservation->justification, 0, 50) . '...' : $reservation->justification }}
                                                 </div>
                                             </td>
                                             <td>

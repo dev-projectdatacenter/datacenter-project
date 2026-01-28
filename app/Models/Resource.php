@@ -17,10 +17,11 @@ class Resource extends Model
         'status',       // available / busy / maintenance
         'cpu',
         'ram',
+        'bandwidth',
         'storage',
         'os',
         'location',
-        'managed_by',
+        'managed_by_id',
     ];
 
     /**
@@ -55,11 +56,16 @@ class Resource extends Model
         return $this->hasMany(Incident::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(ResourceComment::class);
+    }
+
     /**
      * Relation : une ressource est gérée par un utilisateur (Tech Manager)
      */
     public function supervisor()
     {
-        return $this->belongsTo(User::class, 'managed_by');
+        return $this->belongsTo(User::class, 'managed_by_id');
     }
 }

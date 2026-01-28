@@ -49,8 +49,6 @@ class AdminUserController extends Controller
             'status' => $request->status ?? 'active',
         ]);
 
-        // Logger la création de l'utilisateur
-        ActivityLogService::logUserCreated($user, auth()->user());
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Utilisateur créé avec succès.');
@@ -96,8 +94,6 @@ class AdminUserController extends Controller
             $user->update(['password' => Hash::make($request->password)]);
         }
 
-        // Logger la modification de l'utilisateur
-        ActivityLogService::logUserUpdated($user, auth()->user());
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Utilisateur mis à jour avec succès.');
@@ -115,8 +111,6 @@ class AdminUserController extends Controller
         $userName = $user->name;
         $user->delete();
 
-        // Logger la suppression de l'utilisateur
-        ActivityLogService::logUserDeleted($userName, auth()->user());
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Utilisateur supprimé avec succès.');

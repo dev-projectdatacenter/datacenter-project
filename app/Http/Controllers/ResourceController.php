@@ -44,6 +44,10 @@ class ResourceController extends Controller
             $query->where('ram', 'like', '%' . $request->ram . '%');
         }
 
+        if ($request->filled('bandwidth')) {
+            $query->where('bandwidth', 'like', '%' . $request->bandwidth . '%');
+        }
+
         if ($request->filled('os')) {
             $query->where('os', 'like', '%' . $request->os . '%');
         }
@@ -69,7 +73,7 @@ class ResourceController extends Controller
     public function index(Request $request)
     {
         // Récupérer TOUTES les ressources (tous statuts)
-        $query = Resource::with('category');
+        $query = Resource::with(['category', 'supervisor']);
         
         // Filtres de recherche
         if ($request->filled('search')) {
@@ -90,6 +94,10 @@ class ResourceController extends Controller
 
         if ($request->filled('ram')) {
             $query->where('ram', 'like', '%' . $request->ram . '%');
+        }
+
+        if ($request->filled('bandwidth')) {
+            $query->where('bandwidth', 'like', '%' . $request->bandwidth . '%');
         }
 
         if ($request->filled('os')) {
@@ -137,11 +145,17 @@ class ResourceController extends Controller
             'status' => 'required|in:available,busy,maintenance',
             'cpu' => 'nullable|string|max:255',
             'ram' => 'nullable|string|max:255',
+            'bandwidth' => 'nullable|string|max:255',
             'storage' => 'nullable|string|max:255',
             'os' => 'nullable|string|max:255',
             'location' => 'nullable|string|max:255',
             'managed_by' => 'nullable|exists:users,id'
         ]);
+        
+        // Si c'est un tech manager qui crée la ressource, l'assigner automatiquement
+        if (auth()->user()->role->name === 'tech_manager') {
+            $validated['managed_by'] = auth()->user()->id;
+        }
         
         // Créer la ressource
         Resource::create($validated);
@@ -158,7 +172,7 @@ class ResourceController extends Controller
     public function show(Resource $resource)
     {
         // Charger les relations
-        $resource->load('category', 'reservations.user');
+        $resource->load('category', 'reservations.user', 'comments.user');
         
         return view('resources.show', compact('resource'));
     }
@@ -194,6 +208,7 @@ class ResourceController extends Controller
             'status' => 'required|in:available,busy,maintenance',
             'cpu' => 'nullable|string|max:255',
             'ram' => 'nullable|string|max:255',
+            'bandwidth' => 'nullable|string|max:255',
             'storage' => 'nullable|string|max:255',
             'os' => 'nullable|string|max:255',
             'location' => 'nullable|string|max:255',

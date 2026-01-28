@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name', 'Data Center Manager') }}</title>
-    
+
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
 
-   <nav class="landing-nav">
+    <nav class="landing-nav">
         <div class="logo">
             <i class="fas fa-server"></i> DataCenter
         </div>
@@ -23,14 +25,18 @@
     <header class="hero-section">
         <div class="hero-content">
             <h1>Gestion de Parc Informatique & <span style="color: var(--primary);">Ressources</span></h1>
-            <p>Une plateforme centralisée pour gérer les serveurs, les machines virtuelles et les réservations d'accès pour vos équipes.</p>
-            
+            <p>Une plateforme centralisée pour gérer les serveurs, les machines virtuelles et les réservations d'accès
+                pour vos équipes.</p>
+
             <div class="hero-actions">
-                <a href="{{ url('/resources') }}" class="btn btn-primary btn-lg">
-                         Accéder à la plateforme 
-                <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+                <a href="{{ route('dashboard.guest') }}" class="btn btn-primary btn-lg">
+                    Accéder à la plateforme
+                    <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
                 </a>
             </div>
+
+
+
         </div>
         <div class="hero-image">
             <i class="fas fa-network-wired"></i>
@@ -67,5 +73,9 @@
         <p>&copy; {{ date('Y') }} Data Center Manager.</p>
     </footer>
 
+    <script src="{{ asset('js/app.js') }}"></script>
+
+    </div>
 </body>
+
 </html>

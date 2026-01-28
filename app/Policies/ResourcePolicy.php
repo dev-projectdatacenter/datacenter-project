@@ -4,152 +4,73 @@ namespace App\Policies;
 
 use App\Models\Resource;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ResourcePolicy
 {
+    use HandlesAuthorization;
+
     /**
-     * Determine si l'utilisateur peut voir la ressource
+     * Grant all abilities to administrators.
      */
-    public function view(User $user, Resource $resource): bool
+    public function before(User $user, $ability)
     {
-        // Tous les utilisateurs authentifiés peuvent voir les ressources
+        if ($user->role->name === 'admin') {
+            return true;
+        }
+    }
+
+    /**
+     * Determine whether anyone can view the list of resources.
+     */
+    public function viewAny(?User $user)
+    {
         return true;
     }
 
     /**
-     * Determine si l'utilisateur peut voir la liste des ressources
+     * Determine whether anyone can view a specific resource.
      */
-    public function viewAny(User $user): bool
+    public function view(?User $user, Resource $resource)
     {
-        // Tous les utilisateurs authentifiés peuvent voir la liste
         return true;
     }
 
     /**
-     * Determine si l'utilisateur peut créer une ressource
+     * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user)
     {
-        // Seuls les admin et tech managers peuvent créer des ressources
-        return in_array($user->role->name, ['admin', 'tech_manager']);
+        // Admins are handled by before(). Tech managers can also create resources.
+        return $user->role->name === 'tech_manager';
     }
 
     /**
-     * Determine si l'utilisateur peut modifier la ressource
+     * Determine whether the user can update the model.
      */
-    public function update(User $user, Resource $resource): bool
+    public function update(User $user, Resource $resource)
     {
-        // Admin peut modifier toutes les ressources
-        if ($user->role->name === 'admin') {
-            return true;
-        }
-
-        // Tech manager peut modifier seulement les ressources qu'il gère
-        if ($user->role->name === 'tech_manager' && $resource->managed_by === $user->id) {
-            return true;
-        }
-
-        return false;
+        // Admins are handled by before().
+        // A tech manager can only update resources they are assigned to manage.
+        return $user->role->name === 'tech_manager' && $user->id === $resource->managed_by_id;
     }
 
     /**
-     * Determine si l'utilisateur peut supprimer la ressource
+     * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Resource $resource): bool
+    public function delete(User $user, Resource $resource)
     {
-        // Seul l'admin peut supprimer des ressources
-        return $user->role->name === 'admin';
+        // Admins are handled by before().
+        // A tech manager can only delete resources they are assigned to manage.
+        return $user->role->name === 'tech_manager' && $user->id === $resource->managed_by_id;
     }
 
     /**
-     * Determine si l'utilisateur peut restaurer la ressource
+     * Determine whether a user can add a comment.
      */
-    public function restore(User $user, Resource $resource): bool
+    public function addComment(User $user, Resource $resource)
     {
-        // Seul l'admin peut restaurer des ressources
-        return $user->role->name === 'admin';
-    }
-
-    /**
-     * Determine si l'utilisateur peut supprimer définitivement la ressource
-     */
-    public function forceDelete(User $user, Resource $resource): bool
-    {
-        // Seul l'admin peut supprimer définitivement des ressources
-        return $user->role->name === 'admin';
-    }
-
-    /**
-     * Determine si l'utilisateur peut mettre la ressource en maintenance
-     */
-    public function maintenance(User $user, Resource $resource): bool
-    {
-        // Admin peut mettre n'importe quelle ressource en maintenance
-        if ($user->role->name === 'admin') {
-            return true;
-        }
-
-        // Tech manager peut mettre seulement les ressources qu'il gère en maintenance
-        if ($user->role->name === 'tech_manager' && $resource->managed_by === $user->id) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Determine si l'utilisateur peut voir les statistiques de la ressource
-     */
-    public function viewStatistics(User $user, Resource $resource): bool
-    {
-        // Admin peut voir toutes les statistiques
-        if ($user->role->name === 'admin') {
-            return true;
-        }
-
-        // Tech manager peut voir les statistiques des ressources qu'il gère
-        if ($user->role->name === 'tech_manager' && $resource->managed_by === $user->id) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Determine si l'utilisateur peut gérer les réservations de cette ressource
-     */
-    public function manageReservations(User $user, Resource $resource): bool
-    {
-        // Admin peut gérer toutes les réservations
-        if ($user->role->name === 'admin') {
-            return true;
-        }
-
-        // Tech manager peut gérer les réservations des ressources qu'il gère
-        if ($user->role->name === 'tech_manager' && $resource->managed_by === $user->id) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Determine si l'utilisateur peut réserver cette ressource
-     */
-    public function reserve(User $user, Resource $resource): bool
-    {
-        // La ressource doit être active
-        if ($resource->status !== 'active') {
-            return false;
-        }
-
-        // La ressource ne doit pas être en maintenance
-        if ($resource->is_in_maintenance) {
-            return false;
-        }
-
-        // Tous les utilisateurs authentifiés (sauf guests) peuvent réserver
+        // Any authenticated user can comment.
         return in_array($user->role->name, ['user', 'tech_manager', 'admin']);
     }
 }
