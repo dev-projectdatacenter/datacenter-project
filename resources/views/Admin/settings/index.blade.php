@@ -86,7 +86,7 @@
         </div>
         
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+            <button type="submit" style="border-radius: 10px;" class="btn btn-primary">Enregistrer les modifications</button>
         </div>
     </form>
 </div>
@@ -133,7 +133,7 @@
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 10px;
     font-size: 16px;
 }
 
@@ -162,7 +162,7 @@
 
 .btn {
     padding: 10px 20px;
-    background: #3498db;
+    background: #424665;
     color: white;
     border: none;
     border-radius: 4px;
@@ -171,7 +171,7 @@
 }
 
 .btn:hover {
-    background: #2980b9;
+    background: #424665;
 }
 
 textarea {
