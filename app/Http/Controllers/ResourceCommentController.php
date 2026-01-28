@@ -17,14 +17,14 @@ class ResourceCommentController extends Controller
             'content' => 'required|string|max:1000',
         ]);
 
-        // Temporarily disabled - table doesn't exist yet
-        // ResourceComment::create([
-        //     'resource_id' => $resource->id,
-        //     'user_id' => auth()->id(),
-        //     'content' => $request->content,
-        // ]);
+        // Créer le commentaire
+        ResourceComment::create([
+            'resource_id' => $resource->id,
+            'user_id' => auth()->id(),
+            'content' => $request->content,
+        ]);
 
-        return back()->with('success', 'Commentaire reçu (sauvegarde temporairement désactivée).');
+        return back()->with('success', 'Commentaire ajouté avec succès.');
     }
 
     /**
