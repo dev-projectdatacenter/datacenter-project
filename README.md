@@ -1,66 +1,309 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+#  Application de Gestion de Data Center
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-10-red)
+![PHP](https://img.shields.io/badge/PHP-8.2-blue)
+![MySQL](https://img.shields.io/badge/MySQL-8-orange)
+![License](https://img.shields.io/badge/License-Educational-green)
 
-## About Laravel
+Application web développée avec Laravel/PHP et MySQL permettant de gérer la réservation, l'allocation et le suivi des ressources informatiques d'un Data Center (serveurs, machines virtuelles, baies de stockage, équipements réseau).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Cette application assure une gestion efficace et transparente des ressources à travers quatre profils utilisateurs avec des rôles et permissions différenciés.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+##  Équipe de Développement
 
-## Learning Laravel
+| Membre | Rôle | Responsabilités |
+|--------|------|----------------|
+| **FATIMA** | Coordinatrice + BDD | Base de données, Modèles Eloquent, Dashboards, Tests |
+| **Fatima ZAHRAE** | Authentification | Auth, Sécurité, Rôles, Gestion utilisateurs |
+| **OUARDA** | Ressources | CRUD ressources, Statistiques, Filtres |
+| **HALIMA** | Réservations | Système de réservation, Notifications, CRON |
+| **CHAYMAE** | Design System | Interface UI/UX, Composants, CSS/JS personnalisés |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+##  Technologies Utilisées
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Backend
+- **Framework :** Laravel 10
+- **Langage :** PHP 8.2
+- **Base de données :** MySQL 8
+- **ORM :** Eloquent
 
-## Laravel Sponsors
+### Frontend
+- **CSS personnalisé** (Sans Bootstrap, Tailwind)
+- **JavaScript Vanilla** (Sans jQuery)
+- **Blade Templates**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Outils de développement
+- Git & GitHub
+- Composer
+- npm
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+##  Fonctionnalités Principales
 
-## Contributing
+###  Système d'Authentification ( Fatima ZAHRAE)
+- Connexion / Inscription / Déconnexion
+- Réinitialisation du mot de passe
+- Gestion de 4 rôles utilisateurs
+- Protection des routes par middleware
+- Rate limiting (protection brute force)
+- Logs d'activité
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+###  Gestion des Ressources (OUARDA)
+- CRUD complet des ressources
+- Catégories : Serveurs, VMs, Stockage, Réseau
+- Filtres avancés (catégorie, statut, caractéristiques)
+- Gestion de la maintenance
+- Statistiques d'occupation avec graphiques
 
-## Code of Conduct
+###  Système de Réservation (HALIMA)
+- Demandes de réservation avec justification
+- Validation automatique des disponibilités
+- Détection des conflits (overlapping)
+- Approbation/Refus par Tech Manager
+- Historique complet des réservations
+- Tâches CRON (activation/expiration automatique)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Notifications (HALIMA)
+- Notifications temps réel
+- Alertes pour : validation, refus, expiration, maintenance
+- Système de notifications internes
 
-## Security Vulnerabilities
+### Statistiques (OUARDA + FATIMA)
+- Taux d'occupation global
+- Statistiques par catégorie
+- Réservations par département
+- Graphiques interactifs
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+###  Interface Utilisateur (CHAYMAE)
+- Design responsive (mobile + desktop)
+- Composants Blade réutilisables
+- CSS personnalisé
+- Animations et interactions fluides
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 👤 Profils Utilisateurs
+
+### 1. Invité
+- Consultation des ressources en lecture seule
+- Demande d'ouverture de compte
+- Consultation des règles d'utilisation
+
+### 2. Utilisateur Interne
+- Recherche de ressources avec filtres
+- Demande de réservation
+- Suivi de ses demandes (En attente / Approuvée / Refusée)
+- Historique personnel
+- Notifications
+
+### 3. Tech Manager
+- Gestion des ressources supervisées
+- Validation/Refus des demandes
+- Mise en maintenance des ressources
+- Consultation des demandes liées à ses ressources
+
+### 4. Administrateur
+- Gestion complète des utilisateurs et rôles
+- Gestion du catalogue complet
+- Consultation des statistiques globales
+- Planification des maintenances
+- Activation/Désactivation utilisateurs et ressources
+
+---
+
+## 🗄️ Structure de la Base de Données
+
+### Tables Principales (FATIMA)
+- `users` - Utilisateurs du système
+- `account_requests` - Demandes de compte
+- `resources` - Ressources du Data Center
+- `categories` - Catégories de ressources
+- `reservations` - Réservations
+- `notifications` - Notifications
+- `activity_logs` - Journalisation
+- `maintenances` - Maintenances planifiées
+
+---
+
+##  Installation
+
+### Prérequis
+- PHP >= 8.2
+- Composer
+- MySQL >= 8.0
+- Node.js & npm
+
+### Étapes d'installation
+
+1. **Cloner le repository**
+```bash
+git clone https://github.com/dev-projectdatacenter/datacenter-project.git
+cd datacenter-project
+```
+
+2. **Installer les dépendances PHP**
+```bash
+composer install
+```
+
+3. **Installer les dépendances JavaScript**
+```bash
+npm install
+```
+
+4. **Configurer l'environnement**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+5. **Configurer la base de données**
+Éditez le fichier `.env` :
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+6. **Créer la base de données**
+```bash
+mysql -u root -p
+CREATE DATABASE laravel;
+exit;
+```
+
+7. **Exécuter les migrations**
+```bash
+php artisan migrate
+```
+
+8. **Peupler la base avec des données de test**
+```bash
+php artisan db:seed
+```
+
+9. **Lancer le serveur de développement**
+```bash
+php artisan serve
+```
+
+10. **Accéder à l'application**
+Ouvrez votre navigateur : `http://localhost:8000` 
+
+---
+
+##  Comptes de Test
+
+Après avoir exécuté les seeders, utilisez ces comptes :
+
+### Administrateur
+- **Email :** Chayma@gmail.ma
+- **Mot de passe :** password
+
+### Tech Manager
+- **Email :** tech.manager@datacenter.com
+- **Mot de passe :** password
+
+### Utilisateur
+- **Email :** fatimaZahrae@gmail.ma
+- **Mot de passe :** password
+
+---
+
+## Structure du Projet
+```
+datacenter-project/
+├── app/
+│   ├── Console/Commands/          # Commandes CRON (HALIMA)
+│   ├── Http/Controllers/          # Contrôleurs (TOUS)
+│   ├── Http/Middleware/           # Middleware (Fatima ZAHRAE)
+│   ├── Models/                    # Modèles Eloquent (FATIMA)
+│   ├── Services/                  # Services métier (TOUS)
+│   └── Policies/                  # Permissions (Fatima ZAHRAE)
+├── database/
+│   ├── migrations/                # Migrations (FATIMA)
+│   └── seeders/                   # Seeders (FATIMA)
+├── resources/
+│   └── views/
+│       ├── layouts/               # Layouts (CHAYMAE)
+│       ├── components/            # Composants (CHAYMAE)
+│       ├── auth/                  # Vues auth (Fatima ZAHRAE)
+│       ├── admin/                 # Vues admin (Fatima ZAHRAE)
+│       ├── resources/             # Vues ressources (OUARDA)
+│       ├── reservations/          # Vues réservations (HALIMA)
+│       └── dashboard/             # Dashboards (FATIMA)
+├── public/
+│   ├── css/                       # CSS personnalisés (CHAYMAE + OUARDA)
+│   └── js/                        # JavaScript (CHAYMAE + HALIMA + OUARDA)
+├── routes/
+│   └── web.php                    # Routes (TOUS)
+└── docs/                          # Documentation individuelle
+    ├── fatima/
+    ├── Fatima zahrae/
+    ├── ouarda/
+    ├── halima/
+    └── chaymae/
+```
+
+---
+
+##  Sécurité
+
+- Authentification Laravel avec middleware
+-  Protection CSRF sur tous les formulaires
+-  Protection XSS
+-  Rate Limiting sur les tentatives de connexion
+-  Gestion des rôles et permissions
+-  Journalisation des actions importantes
+-  Validation des données côté serveur
+
+---
+
+##  Documentation
+
+La documentation détaillée de chaque module se trouve dans le dossier `/docs` :
+
+- [Documentation Base de Données](docs/fatima/rapport-fatima.md)
+- [Documentation Authentification](docs/zahrae/Rapport-FatimaZahrae.md)
+- [Documentation Ressources](docs/ouarda/rapport-ouarda.md)
+- [Documentation Réservations](docs/halima/rapport-halima.md)
+- [Documentation Design System](docs/chaymae/rapport-chaymae.md)
+le rapport globale se trouve dans `/docs/RapportFinale`
+
+---
+
+##  Démonstration
+
+Scénario de démonstration disponible dans : `video.mp4`
+
+---
+
+##  Contact
+
+Pour toute question ou suggestion concernant ce projet :
+
+- **Repository :** https://github.com/dev-projectdatacenter/datacenter-project
+- **Issues :** https://github.com/dev-projectdatacenter/datacenter-project/issues
+
+---
+
+##  Licence
+
+Ce projet a été développé dans un cadre académique.
+
+
+---
+
+**Développé avec coeur par l'équipe Data Center Management**
+
+**Date :28 Janvier 2026
+
+**Version :** 1.0
