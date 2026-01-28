@@ -227,7 +227,7 @@ body {
 /* Sidebar */
 .sidebar {
     width: 260px;
-    background: #ffffff;
+    background: #d1d5db;
     border-right: 1px solid #e2e8f0;
     padding: 1.5rem 0;
     position: fixed;
@@ -555,7 +555,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location = this.getAttribute('onclick').match(/'(.*?)'/)[1];
             }
         });
-    });
-});
-</script>
-@endsection
+    </script>
+</body>
+</html>

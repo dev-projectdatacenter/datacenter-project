@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #194569;
+            --primary: #424665;
             --primary-light: #e8f0fe;
             --secondary: #2c5282;
             --success: #28a745;
@@ -48,7 +48,7 @@
         /* Sidebar */
         .sidebar {
             width: 260px;
-            background: #ffffff;
+            background: #d1d5db;
             border-right: 1px solid #e2e8f0;
             padding: 1.5rem 0;
             position: fixed;

@@ -58,8 +58,17 @@ class ResourcePolicy
      */
     public function delete(User $user, Resource $resource): bool
     {
-        // Seul l'admin peut supprimer des ressources
-        return $user->role->name === 'admin';
+        // Admin peut supprimer toutes les ressources
+        if ($user->role->name === 'admin') {
+            return true;
+        }
+
+        // Tech manager peut supprimer seulement les ressources qu'il gère
+        if ($user->role->name === 'tech_manager' && $resource->managed_by === $user->id) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

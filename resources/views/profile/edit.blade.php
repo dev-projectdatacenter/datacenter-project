@@ -8,36 +8,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #4361ee;
-            --primary-light: #eef2ff;
-            --secondary: #3f37c9;
+            --primary-slate: #434861;   /* Ton bleu-gris signature */
+            --sidebar-bg: #d1d5db;      /* Ton gris sidebar signature */
+            --sidebar-hover: #c4c9d4;
+            --bg-main: #f3f4f6;
+            --white: #ffffff;
             --success: #10b981;
             --danger: #ef4444;
-            --warning: #f59e0b;
-            --info: #3b82f6;
-            --light: #f8fafc;
-            --dark: #1e293b;
-            --gray: #64748b;
+            --text-dark: #2d3748;
+            --text-gray: #718096;
             --light-gray: #e2e8f0;
-            --border-radius: 8px;
-            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
         
         * {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', sans-serif;
         }
         
         body {
-            background-color: #f8fafc;
-            color: #1e293b;
-            line-height: 1.6;
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            background-color: var(--bg-main);
+            color: var(--text-dark);
         }
         
         .dashboard-container {
@@ -45,409 +37,242 @@
             min-height: 100vh;
         }
         
-        /* Sidebar */
+        /* --- SIDEBAR STYLE SIGNATURE --- */
         .sidebar {
             width: 260px;
-            background: #ffffff;
-            border-right: 1px solid #e2e8f0;
-            padding: 1.5rem 0;
+            background: var(--sidebar-bg);
+            border-right: 1px solid rgba(0,0,0,0.05);
+            padding: 2rem 0;
             position: fixed;
             height: 100%;
-            overflow-y: auto;
-            transition: var(--transition);
             z-index: 100;
         }
         
         .logo {
-            text-align: center;
-            padding: 20px 0;
-            font-size: 1.5rem;
+            padding: 0 25px 40px;
+            font-size: 1.6rem;
             font-weight: 700;
-            color: var(--primary);
-            border-bottom: 1px solid var(--light-gray);
-            margin-bottom: 20px;
+            color: var(--primary-slate);
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
         
-        .nav-menu {
-            list-style: none;
-            padding: 0 15px;
-        }
-        
-        .nav-item {
-            margin-bottom: 5px;
-        }
+        .nav-menu { list-style: none; padding: 0 10px; }
         
         .nav-link {
             display: flex;
             align-items: center;
-            padding: 12px 15px;
-            color: var(--gray);
+            gap: 12px;
+            padding: 12px 20px;
+            color: var(--text-gray);
             text-decoration: none;
             border-radius: 8px;
-            transition: all 0.3s ease;
+            font-weight: 500;
+            margin-bottom: 5px;
+            transition: 0.2s;
         }
         
         .nav-link:hover, .nav-link.active {
-            background-color: rgba(108, 117, 125, 0.1);
-            color: var(--primary);
+            background-color: var(--sidebar-hover);
+            color: var(--primary-slate) !important;
         }
+
+        .nav-link i { width: 20px; text-align: center; }
         
-        .nav-link i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-        
-        /* Main Content */
+        /* --- MAIN CONTENT --- */
         .main-content {
             flex: 1;
             margin-left: 260px;
-            padding: 2rem;
+            padding: 30px 40px;
         }
         
-        /* Header */
-        .header {
-            background: white;
-            padding: 1.5rem 2rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            margin-bottom: 2rem;
+        /* --- HEADER CARD --- */
+        .header-card {
+            background: var(--white);
+            padding: 20px 30px;
+            border-radius: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
         }
         
-        .header-title h1 {
-            font-size: 1.875rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 0.25rem;
-        }
-        
-        .header-subtitle {
-            color: var(--gray);
-            font-size: 0.875rem;
-        }
-        
-        .header-actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-        
-        .notification-icon {
-            position: relative;
-            cursor: pointer;
-            color: var(--gray);
-            transition: var(--transition);
-        }
-        
-        .notification-icon:hover {
-            color: var(--primary);
-        }
-        
-        .notification-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: var(--danger);
+        .header-info h1 { font-size: 1.4rem; color: var(--text-dark); margin: 0; }
+        .header-info p { color: var(--text-gray); font-size: 0.9rem; margin-top: 5px; }
+
+        .user-profile { display: flex; align-items: center; gap: 12px; }
+        .avatar-circle {
+            width: 40px; height: 40px;
+            background: var(--primary-slate);
             color: white;
             border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 600;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold;
         }
         
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.5rem 1rem;
-            background: var(--light);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .user-menu:hover {
-            background: var(--light-gray);
-        }
-        
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.875rem;
-        }
-        
-        /* Profile Form */
-        .profile-container {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            max-width: 800px;
+        /* --- FORM CONTAINER --- */
+        .profile-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: var(--shadow);
         }
         
         .section-title {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid var(--light-gray);
+            color: var(--primary-slate);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--bg-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
         
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
+        .form-group { display: flex; flex-direction: column; }
         
         .form-label {
-            font-weight: 500;
-            color: var(--dark);
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-        }
-        
-        .form-label .required {
-            color: var(--danger);
-            margin-left: 2px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            font-size: 0.85rem;
         }
         
         .form-input {
-            padding: 0.75rem 1rem;
+            padding: 12px 15px;
             border: 1px solid var(--light-gray);
-            border-radius: 6px;
-            font-size: 0.875rem;
-            transition: var(--transition);
-            background: white;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: #fcfcfc;
+            transition: 0.3s;
         }
         
         .form-input:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+            border-color: var(--primary-slate);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(67, 72, 97, 0.1);
         }
+
+        .form-help { color: var(--text-gray); font-size: 0.75rem; margin-top: 5px; }
         
-        .form-input.error {
-            border-color: var(--danger);
-        }
-        
-        .form-error {
-            color: var(--danger);
-            font-size: 0.75rem;
-            margin-top: 0.25rem;
-        }
-        
-        .form-help {
-            color: var(--gray);
-            font-size: 0.75rem;
-            margin-top: 0.25rem;
-        }
-        
+        /* --- BUTTONS --- */
         .form-actions {
             display: flex;
-            gap: 1rem;
             justify-content: flex-end;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--light-gray);
+            gap: 15px;
+            padding-top: 25px;
+            border-top: 1px solid var(--bg-main);
         }
         
         .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            font-weight: 500;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: var(--secondary);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
-        }
-        
-        .btn-outline {
-            background: white;
-            color: var(--gray);
-            border: 1px solid var(--light-gray);
-        }
-        
-        .btn-outline:hover {
-            background: var(--light);
-            border-color: var(--gray);
-        }
-        
-        /* Alert */
-        .alert {
-            padding: 1rem 1.5rem;
+            padding: 12px 25px;
             border-radius: 8px;
-            margin-bottom: 1.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+            border: none;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 8px;
+            text-decoration: none;
         }
         
-        .alert-success {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
+        .btn-primary { background: var(--primary-slate); color: white; }
+        .btn-primary:hover { background: #33384d; transform: translateY(-1px); }
         
-        .alert-danger {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.2);
+        .btn-outline { background: #f8fafc; color: var(--text-gray); border: 1px solid var(--light-gray); }
+        .btn-outline:hover { background: #edf2f7; }
+
+        /* --- ALERTS --- */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
         }
-        
-        /* Responsive */
+        .alert-success { background: #ecfdf5; color: var(--success); border: 1px solid #d1fae5; }
+        .alert-danger { background: #fef2f2; color: var(--danger); border: 1px solid #fee2e2; }
+
         @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            
-            .main-content {
-                margin-left: 0;
-                padding: 1rem;
-            }
-            
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-            
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-actions {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
+            .sidebar { transform: translateX(-100%); }
+            .main-content { margin-left: 0; padding: 20px; }
         }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo">
+                <i class="fas fa-server"></i>
                 <span>DataCenter</span>
             </div>
             <nav>
                 <ul class="nav-menu">
                     <li class="nav-item">
                         <a href="{{ route('dashboard.user') }}" class="nav-link">
-                            <i class="fas fa-home"></i>
-                            <span>Tableau de bord</span>
+                            <i class="fas fa-home"></i> <span>Tableau de bord</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('reservations.index') }}" class="nav-link">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>Mes réservations</span>
+                            <i class="fas fa-calendar-alt"></i> <span>Mes réservations</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('notifications.index') }}" class="nav-link">
-                            <i class="fas fa-bell"></i>
-                            <span>Notifications</span>
-                            @php
-                                $unreadCount = auth()->user()->unreadNotificationsCount();
-                            @endphp
-                            @if($unreadCount > 0)
-                                <span class="notification-badge">{{ $unreadCount }}</span>
-                            @endif
+                            <i class="fas fa-bell"></i> <span>Notifications</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('profile.edit') }}" class="nav-link active">
-                            <i class="fas fa-cog"></i>
-                            <span>Paramètres</span>
+                            <i class="fas fa-user-cog"></i> <span>Paramètres</span>
                         </a>
                     </li>
                 </ul>
             </nav>
         </aside>
 
-        <!-- Main Content -->
         <main class="main-content">
-            <!-- Header -->
-            <header class="header">
-                <div class="header-title">
+            <header class="header-card">
+                <div class="header-info">
                     <h1>Paramètres du profil</h1>
-                    <p class="header-subtitle">Gérez vos informations personnelles et votre mot de passe</p>
+                    <p>Mettez à jour vos informations et sécurisez votre compte</p>
                 </div>
-                <div class="header-actions">
-                    <div class="notification-icon" onclick="window.location.href='{{ route('notifications.index') }}'">
-                        <i class="fas fa-bell"></i>
-                        @php
-                            $unreadCount = auth()->user()->unreadNotificationsCount();
-                        @endphp
-                        @if($unreadCount > 0)
-                            <span class="notification-badge">{{ $unreadCount }}</span>
-                        @endif
+                <div class="user-profile">
+                    <div class="avatar-circle">
+                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                     </div>
-                    <div class="user-menu">
-                        <div class="user-avatar">
-                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                        </div>
-                        <span>{{ auth()->user()->name }}</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
+                    <span style="font-weight: 600;">{{ auth()->user()->name }}</span>
                 </div>
             </header>
 
-            <!-- Profile Form -->
-            <div class="profile-container">
+            <div class="profile-card">
                 @if(session('success'))
                     <div class="alert alert-success">
-                        <i class="fas fa-check-circle"></i>
-                        {{ session('success') }}
+                        <i class="fas fa-check-circle"></i> {{ session('success') }}
                     </div>
                 @endif
 
                 @if($errors->any())
                     <div class="alert alert-danger">
-                        <i class="fas fa-exclamation-circle"></i>
+                        <i class="fas fa-exclamation-triangle"></i>
                         <div>
-                            @foreach($errors->all() as $error)
-                                <div>{{ $error }}</div>
-                            @endforeach
+                            @foreach($errors->all() as $error) <div>{{ $error }}</div> @endforeach
                         </div>
                     </div>
                 @endif
@@ -456,103 +281,42 @@
                     @csrf
                     @method('PUT')
                     
-                    <h2 class="section-title">Informations personnelles</h2>
-                    
+                    <h2 class="section-title"><i class="fas fa-id-card"></i> Informations personnelles</h2>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="name" class="form-label">
-                                Nom complet <span class="required">*</span>
-                            </label>
-                            <input 
-                                type="text" 
-                                id="name" 
-                                name="name" 
-                                value="{{ old('name', $user->name) }}" 
-                                class="form-input {{ $errors->has('name') ? 'error' : '' }}"
-                                required
-                            >
-                            @if($errors->has('name'))
-                                <div class="form-error">{{ $errors->first('name') }}</div>
-                            @endif
+                            <label class="form-label">Nom complet *</label>
+                            <input type="text" name="name" value="{{ old('name', $user->name) }}" class="form-input" required>
                         </div>
-                        
                         <div class="form-group">
-                            <label for="email" class="form-label">
-                                Adresse email <span class="required">*</span>
-                            </label>
-                            <input 
-                                type="email" 
-                                id="email" 
-                                name="email" 
-                                value="{{ old('email', $user->email) }}" 
-                                class="form-input {{ $errors->has('email') ? 'error' : '' }}"
-                                required
-                            >
-                            @if($errors->has('email'))
-                                <div class="form-error">{{ $errors->first('email') }}</div>
-                            @endif
+                            <label class="form-label">Adresse email *</label>
+                            <input type="email" name="email" value="{{ old('email', $user->email) }}" class="form-input" required>
                         </div>
                     </div>
 
-                    <h2 class="section-title">Changer le mot de passe</h2>
-                    
+                    <h2 class="section-title"><i class="fas fa-shield-alt"></i> Sécurité</h2>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="current_password" class="form-label">
-                                Mot de passe actuel
-                            </label>
-                            <input 
-                                type="password" 
-                                id="current_password" 
-                                name="current_password" 
-                                class="form-input {{ $errors->has('current_password') ? 'error' : '' }}"
-                            >
-                            @if($errors->has('current_password'))
-                                <div class="form-error">{{ $errors->first('current_password') }}</div>
-                            @endif
-                            <div class="form-help">Laissez vide si vous ne voulez pas changer votre mot de passe</div>
+                            <label class="form-label">Mot de passe actuel</label>
+                            <input type="password" name="current_password" class="form-input" placeholder="••••••••">
+                            <p class="form-help">Requis pour changer le mot de passe</p>
                         </div>
-                        
                         <div class="form-group">
-                            <label for="new_password" class="form-label">
-                                Nouveau mot de passe
-                            </label>
-                            <input 
-                                type="password" 
-                                id="new_password" 
-                                name="new_password" 
-                                class="form-input {{ $errors->has('new_password') ? 'error' : '' }}"
-                            >
-                            @if($errors->has('new_password'))
-                                <div class="form-error">{{ $errors->first('new_password') }}</div>
-                            @endif
-                            <div class="form-help">Minimum 8 caractères</div>
+                            <label class="form-label">Nouveau mot de passe</label>
+                            <input type="password" name="new_password" class="form-input" placeholder="••••••••">
+                            <p class="form-help">8 caractères minimum</p>
                         </div>
-                        
                         <div class="form-group">
-                            <label for="new_password_confirmation" class="form-label">
-                                Confirmer le nouveau mot de passe
-                            </label>
-                            <input 
-                                type="password" 
-                                id="new_password_confirmation" 
-                                name="new_password_confirmation" 
-                                class="form-input {{ $errors->has('new_password_confirmation') ? 'error' : '' }}"
-                            >
-                            @if($errors->has('new_password_confirmation'))
-                                <div class="form-error">{{ $errors->first('new_password_confirmation') }}</div>
-                            @endif
+                            <label class="form-label">Confirmer le nouveau mot de passe</label>
+                            <input type="password" name="new_password_confirmation" class="form-input" placeholder="••••••••">
                         </div>
                     </div>
 
                     <div class="form-actions">
                         <a href="{{ route('dashboard.user') }}" class="btn btn-outline">
-                            <i class="fas fa-arrow-left"></i>
-                            Retour au tableau de bord
+                            <i class="fas fa-times"></i> Annuler
                         </a>
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i>
-                            Enregistrer les modifications
+                            <i class="fas fa-check"></i> Enregistrer les modifications
                         </button>
                     </div>
                 </form>

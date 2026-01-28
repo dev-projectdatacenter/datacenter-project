@@ -129,6 +129,7 @@
     </div>
 </div>
 
+<<<<<<< HEAD
 <style>
 :root {
     --primary: #194569;
@@ -511,3 +512,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endsection
+=======
+>>>>>>> feature/frontend

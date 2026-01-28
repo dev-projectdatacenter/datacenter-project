@@ -17,6 +17,7 @@ class Resource extends Model
         'status',       // available / busy / maintenance
         'cpu',
         'ram',
+        'bandwidth',
         'storage',
         'os',
         'location',
@@ -53,6 +54,11 @@ class Resource extends Model
     public function incidents()
     {
         return $this->hasMany(Incident::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(ResourceComment::class);
     }
 
     /**
