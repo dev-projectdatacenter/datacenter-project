@@ -36,6 +36,11 @@
 
     <!-- Main Content -->
     <main class="main-content">
+        <!-- Toggle Button -->
+        <button class="sidebar-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+
         <!-- Header -->
         <header class="header">
             <div class="header-title">
@@ -158,6 +163,9 @@
                 <div class="info-content">
                     <h3>Support technique</h3>
                     <p>Équipe d'experts disponible pour vous accompagner</p>
+                    <button class="sidebar-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -257,11 +265,11 @@ body {
 
 /* Sidebar */
 .sidebar {
-    width: 260px;
+    width: 280px;
     background: #ffffff;
     border-right: 1px solid #e2e8f0;
     padding: 1.5rem 0;
-    position: fixed;
+    position: relative;
     height: 100%;
     overflow-y: auto;
     transition: var(--transition);
@@ -315,8 +323,13 @@ body {
 /* Main Content */
 .main-content {
     flex: 1;
-    margin-left: 260px;
+    margin-left: 280px;
     padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content.sidebar-collapsed {
+    margin-left: 0;
 }
 
 /* Header */
@@ -682,20 +695,24 @@ body {
 }
 </style>
 
-<script>
-function showContactModal() {
-    document.getElementById('contactModal').classList.add('show');
-}
-
-function hideContactModal() {
-    document.getElementById('contactModal').classList.remove('show');
-}
-
-// Close modal when clicking outside
-document.getElementById('contactModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        hideContactModal();
-    }
-});
-</script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            const toggleBtn = document.querySelector('.sidebar-toggle');
+            
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('sidebar-collapsed');
+            
+            // Change icon
+            const icon = toggleBtn.querySelector('i');
+            if (sidebar.classList.contains('collapsed')) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        }
+    </script>
 @endsection
