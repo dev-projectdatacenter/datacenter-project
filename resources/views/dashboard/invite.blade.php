@@ -269,12 +269,12 @@ body {
 }
 
 .logo {
-    text-align: center;
-    padding: 20px 0;
+    text-align: left;
+    padding: 15px 20px;
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary);
-    margin-bottom: 10px;
+    margin-bottom: 0;
 }
 
 .logo i {
@@ -283,7 +283,7 @@ body {
 
 .nav-menu {
     list-style: none;
-    padding: 0 15px;
+    padding: 0 20px;
 }
 
 .nav-item {
@@ -293,7 +293,7 @@ body {
 .nav-link {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 12px 15px;
     color: var(--gray);
     text-decoration: none;
