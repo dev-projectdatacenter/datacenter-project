@@ -274,8 +274,7 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary);
-    border-bottom: 1px solid var(--light-gray);
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .logo i {
