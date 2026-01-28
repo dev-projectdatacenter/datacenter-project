@@ -282,7 +282,7 @@ le rapport globale se trouve dans `/docs/RapportFinale`
 
 ##  Démonstration
 
-Scénario de démonstration disponible dans : `video.mp4`
+Scénario de démonstration disponible dans : `/docs/video.mp4`
 
 ---
 
