@@ -17,7 +17,7 @@
             <div class="page-header">
                 <h1 class="page-title">Mes Réservations</h1>
                 <div class="page-actions">
-                    <a href="{{ route('reservations.create') }}" class="btn btn-primary">
+                    <a href="{{ route('reservations.create') }}" class="btn btn-primary" >
                         <span class="btn-icon">+</span>
                         Nouvelle Réservation
                     </a>

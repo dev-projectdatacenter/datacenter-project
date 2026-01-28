@@ -162,6 +162,7 @@
 </div>
 @endsection
 
+<<<<<<< HEAD
 @push('styles')
 <style>
     /* Styles pour les badges d'action */
@@ -226,6 +227,8 @@
 </style>
 @endpush
 
+=======
+>>>>>>> feature/frontend
 @push('scripts')
 <script>
     // Auto-rafraîchissement toutes les 30 secondes

@@ -25,7 +25,7 @@
             <div class="stat-label">Taux d'Occupation</div>
             <div class="stat-value text-success">{{ $generalStats['occupancy_rate'] }}%</div>
             <div class="progress-bar-container">
-                <div class="progress-bar-fill bg-success" style="width: {{ $generalStats['occupancy_rate'] }}%;"></div>
+                  <div class="progress-bar-fill bg-success" style="width: {{ $generalStats['occupancy_rate'] }}%;"></div>
             </div>
         </div>
         <div class="stat-card stat-card-blue">
@@ -60,6 +60,5 @@
             </div>
         </div>
     </div>
-</div>
 
 @endsection

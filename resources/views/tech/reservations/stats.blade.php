@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Statistiques des approbations - Data Center</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/reservations.css') }}">
 </head>
+
 <body>
     <div class="app-container">
         <!-- Navigation -->
         @include('components.navigation', ['title' => 'Statistiques'])
-        
+
         <!-- Main Content -->
         <main class="main-content">
             <div class="page-header">
@@ -35,7 +38,7 @@
                         <p>Demandes en attente</p>
                     </div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-icon success">
                         <i class="fas fa-check-circle"></i>
@@ -45,7 +48,7 @@
                         <p>Approuvées aujourd'hui</p>
                     </div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-icon danger">
                         <i class="fas fa-times-circle"></i>
@@ -55,7 +58,7 @@
                         <p>Refusées aujourd'hui</p>
                     </div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-icon info">
                         <i class="fas fa-chart-line"></i>
@@ -78,15 +81,19 @@
                             <div class="chart-item">
                                 <div class="chart-label">Approuvées</div>
                                 <div class="chart-bar">
-                                    <div class="chart-fill success" style="width: {{ $stats['total_approved'] > 0 ? ($stats['total_approved'] / ($stats['total_approved'] + $stats['total_rejected'])) * 100 : 0 }}%"></div>
+                                    <div class="chart-fill success"
+                                        style="width: {{ $stats['total_approved'] > 0 ? ($stats['total_approved'] / ($stats['total_approved'] + $stats['total_rejected'])) * 100 : 0 }}%">
+                                    </div>
                                 </div>
                                 <div class="chart-value">{{ $stats['total_approved'] }}</div>
                             </div>
-                            
+
                             <div class="chart-item">
                                 <div class="chart-label">Refusées</div>
                                 <div class="chart-bar">
-                                    <div class="chart-fill danger" style="width: {{ $stats['total_rejected'] > 0 ? ($stats['total_rejected'] / ($stats['total_approved'] + $stats['total_rejected'])) * 100 : 0 }}%"></div>
+                                    <div class="chart-fill danger"
+                                        style="width: {{ $stats['total_rejected'] > 0 ? ($stats['total_rejected'] / ($stats['total_approved'] + $stats['total_rejected'])) * 100 : 0 }}%">
+                                    </div>
                                 </div>
                                 <div class="chart-value">{{ $stats['total_rejected'] }}</div>
                             </div>
@@ -111,7 +118,7 @@
                                 <p>{{ $stats['pending'] }} demande(s) en attente</p>
                             </div>
                         </a>
-                        
+
                         <a href="{{ route('tech.reservations.all') }}" class="action-card">
                             <div class="action-icon">
                                 <i class="fas fa-list"></i>
@@ -142,21 +149,21 @@
                                 @endif
                             </div>
                         </div>
-                        
+
                         <div class="info-item">
                             <div class="info-label">Activité aujourd'hui</div>
                             <div class="info-value">
                                 {{ $stats['approved_today'] + $stats['rejected_today'] }} décision(s)
                             </div>
                         </div>
-                        
+
                         <div class="info-item">
                             <div class="info-label">Demandes en attente</div>
                             <div class="info-value">
                                 {{ $stats['pending'] }} demande(s)
                             </div>
                         </div>
-                        
+
                         <div class="info-item">
                             <div class="info-label">Dernière mise à jour</div>
                             <div class="info-value">
@@ -171,18 +178,18 @@
 
     <script>
         // Rafraîchir les statistiques toutes les 30 secondes
-        setInterval(function() {
+        setInterval(function () {
             location.reload();
         }, 30000);
-        
+
         // Animation des chiffres au chargement
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const statValues = document.querySelectorAll('.stat-content h3');
             statValues.forEach(value => {
                 const finalValue = parseInt(value.textContent);
                 let currentValue = 0;
                 const increment = Math.ceil(finalValue / 20);
-                
+
                 const counter = setInterval(() => {
                     currentValue += increment;
                     if (currentValue >= finalValue) {
@@ -195,4 +202,5 @@
         });
     </script>
 </body>
+
 </html>
