@@ -714,5 +714,36 @@ body {
                 icon.classList.add('fa-times');
             }
         }
+
+        function showContactModal() {
+            const modal = document.getElementById('contactModal');
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function hideContactModal() {
+            const modal = document.getElementById('contactModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('contactModal');
+            if (modal && event.target === modal) {
+                hideContactModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                hideContactModal();
+            }
+        });
     </script>
 @endsection
