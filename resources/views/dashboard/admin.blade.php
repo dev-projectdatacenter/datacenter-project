@@ -123,6 +123,9 @@
             <a href="{{ route('admin.users.index') }}" class="nav-link"><i class="fas fa-users"></i> <span>Utilisateurs</span></a>
             <a href="{{ route('admin.reservations.index') }}" class="nav-link"><i class="fas fa-calendar-alt"></i> <span>Réservations</span></a>
             <a href="{{ route('admin.logs.index') }}" class="nav-link"><i class="fas fa-terminal"></i> <span>Logs système</span></a>
+            @can('view-global-statistics')
+            <a href="{{ route('statistics.index') }}" class="nav-link"><i class="fas fa-chart-bar"></i> <span>Statistiques</span></a>
+            @endcan
             <a href="{{ route('admin.settings.index') }}" class="nav-link"><i class="fas fa-cog"></i> <span>Paramètres</span></a>
         </nav>
     </aside>

@@ -13,6 +13,7 @@ class MaintenanceController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Maintenance::class);
         $maintenances = Maintenance::with('resource')->orderBy('start_date', 'asc')->get();
         return view('maintenances.index', compact('maintenances'));
     }
@@ -22,6 +23,8 @@ class MaintenanceController extends Controller
      */
     public function create(Request $request)
     {
+        $this->authorize('create', Maintenance::class);
+
         $resourceId = $request->query('resource_id');
         $resource = $resourceId ? Resource::findOrFail($resourceId) : null;
         $resources = Resource::all();
@@ -34,6 +37,8 @@ class MaintenanceController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Maintenance::class);
+
         $validated = $request->validate([
             'resource_id' => 'required|exists:resources,id',
             'start_date' => 'required|date|after_or_equal:now',
@@ -43,8 +48,6 @@ class MaintenanceController extends Controller
 
         Maintenance::create($validated);
 
-        // Mettre à jour le statut de la ressource si la maintenance commence maintenant
-        // Optionnel : on pourrait utiliser un job planifié pour ça.
         $resource = Resource::find($validated['resource_id']);
         $resource->update(['status' => 'maintenance']);
 
@@ -57,11 +60,9 @@ class MaintenanceController extends Controller
      */
     public function destroy(Maintenance $maintenance)
     {
-        $resource = $maintenance->resource;
-        $maintenance->delete();
+        $this->authorize('delete', $maintenance);
 
-        // Remettre la ressource en 'available' après suppression ?
-        // On laisse l'utilisateur décider via l'édition de ressource pour plus de sécurité.
+        $maintenance->delete();
         
         return redirect()->route('maintenances.index')
             ->with('success', 'Maintenance annulée / supprimée.');

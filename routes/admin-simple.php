@@ -24,41 +24,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
             ->latest()
             ->paginate(20);
             
-        return '<h1>👥 Gestion des utilisateurs</h1>
-        <table border="1" cellpadding="5">
-            <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>Téléphone</th>
-                <th>Rôle</th>
-                <th>Statut</th>
-                <th>Créé le</th>
-                <th>Actions</th>
-            </tr>
-            @foreach($users as $user)
-            <tr>
-                <td>{{ $user->id }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->phone }}</td>
-                <td>{{ $user->role->name }}</td>
-                <td>{{ $user->status }}</td>
-                <td>{{ $user->created_at->format(\'d/m/Y\') }}</td>
-                <td>
-                    <a href="/admin/users/{{ $user->id }}/edit">✏️</a>
-                    @if($user->status === \'active\')
-                        <a href="/admin/users/{{ $user->id }}/deactivate">🔒</a>
-                    @else
-                        <a href="/admin/users/{{ $user->id }}/activate">🔓</a>
-                    @endif
-                    <a href="/admin/users/{{ $user->id }}/delete">🗑️</a>
-                </td>
-            </tr>
-            @endforeach
-        </table>
-        <p><a href="/admin/users/create">➕ Ajouter un utilisateur</a></p>
-        <p><a href="/admin/dashboard">← Retour dashboard</a></p>';
+        return view('Admin.users.index', compact('users'));
     })->name('admin.users.index');
     
     // Formulaire création utilisateur
@@ -151,33 +117,41 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     
     // Activer/Désactiver utilisateur
     Route::post('/admin/users/{user}/activate', function ($userId) {
-        $user = \App\Models\User::findOrFail($userId);
-        $user->status = 'active';
-        $user->save();
-        
-        \App\Services\ActivityLogService::log(
-            'user_activated',
-            "Utilisateur activé: {$user->name}",
-            auth()->id()
-        );
-        
-        return '<h1>✅ Utilisateur activé</h1>
-        <p><a href="/admin/users">← Retour à la liste</a></p>';
+        try {
+            $user = \App\Models\User::findOrFail($userId);
+            $user->status = 'active';
+            $user->save();
+            
+            \App\Services\ActivityLogService::log(
+                'user_activated',
+                "Utilisateur activé: {$user->name}",
+                auth()->id()
+            );
+            
+            return redirect()->back()->with('success', "✅ Utilisateur {$user->name} activé avec succès");
+            
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', "❌ Erreur lors de l'activation: " . $e->getMessage());
+        }
     })->name('admin.users.activate');
     
     Route::post('/admin/users/{user}/deactivate', function ($userId) {
-        $user = \App\Models\User::findOrFail($userId);
-        $user->status = 'inactive';
-        $user->save();
-        
-        \App\Services\ActivityLogService::log(
-            'user_deactivated',
-            "Utilisateur désactivé: {$user->name}",
-            auth()->id()
-        );
-        
-        return '<h1>🔒 Utilisateur désactivé</h1>
-        <p><a href="/admin/users">← Retour à la liste</a></p>';
+        try {
+            $user = \App\Models\User::findOrFail($userId);
+            $user->status = 'inactive';
+            $user->save();
+            
+            \App\Services\ActivityLogService::log(
+                'user_deactivated',
+                "Utilisateur désactivé: {$user->name}",
+                auth()->id()
+            );
+            
+            return redirect()->back()->with('success', "🔒 Utilisateur {$user->name} désactivé avec succès");
+            
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', "❌ Erreur lors de la désactivation: " . $e->getMessage());
+        }
     })->name('admin.users.deactivate');
     
     // ══════════════════════════════════════════════════════════
@@ -326,27 +300,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
             ->latest()
             ->paginate(50);
             
-        return '<h1>📜 Logs d\'activité</h1>
-        <table border="1" cellpadding="5">
-            <tr>
-                <th>Date</th>
-                <th>Utilisateur</th>
-                <th>Action</th>
-                <th>Description</th>
-                <th>IP</th>
-            </tr>
-            @foreach($logs as $log)
-            <tr>
-                <td>{{ $log->created_at->format(\'d/m/Y H:i\') }}</td>
-                <td>{{ $log->user ? $log->user->name : \'N/A\' }}</td>
-                <td>{{ $log->action }}</td>
-                <td>{{ $log->description }}</td>
-                <td>{{ $log->ip_address }}</td>
-            </tr>
-            @endforeach
-        </table>
-        <p><a href="/admin/dashboard">← Retour dashboard</a></p>';
-    })->name('admin.logs');
+        return view('Admin.logs.index', compact('logs'));
+    })->name('admin.logs.index');
     
     // Statistiques détaillées
     Route::get('/admin/statistics', function () {

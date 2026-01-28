@@ -129,169 +129,106 @@
     </div>
 </div>
 
-<<<<<<< HEAD
 <style>
+/* --- VARIABLES GLOBALES --- */
 :root {
-    --primary: #194569;
-    --secondary: #2c5282;
-    --success: #28a745;
-    --danger: #dc3545;
-    --warning: #ffc107;
-    --info: #17a2b8;
-    --light: #f8f9fa;
-    --dark: #343a40;
-    --gray: #6c757d;
-    --light-gray: #e9ecef;
+    --primary-slate: #434861;   /* Bleu Ardoise */
+    --accent-orange: #e39958ff;   /* Orange Accent */
+    --bg-light: #f3f4f6;        /* Gris Perle / Fond */
+    --white: #ffffff;
+    --success: #27ae60;
+    --danger: #e74c3c;
+    --warning: #f1c40f;
+    --info: #3498db;
+    --text-dark: #2d3748;
+    --text-gray: #718096;
+    --border-color: #edf2f7;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
+/* --- STRUCTURE GÉNÉRALE --- */
 .users-management {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 30px 20px;
+    background-color: var(--bg-light);
+    min-height: 100vh;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+/* --- ESPACEMENTS DES BLOCS (Margin Bottom) --- */
+.page-header, 
+.filters-section, 
+.table-container,
+.admin-card {
+    margin-bottom: 24px !important; /* Espace crucial entre chaque section */
+    box-shadow: var(--shadow);
+}
+
+/* --- HEADER --- */
 .page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
-    padding: 25px;
-    background: white;
+    padding: 25px 30px;
+    background: var(--white);
     border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-left: 6px solid var(--accent-orange);
 }
 
 .page-header h1 {
-    color: var(--dark);
+    color: var(--primary-slate);
     margin: 0;
-    font-size: 1.8rem;
-    font-weight: 600;
-}
-
-.page-header h1 i {
-    margin-right: 12px;
-    color: var(--primary);
-}
-
-.btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    transition: all 0.3s ease;
-    font-size: 14px;
-}
-
-.btn i {
-    margin-right: 8px;
-}
-
-.btn-primary {
-    background: var(--primary);
-    color: white;
-}
-
-.btn-primary:hover {
-    background: var(--secondary);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(25, 69, 105, 0.3);
-}
-
-.alert {
-    padding: 15px 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
+    font-size: 1.75rem;
+    font-weight: 700;
     display: flex;
     align-items: center;
-    font-weight: 500;
 }
 
-.alert-success {
-    background: #d4edda;
-    color: #155724;
-    border-left: 4px solid var(--success);
-}
-
-.alert-error {
-    background: #f8d7da;
-    color: #721c24;
-    border-left: 4px solid var(--danger);
-}
-
-.alert i {
-    margin-right: 10px;
-}
-
+/* --- FILTRES & RECHERCHE --- */
 .filters-section {
     display: flex;
     gap: 20px;
-    margin-bottom: 30px;
-    padding: 20px;
-    background: white;
+    padding: 20px 30px;
+    background: var(--white);
     border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.search-container {
-    flex: 1;
+    align-items: center;
 }
 
 .search-box {
+    flex: 1;
     position: relative;
-    max-width: 400px;
-}
-
-.search-box i {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--gray);
+    max-width: 450px;
 }
 
 .search-box input {
     width: 100%;
     padding: 12px 15px 12px 45px;
-    border: 2px solid var(--light-gray);
+    border: 2px solid var(--border-color);
     border-radius: 8px;
-    font-size: 14px;
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .search-box input:focus {
+    border-color: var(--accent-orange);
     outline: none;
-    border-color: var(--primary);
-}
-
-.filter-container {
-    min-width: 200px;
+    box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
 }
 
 .filter-select {
-    width: 100%;
     padding: 12px 15px;
-    border: 2px solid var(--light-gray);
+    border: 2px solid var(--border-color);
     border-radius: 8px;
-    font-size: 14px;
-    background: white;
+    min-width: 200px;
     cursor: pointer;
-    transition: border-color 0.3s ease;
 }
 
-.filter-select:focus {
-    outline: none;
-    border-color: var(--primary);
-}
-
+/* --- TABLEAU --- */
 .table-container {
-    background: white;
+    background: var(--white);
     border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     overflow: hidden;
+    border: 1px solid var(--border-color);
 }
 
 .users-table {
@@ -300,28 +237,94 @@
 }
 
 .users-table th {
-    background: var(--primary);
-    color: white;
-    padding: 15px;
+    background: var(--primary-slate);
+    color: var(--white);
+    padding: 16px 20px;
     text-align: left;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .users-table td {
-    padding: 15px;
-    border-bottom: 1px solid var(--light-gray);
-    font-size: 14px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-dark);
+    vertical-align: middle;
 }
 
 .users-table tr:hover {
-    background: var(--light);
+    background-color: #fdfaf7; /* Rappel orange très léger */
 }
 
+/* --- BOUTONS --- */
+.btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    background: var(--accent-orange);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #bd6f3bff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(230, 126, 34, 0.2);
+}
+
+/* --- BADGES (Rôles & Statuts) --- */
+.role-badge, .status-badge {
+    padding: 6px 12px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.role-admin { background: #fee2e2; color: #991b1b; }
+.role-tech-manager { background: #fef3c7; color: #92400e; }
+.role-user { background: #e0f2fe; color: #0369a1; }
+
+.status-badge.active { background: #d1fae5; color: #065f46; }
+.status-badge.inactive { background: #f3f4f6; color: #374151; }
+
+/* --- ACTIONS (Boutons de ligne) --- */
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: 0.2s;
+}
+
+.btn-view { background: var(--primary-slate); }
+.btn-edit { background: var(--accent-orange); }
+.btn-delete { background: var(--danger); }
+
+/* --- AVATARS --- */
 .user-info {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .user-avatar-small {
@@ -329,150 +332,18 @@
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid var(--border-color);
 }
 
-.role-badge {
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-}
-
-.role-admin {
-    background: #dc3545;
-    color: white;
-}
-
-.role-tech-manager {
-    background: var(--warning);
-    color: var(--dark);
-}
-
-.role-user {
-    background: var(--info);
-    color: white;
-}
-
-.status-badge {
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 500;
-}
-
-.status-badge.active {
-    background: var(--success);
-    color: white;
-}
-
-.status-badge.inactive {
-    background: var(--gray);
-    color: white;
-}
-
-.actions {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-.action-btn {
-    width: 32px;
-    height: 32px;
-    border: none;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    font-size: 12px;
-    color: white;
-}
-
-.btn-view {
-    background: var(--info);
-}
-
-.btn-view:hover {
-    background: #138496;
-    transform: translateY(-1px);
-}
-
-.btn-edit {
-    background: var(--warning);
-    color: var(--dark);
-}
-
-.btn-edit:hover {
-    background: #e0a800;
-    transform: translateY(-1px);
-}
-
-.btn-deactivate {
-    background: var(--gray);
-}
-
-.btn-deactivate:hover {
-    background: #5a6268;
-    transform: translateY(-1px);
-}
-
-.btn-activate {
-    background: var(--success);
-}
-
-.btn-activate:hover {
-    background: #218838;
-    transform: translateY(-1px);
-}
-
-.btn-delete {
-    background: var(--danger);
-}
-
-.btn-delete:hover {
-    background: #c82333;
-    transform: translateY(-1px);
-}
-
-.action-form {
-    margin: 0;
-    padding: 0;
-}
-
-.no-results {
-    text-align: center;
-    padding: 40px;
-    color: var(--gray);
-}
-
-.no-results i {
-    font-size: 3rem;
-    margin-bottom: 15px;
-    display: block;
-    opacity: 0.5;
-}
-
+/* --- RESPONSIVE --- */
 @media (max-width: 768px) {
-    .filters-section {
-        flex-direction: column;
-    }
-    
-    .search-box {
-        max-width: 100%;
-    }
-    
-    .table-container {
-        overflow-x: auto;
-    }
-    
-    .page-header {
+    .page-header, .filters-section {
         flex-direction: column;
         gap: 15px;
         text-align: center;
+    }
+    .search-box {
+        max-width: 100%;
     }
 }
 </style>
@@ -512,5 +383,3 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endsection
-=======
->>>>>>> feature/frontend

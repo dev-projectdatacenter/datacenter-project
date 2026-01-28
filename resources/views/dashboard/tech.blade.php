@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('title', 'Tableau de Bord Technique')
 
@@ -35,12 +35,21 @@
                         <span>Incidents</span>
                     </a>
                 </li>
+                @can('view-global-statistics')
                 <li class="nav-item">
                     <a href="{{ route('statistics.index') }}" class="nav-link">
                         <i class="fas fa-chart-line"></i>
-                        <span>Statistiques</span>
+                        <span>Statistiques Globales</span>
                     </a>
                 </li>
+                @elsecan('access-tech-dashboard')
+                <li class="nav-item">
+                    <a href="{{ route('statistics.my_resources') }}" class="nav-link">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Mes Statistiques</span>
+                    </a>
+                </li>
+                @endcan
             </ul>
         </nav>
     </aside>
@@ -140,16 +149,29 @@
                 </div>
             </div>
             
+            @can('view-global-statistics')
             <div class="action-card" onclick="window.location.href='{{ route('statistics.index') }}'">
                 <div class="action-icon">
                     <i class="fas fa-chart-line"></i>
                 </div>
                 <div class="action-content">
-                    <h3>Rapports techniques</h3>
-                    <p>Statistiques d'utilisation et performance des ressources</p>
-                    <button class="btn">Voir les rapports</button>
+                    <h3>Rapports Globaux</h3>
+                    <p>Statistiques d'utilisation et performance du Data Center</p>
+                    <button class="btn">Consulter les rapports</button>
                 </div>
             </div>
+            @elsecan('access-tech-dashboard')
+            <div class="action-card" onclick="window.location.href='{{ route('statistics.my_resources') }}'">
+                <div class="action-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <div class="action-content">
+                    <h3>Mes Rapports</h3>
+                    <p>Statistiques d'utilisation de vos ressources supervisées</p>
+                    <button class="btn">Voir mes rapports</button>
+                </div>
+            </div>
+            @endcan
             
             <div class="action-card" onclick="window.location.href='{{ route('incidents.index') }}'">
                 <div class="action-icon">

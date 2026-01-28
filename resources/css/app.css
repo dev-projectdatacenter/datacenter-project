@@ -45,6 +45,11 @@ body {
     color: var(--white);
 }
 
+.topbar {
+    background-color: var(--primary-color);
+    border-bottom: 1px solid #e2e8f0;
+}
+
 .nav-links {
     list-style: none;
     display: flex;
@@ -54,11 +59,12 @@ body {
 .nav-links a {
     color: var(--white);
     text-decoration: none;
-    transition: opacity 0.3s;
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
 
 .nav-links a:hover {
-    opacity: 0.8;
+    color: var(--accent-color);
 }
 
 /* Content Area */

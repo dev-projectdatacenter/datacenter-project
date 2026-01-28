@@ -27,8 +27,10 @@
                     </span>
                 @endif
             </a>
-            @can('view-statistics')
-                <a href="{{ url('/statistics') }}" style="text-decoration: none; color: #4a5568; font-weight: 500;">Statistiques</a>
+            @can('view-global-statistics')
+                <a href="{{ route('statistics.index') }}" style="text-decoration: none; color: #4a5568; font-weight: 500;">Statistiques Globales</a>
+            @elsecan('view-personal-statistics')
+                <a href="{{ route('statistics.my_resources') }}" style="text-decoration: none; color: #4a5568; font-weight: 500;">Mes Statistiques</a>
             @endcan
             <a href="{{ url('/dashboard') }}" style="text-decoration: none; color: #4a5568; font-weight: 500;">Dashboard</a>
         </nav>

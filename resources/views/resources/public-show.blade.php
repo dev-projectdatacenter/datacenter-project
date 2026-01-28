@@ -83,6 +83,7 @@
             </div>
         </div>
 
+        @guest
         <div class="guest-notice">
             <div class="notice-icon">
                 <i class="fas fa-info-circle"></i>
@@ -90,21 +91,66 @@
             <div class="notice-content">
                 <h4>Vue Invité</h4>
                 <p>Vous consultez cette ressource en mode lecture seule. Pour réserver cette ressource, 
-                   <a href="{{ route('guest.request-account') }}">demandez un compte</a>.</p>
+                   <a href="{{ route('register') }}">demandez un compte</a>.</p>
             </div>
         </div>
+        @endguest
 
+        @auth
+        <div class="user-notice">
+            <div class="notice-icon">
+                <i class="fas fa-user-check"></i>
+            </div>
+            <div class="notice-content">
+                <h4>Vue Utilisateur</h4>
+                <p>Vous êtes connecté en tant que {{ auth()->user()->name }}. 
+                   @if(auth()->user()->role->name === 'user')
+                   Vous pouvez consulter les détails de cette ressource et 
+                   <a href="{{ route('incidents.report', $resource) }}">signaler un incident</a> si nécessaire.
+                   @elseif(auth()->user()->role->name === 'tech_manager')
+                   Vous pouvez gérer les incidents et maintenances pour cette ressource.
+                   @elseif(auth()->user()->role->name === 'admin')
+                   Vous avez un accès complet à la gestion de cette ressource.
+                   @endif
+                </p>
+            </div>
+        </div>
+        @endauth
+
+        @guest
         <div class="action-links">
             <a href="{{ route('resources.public') }}" class="btn btn-primary">
                 <i class="fas fa-list"></i> Voir toutes les ressources
             </a>
-            <a href="{{ route('guest.rules') }}" class="btn btn-secondary">
+            <a href="/" class="btn btn-secondary">
                 <i class="fas fa-book"></i> Consulter les règles
             </a>
-            <a href="{{ route('guest.request-account') }}" class="btn btn-success">
+            <a href="{{ route('register') }}" class="btn btn-success">
                 <i class="fas fa-user-plus"></i> Demander un compte
             </a>
         </div>
+        @endguest
+
+        @auth
+        <div class="action-links">
+            <a href="{{ route('resources.index') }}" class="btn btn-primary">
+                <i class="fas fa-list"></i> Voir toutes les ressources
+            </a>
+            @if(auth()->user()->role->name === 'user')
+                <a href="{{ route('incidents.report', $resource) }}" class="btn btn-warning">
+                    <i class="fas fa-exclamation-triangle"></i> Signaler un incident
+                </a>
+            @endif
+            @if(auth()->user()->role->name === 'tech_manager' || auth()->user()->role->name === 'admin')
+                <a href="{{ route('resources.edit', $resource) }}" class="btn btn-secondary">
+                    <i class="fas fa-edit"></i> Modifier la ressource
+                </a>
+            @endif
+            <a href="{{ route('dashboard.guest') }}" class="btn btn-info">
+                <i class="fas fa-tachometer-alt"></i> Tableau de bord
+            </a>
+        </div>
+        @endauth
     </div>
 </div>
 
@@ -251,6 +297,17 @@
     margin-bottom: 30px;
 }
 
+.user-notice {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: rgba(39, 174, 96, 0.1);
+    border: 1px solid rgba(39, 174, 96, 0.2);
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
 .notice-icon {
     font-size: 2rem;
     color: var(--accent);
@@ -273,6 +330,31 @@
 }
 
 .notice-content a:hover {
+    text-decoration: underline;
+}
+
+.user-notice .notice-icon {
+    font-size: 2rem;
+    color: #27ae60;
+}
+
+.user-notice .notice-content h4 {
+    color: var(--dark);
+    margin-bottom: 10px;
+}
+
+.user-notice .notice-content p {
+    color: var(--gray);
+    margin: 0;
+}
+
+.user-notice .notice-content a {
+    color: #27ae60;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.user-notice .notice-content a:hover {
     text-decoration: underline;
 }
 

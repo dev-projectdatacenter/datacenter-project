@@ -3,6 +3,210 @@
 @section('title', 'Modifier un utilisateur')
 
 @section('content')
+
+<style>
+/* --- VARIABLES --- */
+:root {
+    --primary: #434861;        /* Bleu Ardoise */
+    --accent: #cf884aff;         /* Orange Accent */
+    --bg-light: #f3f4f6;       /* Gris Perle */
+    --white: #ffffff;
+    --danger: #a82f21ff;
+    --warning: #f1c40f;
+    --success: #27ae60;
+    --text-dark: #2d3748;
+    --text-gray: #718096;
+    --border: #edf2f7;
+}
+
+/* --- STRUCTURE --- */
+.admin-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.admin-header h1 {
+    color: var(--primary);
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+/* --- ALERTES --- */
+.alert-danger {
+    background: #fff5f5;
+    border-left: 5px solid var(--danger);
+    color: #c53030;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* --- CARTES & SECTIONS --- */
+.admin-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+    border: 1px solid var(--border);
+}
+
+.form-section {
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.form-section h3 {
+    color: var(--primary);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.section-description {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+/* --- PROFIL HEADER (L'encart en haut du formulaire) --- */
+.user-info-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+    padding: 20px;
+    background: var(--bg-light);
+    border-radius: 10px;
+}
+
+.avatar-circle {
+    width: 70px;
+    height: 70px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(67, 72, 97, 0.3);
+}
+
+.user-details h2 { margin: 0; color: var(--primary); }
+.user-details p { margin: 5px 0; color: var(--text-gray); }
+
+.user-badges {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* --- BADGES --- */
+.role-badge, .status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.role-admin { background: #fee2e2; color: #991b1b; }
+.role-tech_manager { background: #fef3c7; color: #92400e; }
+.role-user { background: #e0f2fe; color: #0369a1; }
+
+.status-badge.active { background: var(--success); color: white; }
+.status-badge.inactive { background: var(--text-gray); color: white; }
+
+/* --- FORMULAIRE --- */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group { display: flex; flex-direction: column; margin-bottom: 15px; }
+.form-label { font-weight: 600; color: var(--primary); margin-bottom: 8px; }
+.required { color: var(--accent); }
+
+.form-input, .form-select {
+    padding: 12px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.form-input:focus, .form-select:focus {
+    border-color: var(--accent);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+}
+
+/* --- CHECKBOX CUSTOM --- */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.form-help { color: var(--text-gray); font-size: 0.8rem; margin-top: 5px; }
+
+/* --- BOUTONS --- */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-primary { background: var(--accent); color: white; border: none; }
+.btn-primary:hover { background: #c06a31ff; transform: translateY(-2px); }
+
+.btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text-gray); }
+.btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+
+/* --- ZONE DE DANGER --- */
+.danger-zone {
+    border: 2px solid #feb2b2;
+    background: #fff5f5;
+}
+
+.danger-zone h3 { color: #a01f1fff; margin-top: 0; }
+.danger-actions { display: flex; gap: 15px; margin-top: 20px; }
+
+.btn-danger { background: var(--danger); color: white; border: none; }
+.btn-warning { background: #cf884aff; color: white; border: none; }
+
+@media (max-width: 768px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .admin-header { flex-direction: column; gap: 15px; }
+}
+</style>
+
 <div class="admin-container">
     <div class="admin-header">
         <h1>Modifier l'utilisateur</h1>

@@ -31,18 +31,23 @@ class ActivityLog extends Model
      */
     public function getActionColor()
     {
+        $action = strtolower($this->action);
         $colors = [
-            'create' => 'action-create',
-            'update' => 'action-update',
-            'delete' => 'action-delete',
-            'login' => 'action-login',
-            'logout' => 'action-logout',
-            'error' => 'action-error',
-            'warning' => 'action-warning',
-            'default' => 'action-default'
+            'connexion' => 'action-login',
+            'déconnexion' => 'action-logout',
+            'creation' => 'action-create',
+            'mise à jour' => 'action-update',
+            'suppression' => 'action-delete',
+            'erreur' => 'action-error',
+            'avertissement' => 'action-warning',
         ];
 
-        return $colors[strtolower($this->action)] ?? $colors['default'];
+        // Gérer les cas comme 'USER_CREATED', 'USER_UPDATED'
+        if (str_contains($action, 'create')) return $colors['creation'];
+        if (str_contains($action, 'update')) return $colors['mise à jour'];
+        if (str_contains($action, 'delete')) return $colors['suppression'];
+
+        return $colors[$action] ?? 'action-default';
     }
 
     /**
@@ -52,16 +57,22 @@ class ActivityLog extends Model
      */
     public function getActionLabel()
     {
+        $action = strtolower($this->action);
         $labels = [
-            'create' => 'Création',
-            'update' => 'Mise à jour',
-            'delete' => 'Suppression',
-            'login' => 'Connexion',
-            'logout' => 'Déconnexion',
-            'error' => 'Erreur',
-            'warning' => 'Avertissement'
+            'connexion' => 'Connexion',
+            'déconnexion' => 'Déconnexion',
+            'creation' => 'Création',
+            'mise à jour' => 'Mise à jour',
+            'suppression' => 'Suppression',
+            'erreur' => 'Erreur',
+            'avertissement' => 'Avertissement',
         ];
 
-        return $labels[strtolower($this->action)] ?? ucfirst($this->action);
+        // Gérer les cas comme 'USER_CREATED', 'USER_UPDATED'
+        if (str_contains($action, 'create')) return $labels['creation'];
+        if (str_contains($action, 'update')) return $labels['mise à jour'];
+        if (str_contains($action, 'delete')) return $labels['suppression'];
+
+        return $labels[$action] ?? ucfirst($this->action);
     }
 }

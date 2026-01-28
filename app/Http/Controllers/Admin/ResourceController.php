@@ -69,10 +69,11 @@ class ResourceController extends Controller
      */
     public function index(Request $request)
     {
-        // Récupérer TOUTES les ressources (tous statuts)
+        $this->authorize('viewAny', Resource::class);
+
         $query = Resource::with('category');
-        
-        // Filtres de recherche
+
+
         if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
@@ -80,27 +81,7 @@ class ResourceController extends Controller
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
-        
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
 
-        if ($request->filled('cpu')) {
-            $query->where('cpu', 'like', '%' . $request->cpu . '%');
-        }
-
-        if ($request->filled('ram')) {
-            $query->where('ram', 'like', '%' . $request->ram . '%');
-        }
-
-        if ($request->filled('os')) {
-            $query->where('os', 'like', '%' . $request->os . '%');
-        }
-
-        if ($request->filled('location')) {
-            $query->where('location', 'like', '%' . $request->location . '%');
-        }
-        
         $resources = $query->paginate(15);
         $categories = ResourceCategory::all();
         
@@ -141,8 +122,13 @@ class ResourceController extends Controller
             'storage' => 'nullable|string|max:255',
             'os' => 'nullable|string|max:255',
             'location' => 'nullable|string|max:255',
-            'managed_by' => 'nullable|exists:users,id'
+            'managed_by_id' => 'nullable|exists:users,id' // Correction du nom du champ
         ]);
+
+        // Si l'utilisateur est un tech_manager, l'assigner automatiquement
+        if (auth()->user()->role->name === 'tech_manager') {
+            $validated['managed_by_id'] = auth()->id();
+        }
         
         // Créer la ressource
         Resource::create($validated);
@@ -158,8 +144,9 @@ class ResourceController extends Controller
      */
     public function show(Resource $resource)
     {
-        // Charger les relations
-        $resource->load('category', 'reservations.user');
+        $this->authorize('view', $resource);
+
+        $resource->load('category', 'reservations.user', 'comments.user');
         
         return view('resources.show', compact('resource'));
     }
@@ -198,7 +185,7 @@ class ResourceController extends Controller
             'storage' => 'nullable|string|max:255',
             'os' => 'nullable|string|max:255',
             'location' => 'nullable|string|max:255',
-            'managed_by' => 'nullable|exists:users,id'
+            'managed_by_id' => 'nullable|exists:users,id'
         ]);
         
         // Mettre à jour

@@ -22,6 +22,7 @@ class ResourceSeeder extends Seeder
                 'storage' => '2TB SSD',
                 'os' => 'Ubuntu 22.04',
                 'location' => null,
+                'managed_by_id' => 2, // Assigné au Responsable Technique
             ],
             [
                 'category_id' => 2, 
