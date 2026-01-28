@@ -6,9 +6,17 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\Policies\ResourcePolicy;
 use App\Policies\ReservationPolicy;
+use App\Policies\IncidentPolicy;
+use App\Policies\MaintenancePolicy;
+use App\Policies\CategoryPolicy;
+use App\Policies\ResourceCommentPolicy;
 use App\Models\Resource;
 use App\Models\Reservation;
 use App\Models\User;
+use App\Models\Incident;
+use App\Models\Maintenance;
+use App\Models\ResourceCategory;
+use App\Models\ResourceComment;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -20,6 +28,10 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Resource::class => ResourcePolicy::class,
         Reservation::class => ReservationPolicy::class,
+        Incident::class => IncidentPolicy::class,
+        Maintenance::class => MaintenancePolicy::class,
+        ResourceCategory::class => CategoryPolicy::class,
+        ResourceComment::class => ResourceCommentPolicy::class,
     ];
 
     /**
@@ -29,62 +41,64 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // Gates pour les permissions générales
-        Gate::define('admin', function (User $user) {
+        // Accorde toutes les permissions à l'administrateur
+        Gate::before(function ($user, $ability) {
+            if ($user->role->name === 'admin') {
+                return true;
+            }
+        });
+
+        // ====================================================================
+        // PERMISSIONS GLOBALES PAR RÔLE (GATES)
+        // ====================================================================
+
+        // Rôle Administrateur
+        Gate::define('access-admin-dashboard', function (User $user) {
             return $user->role->name === 'admin';
         });
 
-        Gate::define('tech-manager', function (User $user) {
-            return $user->role->name === 'tech_manager';
+        // Rôle Responsable Technique
+        Gate::define('access-tech-dashboard', function (User $user) {
+            return in_array($user->role->name, ['admin', 'tech_manager']);
         });
 
-        Gate::define('user', function (User $user) {
-            return $user->role->name === 'user';
+        // Rôle Utilisateur
+        Gate::define('access-user-dashboard', function (User $user) {
+            return in_array($user->role->name, ['user', 'tech_manager', 'admin']);
         });
 
+        // Voir les statistiques personnelles (pour Techs et Users)
+        Gate::define('view-personal-statistics', function (User $user) {
+            return in_array($user->role->name, ['tech_manager', 'user']);
+        });
+
+        // ====================================================================
+        // PERMISSIONS SPÉCIFIQUES
+        // ====================================================================
+
+        // Gestion des utilisateurs (Admin seulement)
         Gate::define('manage-users', function (User $user) {
             return $user->role->name === 'admin';
         });
 
+        // Voir les logs (Admin seulement)
         Gate::define('view-logs', function (User $user) {
             return $user->role->name === 'admin';
         });
 
-        Gate::define('manage-resources', function (User $user) {
-            return in_array($user->role->name, ['admin', 'tech_manager']);
+        // Voir les statistiques globales (Admin seulement)
+        Gate::define('view-global-statistics', function (User $user) {
+            return $user->role->name === 'admin';
         });
 
-        Gate::define('create-reservations', function (User $user) {
-            return in_array($user->role->name, ['user', 'tech_manager', 'admin']);
-        });
-
-        Gate::define('approve-reservations', function (User $user) {
-            return in_array($user->role->name, ['admin', 'tech_manager']);
-        });
-
-        Gate::define('view-statistics', function (User $user) {
-            return in_array($user->role->name, ['admin', 'tech_manager']);
-        });
-
+        // Gérer les demandes de compte (Admin seulement)
         Gate::define('manage-account-requests', function (User $user) {
             return $user->role->name === 'admin';
         });
 
-        // Gates pour les actions spécifiques
-        Gate::define('edit-own-profile', function (User $user, User $profileUser) {
-            return $user->id === $profileUser->id;
-        });
-
-        Gate::define('delete-own-account', function (User $user, User $targetUser) {
-            return $user->id === $targetUser->id && $user->role->name !== 'admin';
-        });
-
-        Gate::define('access-admin-panel', function (User $user) {
-            return $user->role->name === 'admin';
-        });
-
-        Gate::define('access-tech-panel', function (User $user) {
-            return in_array($user->role->name, ['admin', 'tech_manager']);
+        // Laisser un commentaire (Tout utilisateur authentifié)
+        Gate::define('add-comment', function (User $user) {
+            return in_array($user->role->name, ['user', 'tech_manager', 'admin']);
         });
     }
 }

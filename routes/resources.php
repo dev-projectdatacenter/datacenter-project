@@ -25,7 +25,10 @@ Route::get('/all-resources', function() {
     return view('resources.public-index', compact('resources'));
 })->name('resources.public');
 
-// Voir uniquement les ressources disponibles
+// Voir les détails d'une ressource sans authentification (lecture seule)
+Route::get('/resource/{resource}', function(\App\Models\Resource $resource) {
+    return view('resources.public-show', compact('resource'));
+})->name('resources.public.show');
 Route::get('/disponibilites', function() {
     $resources = \App\Models\Resource::with('category')
         ->where('status', 'available')
@@ -33,12 +36,6 @@ Route::get('/disponibilites', function() {
         
     return view('resources.available-index', compact('resources'));
 })->name('public.resources.available');
-
-// Voir le détail d'une ressource spécifique
-Route::get('/resource/{resource}', function(\App\Models\Resource $resource) {
-    return view('resources.public-show', compact('resource'));
-})->name('resources.public.show');
-
 
 // ════════════════════════════════════════════════════════════
 // ROUTES PROTÉGÉES - GESTION DES RESSOURCES
@@ -68,8 +65,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/incidents/{incident}/convert-to-maintenance', [IncidentController::class, 'convertToMaintenance'])->name('incidents.convert-to-maintenance');
 
     // JOUR 7 & 8 : Statistiques
-    Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
-    Route::get('/statistics/my-resources', [StatisticsController::class, 'myResources'])->name('statistics.my_resources');
+    Route::get('/statistics', [StatisticsController::class, 'index'])
+        ->name('statistics.index')
+        ->middleware('can:view-global-statistics');
+    Route::get('/statistics/my-resources', [StatisticsController::class, 'myResources'])
+        ->name('statistics.my_resources')
+        ->middleware('can:view-personal-statistics');
     
     // JOUR 9 : Discussions et commentaires
     Route::post('/resources/{resource}/comments', [ResourceCommentController::class, 'store'])->name('comments.store');

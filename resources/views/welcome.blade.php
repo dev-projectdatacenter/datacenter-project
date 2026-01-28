@@ -29,7 +29,7 @@
                 pour vos équipes.</p>
 
             <div class="hero-actions">
-                <a href="{{ url('/resources') }}" class="btn btn-primary btn-lg">
+                <a href="{{ route('dashboard.guest') }}" class="btn btn-primary btn-lg">
                     Accéder à la plateforme
                     <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
                 </a>

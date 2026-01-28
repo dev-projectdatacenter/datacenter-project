@@ -17,7 +17,7 @@
     }
 
     /* Masquer la navigation par défaut du layout Laravel */
-    nav.navbar, header.main-header {
+    nav.navbar, header.main-header, header.topbar {
         display: none !important;
     }
 
@@ -140,12 +140,18 @@
 
     .stat-card {
         background: var(--white);
-        padding: 25px;
-        border-radius: 15px;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: var(--shadow);
         display: flex;
         align-items: center;
-        gap: 20px;
-        box-shadow: var(--shadow);
+        gap: 1.5rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
     }
 
     .icon-box {

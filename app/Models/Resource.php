@@ -21,7 +21,7 @@ class Resource extends Model
         'storage',
         'os',
         'location',
-        'managed_by',
+        'managed_by_id',
     ];
 
     /**
@@ -66,6 +66,6 @@ class Resource extends Model
      */
     public function supervisor()
     {
-        return $this->belongsTo(User::class, 'managed_by');
+        return $this->belongsTo(User::class, 'managed_by_id');
     }
 }

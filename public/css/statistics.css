@@ -94,8 +94,14 @@
 }
 
 .chart-wrapper {
-    height: 250px;
+    height: 300px;
     position: relative;
+    width: 100%;
+}
+
+.chart-wrapper canvas {
+    max-height: 100%;
+    max-width: 100%;
 }
 
 /* Backgrounds des cartes stat */

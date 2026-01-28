@@ -121,7 +121,7 @@
                                             </td>
                                             <td>
                                                 <div class="justification" title="{{ $reservation->justification }}">
-                                                    {{ Str::limit($reservation->justification, 50) }}
+                                                    {{ strlen($reservation->justification) > 50 ? substr($reservation->justification, 0, 50) . '...' : $reservation->justification }}
                                                 </div>
                                             </td>
                                             <td>

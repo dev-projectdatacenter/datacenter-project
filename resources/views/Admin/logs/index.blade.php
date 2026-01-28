@@ -283,14 +283,6 @@ h1 {
                         </table>
                     </div>
 
-                    <!-- Pagination -->
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <div>
-                            Affichage de {{ $logs->firstItem() }} à {{ $logs->lastItem() }} 
-                            sur {{ $logs->total() }} logs
-                        </div>
-                        {{ $logs->links() }}
-                    </div>
                 </div>
             </div>
 

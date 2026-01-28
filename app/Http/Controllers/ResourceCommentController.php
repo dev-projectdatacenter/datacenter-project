@@ -31,13 +31,11 @@ class ResourceCommentController extends Controller
      */
     public function destroy(ResourceComment $comment)
     {
-        // Seul l'admin ou le tech manager responsable de la ressource peut supprimer
-        if (auth()->user()->role->name !== 'admin' && auth()->user()->id !== $comment->resource->managed_by) {
-            abort(403);
-        }
+        // Utilise la ResourceCommentPolicy pour vérifier si l'utilisateur peut supprimer
+        $this->authorize('delete', $comment);
 
         $comment->delete();
 
-        return back()->with('success', 'Commentaire supprimé.');
+        return back()->with('success', 'Commentaire supprimé avec succès.');
     }
 }

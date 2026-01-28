@@ -213,8 +213,8 @@
                 <h2>{{ $user->name }}</h2>
                 <p class="user-email">{{ $user->email }}</p>
                 <div class="user-badges">
-                    <span class="role-badge role-{{ $user->role }}">
-                        {{ __('roles.' . $user->role) }}
+                    <span class="role-badge role-{{ $user->role->name ?? '' }}">
+                        {{ $user->role->name ?? 'N/A' }}
                     </span>
                     <span class="status-badge {{ $user->is_active ? 'active' : 'inactive' }}">
                         {{ $user->is_active ? 'Actif' : 'Inactif' }}
@@ -242,8 +242,8 @@
                     <div class="detail-item">
                         <dt>Rôle</dt>
                         <dd>
-                            <span class="role-badge role-{{ $user->role }}">
-                                {{ __('roles.' . $user->role) }}
+                            <span class="role-badge role-{{ $user->role->name ?? '' }}">
+                                {{ $user->role->name ?? 'N/A' }}
                             </span>
                         </dd>
                     </div>

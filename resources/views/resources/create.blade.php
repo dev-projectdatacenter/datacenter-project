@@ -46,7 +46,7 @@
             @can('admin')
             <div style="margin-bottom: 15px;">
                 <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #0f1e3f;">Responsable technique (Tech Manager) :</label>
-                <select name="managed_by" style="width: 100%; padding: 10px; border: 1px solid #e2d1b9; border-radius: 4px; background: #fdfaf5; color: #0f1e3f;">
+                <select name="managed_by_id" style="width: 100%; padding: 10px; border: 1px solid #e2d1b9; border-radius: 4px; background: #fdfaf5; color: #0f1e3f;">
                     <option value="">-- Aucun --</option>
                     @foreach($techManagers as $tech)
                         <option value="{{ $tech->id }}">{{ $tech->name }}</option>

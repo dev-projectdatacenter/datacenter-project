@@ -12,6 +12,7 @@ class ResourceCategoryController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', ResourceCategory::class);
         $categories = ResourceCategory::all();
         return view('resource_categories.index', compact('categories'));
     }
@@ -21,6 +22,7 @@ class ResourceCategoryController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', ResourceCategory::class);
         return view('resource_categories.create');
     }
 
@@ -29,6 +31,8 @@ class ResourceCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', ResourceCategory::class);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:resource_categories',
             'description' => 'nullable|string|max:500',
@@ -45,6 +49,7 @@ class ResourceCategoryController extends Controller
      */
     public function edit(ResourceCategory $category)
     {
+        $this->authorize('update', $category);
         return view('resource_categories.edit', compact('category'));
     }
 
@@ -53,6 +58,8 @@ class ResourceCategoryController extends Controller
      */
     public function update(Request $request, ResourceCategory $category)
     {
+        $this->authorize('update', $category);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:resource_categories,name,' . $category->id,
             'description' => 'nullable|string|max:500',
@@ -69,7 +76,8 @@ class ResourceCategoryController extends Controller
      */
     public function destroy(ResourceCategory $category)
     {
-        // Vérifier si la catégorie contient des ressources avant de supprimer
+        $this->authorize('delete', $category);
+
         if ($category->resources()->count() > 0) {
             return redirect()->route('categories.index')
                 ->with('error', 'Impossible de supprimer : cette catégorie contient des ressources.');
