@@ -83,4 +83,17 @@ class StatisticsService
         return \App\Models\Incident::where('status', 'open')->with(['user', 'resource'])->get();
     }
 
+    // Calculate total reservation hours for a user
+    public function monthlyHours(?int $userId = null): float
+    {
+        $query = Reservation::query();
+
+        if ($userId) {
+            $query->where('user_id', $userId);
+        }
+
+        return $query->selectRaw('SUM(TIMESTAMPDIFF(HOUR, start_date, end_date)) as total_hours')
+            ->value('total_hours') ?? 0;
+    }
+
 }

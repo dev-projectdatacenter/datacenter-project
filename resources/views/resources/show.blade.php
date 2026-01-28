@@ -56,37 +56,10 @@
         </div>
     </div>
 
+    <!-- Comments section -->
     <div class="info-card" style="margin-top: 2rem; background: white; padding: 2rem; border: 1px solid #e2d1b9; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);">
         <h3 style="color: #0f1e3f; font-size: 1.5rem; margin-bottom: 1.5rem;"><i class="fas fa-comments"></i> Discussions et Questions</h3>
         
-        <div class="comments-list" style="margin-bottom: 2rem;">
-            @forelse($resource->comments as $comment)
-                <div class="comment-item" style="border-bottom: 1px dashed #e2d1b9; padding: 1.5rem 0; display: flex; justify-content: space-between; align-items: start;">
-                    <div style="flex: 1;">
-                        <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                            <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 12px;">
-                                {{ strtoupper(substr($comment->user->name, 0, 1)) }}
-                            </div>
-                            <div>
-                                <strong style="color: #0f1e3f;">{{ $comment->user->name }}</strong>
-                                <small style="color: #666; margin-left: 10px;">{{ $comment->created_at->diffForHumans() }}</small>
-                            </div>
-                        </div>
-                        <p style="margin: 0; color: #4a5568; line-height: 1.6; padding-left: 52px;">{{ $comment->content }}</p>
-                    </div>
-                    @can('delete', $comment)
-                        <form action="{{ route('comments.destroy', $comment) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" style="background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 0.9rem;"><i class="fas fa-trash"></i></button>
-                        </form>
-                    @endcan
-                </div>
-            @empty
-                <p style="color: #666; text-align: center; padding: 2rem; background: #f8f9fa; border-radius: 8px;">Aucun commentaire pour cette ressource.</p>
-            @endforelse
-        </div>
-
         <form action="{{ route('comments.store', $resource) }}" method="POST" style="background: #fdfaf5; padding: 2rem; border-radius: 12px; border: 1px solid #e2d1b9;">
             @csrf
             <div style="margin-bottom: 1.5rem;">
@@ -95,6 +68,7 @@
             </div>
             <button type="submit" class="btn btn-primary" style="background: #0f1e3f; color: white; border: none; padding: 1rem 2rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;"><i class="fas fa-paper-plane"></i> Envoyer le message</button>
         </form>
+    </div>
     </div>
 </div>
 

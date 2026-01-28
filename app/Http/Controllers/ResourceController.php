@@ -172,7 +172,7 @@ class ResourceController extends Controller
     public function show(Resource $resource)
     {
         // Charger les relations
-        $resource->load('category', 'reservations.user', 'comments.user');
+        $resource->load('category', 'reservations.user');
         
         return view('resources.show', compact('resource'));
     }

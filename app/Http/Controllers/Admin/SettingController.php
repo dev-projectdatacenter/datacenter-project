@@ -14,22 +14,22 @@ class SettingController extends Controller
      */
     public function index()
     {
-        $settings = Setting::all()->pluck('value', 'key');
+        // Temporarily disabled - table doesn't exist yet
+        // $settings = Setting::all()->pluck('value', 'key');
         
         // Valeurs par défaut
-        $defaults = [
-            'site_name' => 'Data Center Manager',
-            'contact_email' => 'contact@example.com',
+        $settings = [
+            'site_name' => 'Data Center Management',
+            'site_description' => 'Système de gestion du centre de données',
+            'admin_email' => 'admin@datacenter.com',
             'timezone' => 'Europe/Paris',
-            'max_booking_days' => 7,
-            'min_booking_notice' => 24, // heures
-            'max_concurrent_bookings' => 3,
+            'date_format' => 'd/m/Y',
+            'time_format' => 'H:i',
+            'language' => 'fr',
             'maintenance_mode' => false,
-            'maintenance_message' => 'Le système est actuellement en maintenance. Veuillez réessayer plus tard.'
+            'max_file_size' => 10240,
+            'allowed_extensions' => 'jpg,jpeg,png,pdf,doc,docx',
         ];
-        
-        // Fusionner avec les valeurs par défaut
-        $settings = array_merge($defaults, $settings->toArray());
         
         return view('admin.settings.index', compact('settings'));
     }
@@ -50,17 +50,18 @@ class SettingController extends Controller
             'maintenance_message' => 'nullable|string',
         ]);
 
-        foreach ($validated as $key => $value) {
-            Setting::updateOrCreate(
-                ['key' => $key],
-                ['value' => $value]
-            );
-        }
+        // Temporarily disabled - table doesn't exist yet
+        // foreach ($validated as $key => $value) {
+        //     Setting::updateOrCreate(
+        //         ['key' => $key],
+        //         ['value' => $value]
+        //     );
+        // }
 
         // Vider le cache des paramètres
         Cache::forget('settings');
 
         return redirect()->route('admin.settings.index')
-            ->with('success', 'Paramètres mis à jour avec succès');
+            ->with('success', 'Paramètres mis à jour avec succès (sauvegarde temporairement désactivée)');
     }
 }

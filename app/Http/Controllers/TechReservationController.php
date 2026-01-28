@@ -60,12 +60,11 @@ return view('reservations.index', compact('reservations', 'resources', 'users'))
     }
 
     /**
-     * Liste des réservations en attente d'approbation
+     * Liste des réservations gérées par le tech manager
      */
     public function pending(Request $request)
     {
         $query = Reservation::with(['user', 'resource'])
-            ->where('status', 'pending')
             ->orderBy('created_at', 'desc');
 
         // Filtres
@@ -77,6 +76,10 @@ return view('reservations.index', compact('reservations', 'resources', 'users'))
             $query->where('user_id', $request->user_id);
         }
 
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
         if ($request->filled('date_from')) {
             $query->where('start_date', '>=', $request->date_from);
         }
@@ -86,7 +89,7 @@ return view('reservations.index', compact('reservations', 'resources', 'users'))
         }
 
         $reservations = $query->paginate(15);
-        $resources = Resource::where('status', 'available')->get();
+        $resources = Resource::all();
         $users = User::where('role_id', 3)->get(); // 3 = role 'user'
 
         return view('tech.reservations.pending', compact('reservations', 'resources', 'users'));
@@ -118,8 +121,6 @@ return view('reservations.index', compact('reservations', 'resources', 'users'))
             // Mettre à jour le statut
             $reservation->update([
                 'status' => 'approved',
-                'approved_by' => auth()->id(),
-                'approved_at' => now(),
             ]);
 
             // Mettre à jour le statut de la ressource si nécessaire
@@ -161,8 +162,6 @@ return view('reservations.index', compact('reservations', 'resources', 'users'))
             // Mettre à jour le statut
             $reservation->update([
                 'status' => 'rejected',
-                'rejected_by' => auth()->id(),
-                'rejected_at' => now(),
                 'rejection_reason' => $request->reason,
             ]);
 
@@ -224,8 +223,6 @@ return view('reservations.index', compact('reservations', 'resources', 'users'))
             try {
                 $reservation->update([
                     'status' => 'approved',
-                    'approved_by' => auth()->id(),
-                    'approved_at' => now(),
                 ]);
 
                 $this->updateResourceStatus($reservation->resource);
@@ -277,8 +274,6 @@ return view('reservations.index', compact('reservations', 'resources', 'users'))
             try {
                 $reservation->update([
                     'status' => 'rejected',
-                    'rejected_by' => auth()->id(),
-                    'rejected_at' => now(),
                     'rejection_reason' => $request->reason,
                 ]);
 

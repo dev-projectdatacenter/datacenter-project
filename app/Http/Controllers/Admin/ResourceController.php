@@ -146,7 +146,7 @@ class ResourceController extends Controller
     {
         $this->authorize('view', $resource);
 
-        $resource->load('category', 'reservations.user', 'comments.user');
+        $resource->load('category', 'reservations.user');
         
         return view('resources.show', compact('resource'));
     }

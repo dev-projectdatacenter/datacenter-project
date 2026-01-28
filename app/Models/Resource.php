@@ -56,10 +56,10 @@ class Resource extends Model
         return $this->hasMany(Incident::class);
     }
 
-    public function comments()
+    /*public function comments()
     {
         return $this->hasMany(ResourceComment::class);
-    }
+    }*/
 
     /**
      * Relation : une ressource est gérée par un utilisateur (Tech Manager)
