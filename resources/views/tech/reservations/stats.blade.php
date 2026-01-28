@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistiques des approbations - Data Center</title>
+    <title>Toutes les réservations - Data Center</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/reservations.css') }}">
 </head>
 <body>
     <div class="app-container">
         <!-- Navigation -->
-        @include('components.navigation', ['title' => 'Statistiques'])
+        @include('components.navigation', ['title' => 'Réservations'])
         
         <!-- Main Content -->
         <main class="main-content">
             <div class="page-header">
-                <h1 class="page-title">Statistiques des approbations</h1>
+                <h1 class="page-title">Voir toutes les réservations</h1>
                 <div class="page-actions">
                     <a href="{{ route('tech.reservations.pending') }}" class="btn btn-outline">
                         <i class="fas fa-list"></i>

@@ -9,10 +9,6 @@
                 <i class="fas fa-clock"></i>
                 Demandes en attente
             </a>
-            <a href="{{ route('tech.reservations.stats') }}" class="btn btn-outline">
-                <i class="fas fa-chart-bar"></i>
-                Statistiques
-            </a>
         </div>
     </div>
 

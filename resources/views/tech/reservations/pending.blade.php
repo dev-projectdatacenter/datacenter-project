@@ -18,9 +18,9 @@
             <div class="page-header">
                 <h1 class="page-title">Réservations en attente d'approbation</h1>
                 <div class="page-actions">
-                    <a href="{{ route('tech.reservations.stats') }}" class="btn btn-outline">
-                        <i class="fas fa-chart-bar"></i>
-                        Statistiques
+                    <a href="{{ route('tech.reservations.index') }}" class="btn btn-outline">
+                        <i class="fas fa-list"></i>
+                        Toutes les réservations
                     </a>
                 </div>
             </div>

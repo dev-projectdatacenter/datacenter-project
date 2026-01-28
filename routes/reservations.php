@@ -20,6 +20,9 @@ Route::middleware(['auth', 'throttle:60,1'])->group(function () {
     // RÉSERVATIONS UTILISATEURS (User, Tech Manager, Admin)
     // ════════════════════════════════════════════════════════════
     
+    // Statistiques personnelles (accessibles à tous les utilisateurs authentifiés)
+    Route::get('/reservations/stats', [ReservationController::class, 'stats'])->name('reservations.stats');
+    
     Route::middleware('role:user')->prefix('reservations')->name('reservations.')->group(function () {
         // Liste des réservations de l'utilisateur
         Route::get('/', [ReservationController::class, 'index'])->name('index');
@@ -42,9 +45,6 @@ Route::middleware(['auth', 'throttle:60,1'])->group(function () {
         
         // Historique des réservations
         Route::get('/history', [ReservationController::class, 'history'])->name('history');
-        
-        // Statistiques personnelles
-        Route::get('/stats', [ReservationController::class, 'stats'])->name('stats');
         
         // API vérification disponibilité
         Route::post('/api/check-availability', [ReservationController::class, 'checkAvailability'])->name('api.check-availability');
@@ -73,11 +73,8 @@ Route::middleware(['auth', 'throttle:60,1'])->group(function () {
         // Refuser plusieurs réservations
         Route::put('/reservations/bulk-reject', [TechReservationController::class, 'bulkReject'])->name('reservations.bulk-reject');
         
-        // Statistiques des approbations
-        Route::get('/reservations/stats', [TechReservationController::class, 'stats'])->name('reservations.stats');
-        
         // Toutes les réservations (pour les ressources gérées)
-        Route::get('/reservations', [TechReservationController::class, 'index'])->name('reservations.index');
+        Route::get('/reservations', [TechReservationController::class, 'all'])->name('reservations.index');
         
         // Détails réservation
         Route::get('/reservations/{reservation}', [TechReservationController::class, 'show'])->name('reservations.show');

@@ -163,6 +163,7 @@
         </main>
     </div>
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/reservations.js') }}"></script>
 </body>

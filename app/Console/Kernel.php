@@ -12,8 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('reservations:activate')->everyMinute();
-        $schedule->command('reservations:complete')->everyMinute();
+        $schedule->command('reservations:update-status')->everyMinute();
         $schedule->command('reservations:send-reminders')->everyFifteenMinutes();
     }
 

@@ -94,4 +94,29 @@ class StatisticsService
             ->pluck('count', 'status')
             ->toArray();
     }
+
+    /**
+     * Get monthly usage hours for a user
+     *
+     * @param int|null $userId Optional user ID to filter by user
+     * @return float
+     */
+    public function monthlyHours(?int $userId = null): float
+    {
+        $query = Reservation::query()
+            ->where('status', 'active')
+            ->whereMonth('start_date', now()->month)
+            ->whereYear('start_date', now()->year);
+        
+        if ($userId) {
+            $query->where('user_id', $userId);
+        }
+        
+        // Calculer les heures en fonction de la durée des réservations
+        return $query->get()->sum(function($reservation) {
+            $start = \Carbon\Carbon::parse($reservation->start_date);
+            $end = \Carbon\Carbon::parse($reservation->end_date);
+            return $start->diffInHours($end);
+        });
+    }
 }

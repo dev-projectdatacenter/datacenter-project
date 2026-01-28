@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
-use Illuminate\Session\TokenMismatchException;
 
 class VerifyCsrfToken extends Middleware
 {
@@ -13,18 +12,12 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        // Webhooks externes (si nécessaire)
-        'webhooks/*',
-        'api/webhooks/*',
-        
-        // Routes de paiement externes (si nécessaire)
-        'payment/callback/*',
-        'stripe/webhook',
-        
-        // Routes d'authentification OAuth (si nécessaire)
-        'oauth/*',
-        'login/oauth/*',
+        '/login',
+        '/logout',
+        '/register',
+        '/password/*',
     ];
+}
 
     /**
      * Handle unauthenticated access to CSRF protected routes.

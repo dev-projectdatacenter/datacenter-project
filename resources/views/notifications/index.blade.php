@@ -21,7 +21,10 @@
             </div>
             <div class="header-right">
                 <span class="user-name">{{ auth()->user()->name }}</span>
-                <a href="{{ route('logout') }}" class="logout-btn">Déconnexion</a>
+                <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display: none;">
+                    @csrf
+                </form>
+                <button type="button" class="logout-btn" onclick="document.getElementById('logout-form').submit();">Déconnexion</button>
             </div>
         </div>
     </header>

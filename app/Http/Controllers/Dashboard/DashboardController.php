@@ -76,6 +76,7 @@ class DashboardController extends BaseController
             // Utilisateur simple = ses données seulement
             $statistics['totalReservations'] = $this->stats->totalReservations($user->id);
             $statistics['reservationsByStatus'] = $this->stats->reservationsByStatus($user->id);
+            $statistics['monthlyHours'] = $this->stats->monthlyHours($user->id);
         }
 
         // Alertes spéciales Tech Manager

@@ -30,6 +30,9 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 // Authentification & Admin - ZAHRAE
 require __DIR__.'/auth.php';
 
+// Modération des discussions
+require __DIR__.'/moderation.php';
+
 // Gestion des Ressources - OUARDA
 require __DIR__.'/resources.php';
 

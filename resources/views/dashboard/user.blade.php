@@ -126,19 +126,19 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <h3>📅 Mes réservations</h3>
-                    <div class="number">0</div>
+                    <div class="number">{{ $statistics['totalReservations'] ?? 0 }}</div>
                 </div>
                 <div class="stat-card">
                     <h3>🖥️ Ressources disponibles</h3>
-                    <div class="number">0</div>
+                    <div class="number">{{ $statistics['availableResources'] ?? 0 }}</div>
                 </div>
                 <div class="stat-card">
                     <h3>⏰ Réservations en cours</h3>
-                    <div class="number">0</div>
+                    <div class="number">{{ $statistics['reservationsByStatus']['active'] ?? 0 }}</div>
                 </div>
                 <div class="stat-card">
                     <h3>📊 Utilisation ce mois</h3>
-                    <div class="number">0h</div>
+                    <div class="number">{{ $statistics['monthlyHours'] ?? 0 }}h</div>
                 </div>
             </div>
             

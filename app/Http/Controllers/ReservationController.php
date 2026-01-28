@@ -29,6 +29,16 @@ class ReservationController extends Controller
      */
     public function index(Request $request)
     {
+        // Mettre à jour les statuts AVANT de charger les réservations
+        $this->forceUpdateReservationStatuses();
+        
+        // DEBUG: Afficher toutes les réservations de l'utilisateur
+        $userReservations = auth()->user()->reservations()->with('resource')->get();
+        \Log::info("=== RÉSERVATIONS UTILISATEUR #" . auth()->id() . " ===");
+        foreach ($userReservations as $r) {
+            \Log::info("ID: {$r->id} | Statut: {$r->status} | Ressource: {$r->resource->name}");
+        }
+        
         $query = auth()->user()->reservations()->with('resource');
 
         // Filtres
@@ -169,8 +179,118 @@ class ReservationController extends Controller
 
         $reservation->update($request->all());
 
-        return redirect()->route('reservations.index')
+        return redirect()
+            ->route('reservations.index')
             ->with('success', 'Réservation mise à jour avec succès.');
+    }
+
+    /**
+     * Force la mise à jour des statuts de réservations (méthode garantie)
+     */
+    private function forceUpdateReservationStatuses()
+    {
+        $now = now();
+        
+        // DEBUG: Afficher l'heure actuelle
+        \Log::info("MISE À JOUR FORCÉE - Heure actuelle: " . $now);
+        \Log::info("Fuseau horaire: " . $now->timezone);
+        
+        // DEBUG: Afficher toutes les réservations
+        $allReservations = \App\Models\Reservation::with('resource')->get();
+        \Log::info("=== TOUTES LES RÉSERVATIONS ===");
+        foreach ($allReservations as $r) {
+            \Log::info("ID: {$r->id} | Statut: {$r->status} | Début: {$r->start_date} | Fin: {$r->end_date} | Ressource: {$r->resource->name}");
+        }
+        
+        // 1. approved -> active
+        $approvedReservations = \App\Models\Reservation::where('status', 'approved')
+            ->where('start_date', '<=', $now)
+            ->where('end_date', '>', $now)
+            ->get();
+            
+        \Log::info("Réservations à passer de 'approved' à 'active': " . $approvedReservations->count());
+        foreach ($approvedReservations as $reservation) {
+            \Log::info("Réservation #{$reservation->id}: {$reservation->status} -> active");
+            $reservation->update(['status' => 'active']);
+        }
+        
+        // 2. active -> completed
+        $activeReservations = \App\Models\Reservation::where('status', 'active')
+            ->where('end_date', '<=', $now)
+            ->get();
+            
+        \Log::info("Réservations à passer de 'active' à 'completed': " . $activeReservations->count());
+        foreach ($activeReservations as $reservation) {
+            \Log::info("Réservation #{$reservation->id}: {$reservation->status} -> completed");
+            $reservation->update(['status' => 'completed']);
+        }
+        
+        // 3. Mettre à jour les ressources
+        $resources = \App\Models\Resource::with('reservations')->get();
+        foreach ($resources as $resource) {
+            $activeReservations = $resource->reservations()
+                ->whereIn('status', ['approved', 'active'])
+                ->where('end_date', '>', $now)
+                ->count();
+                
+            $newStatus = $activeReservations > 0 ? 'busy' : 'available';
+            if ($resource->status !== $newStatus) {
+                \Log::info("Ressource {$resource->name}: {$resource->status} -> {$newStatus}");
+                $resource->update(['status' => $newStatus]);
+            }
+        }
+        
+        \Log::info("=== FIN MISE À JOUR ===");
+    }
+
+    /**
+     * Mettre à jour tous les statuts de réservations
+     */
+    private function updateAllReservationStatuses()
+    {
+        $now = now();
+        
+        // approved -> active
+        Reservation::where('status', 'approved')
+            ->where('start_date', '<=', $now)
+            ->where('end_date', '>', $now)
+            ->update(['status' => 'active']);
+            
+        // active -> completed
+        Reservation::where('status', 'active')
+            ->where('end_date', '<=', $now)
+            ->update(['status' => 'completed']);
+            
+        // Mettre à jour les ressources
+        $resources = Resource::with('reservations')->get();
+        foreach ($resources as $resource) {
+            $activeReservations = $resource->reservations()
+                ->whereIn('status', ['approved', 'active'])
+                ->where('end_date', '>', $now)
+                ->count();
+                
+            $resource->update([
+                'status' => $activeReservations > 0 ? 'busy' : 'available'
+            ]);
+        }
+    }
+
+    /**
+     * Mettre à jour le statut de la ressource
+     */
+    private function updateResourceStatus(Resource $resource)
+    {
+        // Vérifier s'il y a des réservations actives
+        $activeReservations = $resource->reservations()
+            ->whereIn('status', ['approved', 'active'])
+            ->where('end_date', '>', now())
+            ->count();
+
+        if ($activeReservations > 0) {
+            $resource->update(['status' => 'busy']);
+        } else {
+            $resource->update(['status' => 'available']);
+        }
     }
 
     /**
@@ -188,6 +308,10 @@ class ReservationController extends Controller
 
         $reservation->update(['status' => 'cancelled']);
 
+        // Mettre à jour le statut de la ressource
+        $resource = $reservation->resource;
+        $this->updateResourceStatus($resource);
+
         return redirect()->route('reservations.index')
             ->with('success', 'Réservation annulée avec succès.');
     }
@@ -197,9 +321,12 @@ class ReservationController extends Controller
      */
     public function history(Request $request)
     {
+        // Mettre à jour les statuts avant d'afficher
+        $this->updateAllReservationStatuses();
+        
         $query = auth()->user()->reservations()
             ->with(['resource', 'resource.category'])
-            ->whereIn('status', ['completed', 'cancelled']);
+            ->whereIn('status', ['pending', 'approved', 'active']);
 
         if ($request->filled('status')) {
             $query->where('status', $request->status);
@@ -250,7 +377,7 @@ class ReservationController extends Controller
             'total' => $user->reservations()->count(),
             'pending' => $user->reservations()->where('status', 'pending')->count(),
             'approved' => $user->reservations()->where('status', 'approved')->count(),
-            'active' => $user->reservations()->where('status', 'active')->count(),
+            'active' => $user->reservations()->where('status', 'approved')->count(), // En cours = approuvées
             'completed' => $user->reservations()->where('status', 'completed')->count(),
             'cancelled' => $user->reservations()->where('status', 'cancelled')->count(),
         ];

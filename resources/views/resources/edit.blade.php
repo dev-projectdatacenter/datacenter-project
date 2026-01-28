@@ -32,7 +32,6 @@
                     <option value="available" {{ $resource->status == 'available' ? 'selected' : '' }}>Disponible</option>
                     <option value="busy" {{ $resource->status == 'busy' ? 'selected' : '' }}>Occupée</option>
                     <option value="maintenance" {{ $resource->status == 'maintenance' ? 'selected' : '' }}>Maintenance</option>
-                    <option value="out_of_service" {{ $resource->status == 'out_of_service' ? 'selected' : '' }}>Hors service</option>
                 </select>
             </div>
             @can('admin')

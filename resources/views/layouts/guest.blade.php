@@ -8,15 +8,14 @@
     <title>{{ config('app.name', 'Data Center') }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/icons.css') }}">
 </head>
 <body class="guest-page">
 
     <div class="guest-container">
         <div class="guest-header">
             <div class="logo-icon">
-                <i class="fas fa-server"></i>
+                <span class="icon-server"></span>
             </div>
             <h2>Data Center Manager</h2>
         </div>

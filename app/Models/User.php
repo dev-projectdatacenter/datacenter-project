@@ -70,6 +70,66 @@ class User extends Authenticatable
     }
 
     /**
+     * Vérifier si l'utilisateur a un rôle spécifique.
+     */
+    public function hasRole($roleName)
+    {
+        if (!$this->role) {
+            return false;
+        }
+        
+        return $this->role->name === $roleName;
+    }
+
+    /**
+     * Vérifier si l'utilisateur a l'un des rôles spécifiés.
+     */
+    public function hasAnyRole($roles)
+    {
+        if (!$this->role) {
+            return false;
+        }
+        
+        if (is_string($roles)) {
+            $roles = [$roles];
+        }
+        
+        return in_array($this->role->name, $roles);
+    }
+
+    /**
+     * Obtenir le nom du rôle de l'utilisateur.
+     */
+    public function getRoleName()
+    {
+        return $this->role ? $this->role->name : null;
+    }
+
+    /**
+     * Vérifier si l'utilisateur est un administrateur.
+     */
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
+    }
+
+    /**
+     * Vérifier si l'utilisateur est un tech manager.
+     */
+    public function isTechManager()
+    {
+        return $this->hasRole('tech_manager');
+    }
+
+    /**
+     * Vérifier si l'utilisateur est un utilisateur normal.
+     */
+    public function isUser()
+    {
+        return $this->hasRole('user');
+    }
+
+    /**
      * Relation : un utilisateur peut avoir plusieurs réservations.
      */
     public function reservations()

@@ -40,5 +40,20 @@
             @endcan
         </div>
     </div>
+    
+    <!-- Discussions de la ressource -->
+    <div id="discussions" style="margin-top: 2rem;">
+        @include('resources._discussions')
+    </div>
 </div>
 @endsection
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<meta name="user-info" content='{{ json_encode([
+    'id' => auth()->id(),
+    'name' => auth()->user()->name,
+    'role' => auth()->user()->role->name ?? 'guest'
+]) }}'>
+<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/reservations.js') }}"></script>
+<script src="{{ asset('js/moderation.js') }}"></script>

@@ -103,16 +103,22 @@
                     <button class="btn">Valider les réservations</button>
                 </div>
                 
+                <div class="action-card" onclick="window.location.href='{{ route('tech.reservations.index') }}'">
+                    <h3>📊 Toutes les réservations</h3>
+                    <p>Voir et gérer toutes les réservations du système</p>
+                    <button class="btn">Voir toutes les réservations</button>
+                </div>
+                
+                <div class="action-card" onclick="window.location.href='{{ route('moderation.dashboard') }}'">
+                    <h3>🚨 Modération des discussions</h3>
+                    <p>Gérer les messages signalés et modérer les discussions inappropriées</p>
+                    <button class="btn">Modérer les discussions</button>
+                </div>
+                
                 <div class="action-card" onclick="window.location.href='{{ route('maintenances.index') }}'">
                     <h3>🔧 Planification des maintenances</h3>
                     <p>Programmer et suivre les opérations de maintenance</p>
                     <button class="btn">Planifier maintenances</button>
-                </div>
-                
-                <div class="action-card" onclick="window.location.href='{{ route('statistics.index') }}'">
-                    <h3>📊 Rapports techniques</h3>
-                    <p>Statistiques d'utilisation et performance des ressources</p>
-                    <button class="btn">Voir les rapports</button>
                 </div>
                 
                 <div class="action-card" onclick="window.location.href='{{ route('incidents.index') }}'">

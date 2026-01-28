@@ -1,5 +1,5 @@
 # 📊 Gestion des Ressources - Data Center Management System
-
+R
 > **Module développé par** : OUARDA  
 > **Rôle** : Backend Developer & Data Analyst  
 > **Période** : Janvier 2026

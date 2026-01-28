@@ -166,6 +166,9 @@ class TechReservationController extends Controller
                 'rejection_reason' => $request->reason,
             ]);
 
+            // Mettre à jour le statut de la ressource
+            $this->updateResourceStatus($reservation->resource);
+
             // Notifier l'utilisateur
             NotificationService::create(
                 $reservation->user_id,
@@ -279,6 +282,9 @@ class TechReservationController extends Controller
                     'rejection_reason' => $request->reason,
                 ]);
 
+                // Mettre à jour le statut de la ressource
+                $this->updateResourceStatus($reservation->resource);
+
                 NotificationService::create(
                     $reservation->user_id,
                     'Réservation refusée',
@@ -366,25 +372,5 @@ class TechReservationController extends Controller
         } catch (\Exception $e) {
             \Log::error('Erreur email refus: ' . $e->getMessage());
         }
-    }
-
-    /**
-     * Statistiques des approbations
-     */
-    public function stats()
-    {
-        $stats = [
-            'pending' => Reservation::where('status', 'pending')->count(),
-            'approved_today' => Reservation::where('status', 'approved')
-                ->whereDate('created_at', today())
-                ->count(),
-            'rejected_today' => Reservation::where('status', 'rejected')
-                ->whereDate('created_at', today())
-                ->count(),
-            'total_approved' => Reservation::where('status', 'approved')->count(),
-            'total_rejected' => Reservation::where('status', 'rejected')->count(),
-        ];
-
-        return view('tech.reservations.stats', compact('stats'));
     }
 }
