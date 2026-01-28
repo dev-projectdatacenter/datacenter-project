@@ -299,16 +299,6 @@ Pour toute question ou suggestion concernant ce projet :
 
 Ce projet a été développé dans un cadre académique.
 
----
-
-##  Remerciements
-
-Merci à toute l'équipe pour sa collaboration et son engagement dans ce projet :
-- FATIMA - Coordinatrice et architecte BDD
-- Fatima ZAHRAE - Experte en sécurité
-- OUARDA - Spécialiste ressources et statistiques
-- HALIMA - Architecte du système de réservation
-- CHAYMAE - Designer UI/UX
 
 ---
 
