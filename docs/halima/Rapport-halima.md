@@ -1,8 +1,8 @@
-# 📅 Gestion des Réservations - Data Center Management System
+##📅 Gestion des Réservations - Data Center Management System
 R
 > **Module développé par** : HALIMA  
 > **Rôle** : Backend Developer & Notification System Specialist  
-> **Période** : Janvier 2026
+> **Période** : J#anvier 2026
 
 ---
 
@@ -121,8 +121,8 @@ Avant ce module, la gestion des réservations était manuelle et non centralisé
 ## 📸 Captures d'écran
 
 ### **Vue 1 : Formulaire de création de réservation**
-*URL : `/reservations/create`*  
-*Vue : `resources/views/reservations/create.blade.php`*
+*URL : /reservations/create*  
+*Vue : resources/views/reservations/create.blade.php*
 
 **Description** : Interface principale permettant aux utilisateurs de créer une nouvelle réservation. Le formulaire inclut la sélection de ressource, les dates de début/fin avec validation en temps réel, et une justification obligatoire.
 
@@ -136,8 +136,8 @@ Avant ce module, la gestion des réservations était manuelle et non centralisé
 ---
 
 ### **Vue 2 : Liste des réservations**
-*URL : `/reservations`*  
-*Vue : `resources/views/reservations/index.blade.php`*
+*URL : /reservations*  
+*Vue : resources/views/reservations/index.blade.php*
 
 **Description** : Tableau de bord central montrant toutes les réservations de l'utilisateur avec possibilité de filtrage, modification et annulation.
 
@@ -151,8 +151,8 @@ Avant ce module, la gestion des réservations était manuelle et non centralisé
 ---
 
 ### **Vue 3 : Tableau de bord utilisateur**
-*URL : `/dashboard/user`*  
-*Vue : `resources/views/dashboard/user.blade.php`*
+*URL : /dashboard/user*  
+*Vue : resources/views/dashboard/user.blade.php*
 
 **Description** : Vue d'overview personnalisée avec statistiques des réservations et accès rapide aux fonctionnalités principales.
 
@@ -166,8 +166,8 @@ Avant ce module, la gestion des réservations était manuelle et non centralisé
 ---
 
 ### **Vue 4 : Centre de notifications**
-*URL : `/notifications`*  
-*Vue : `resources/views/notifications/index.blade.php`*
+*URL : /notifications*  
+*Vue : resources/views/notifications/index.blade.php*
 
 **Description** : Système de notifications centralisé gérant les alertes de réservation, rappels et confirmations.
 
@@ -181,8 +181,8 @@ Avant ce module, la gestion des réservations était manuelle et non centralisé
 ---
 
 ### **Vue 5 : Statistiques personnelles**
-*URL : `/reservations/stats`*  
-*Vue : `resources/views/reservations/stats.blade.php`*
+*URL : /reservations/stats*  
+*Vue : resources/views/reservations/stats.blade.php*
 
 **Description** : Interface analytique montrant l'activité de réservation de l'utilisateur avec graphiques et métriques détaillées.
 
@@ -196,8 +196,8 @@ Avant ce module, la gestion des réservations était manuelle et non centralisé
 ---
 
 ### **Vue 6 : Historique des réservations**
-*URL : `/reservations/history`*  
-*Vue : `resources/views/reservations/history.blade.php`*
+*URL : /reservations/history*  
+*Vue : resources/views/reservations/history.blade.php*
 
 **Description** : Vue complète de l'historique des réservations terminées avec options de filtrage avancées.
 
@@ -213,20 +213,20 @@ Avant ce module, la gestion des réservations était manuelle et non centralisé
 ## 📝 Fichiers principaux développés
 
 ### **Contrôleurs**
-- `app/Http/Controllers/ReservationController.php`
-- `app/Http/Controllers/TechReservationController.php`
+- app/Http/Controllers/ReservationController.php 
+- app/Http/Controllers/TechReservationController.php 
 
 ### **Services**
-- `app/Services/ReservationValidationService.php`
-- `app/Services/NotificationService.php`
+- app/Services/ReservationValidationService.php 
+- app/Services/NotificationService.php 
 
 ### **Modèles**
-- `app/Models/Reservation.php`
-- `app/Models/Notification.php`
+- app/Models/Reservation.php 
+- app/Models/Notification.php 
 
 ### **Vues**
-- `resources/views/reservations/`
-- `resources/views/dashboard/user.blade.php`
+- resources/views/reservations/ 
+- resources/views/dashboard/user.blade.php 
 
 ---
 

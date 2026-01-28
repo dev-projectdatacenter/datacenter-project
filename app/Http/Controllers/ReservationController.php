@@ -9,7 +9,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reservation;
 use App\Models\Resource;
-use App\Models\Incident;
+use App\Services\NotificationService;
 use App\Services\ReservationValidationService;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReservationRequest;
@@ -179,6 +179,15 @@ class ReservationController extends Controller
 
         $reservation->update($request->all());
 
+        // Notifier l'utilisateur de la modification
+        NotificationService::create(
+            $reservation->user_id,
+            'Réservation modifiée',
+            "Votre réservation pour '{$resource->name}' a été modifiée. Nouvelles dates : du " . \Carbon\Carbon::parse($request->start_date)->format('d/m/Y H:i') . " au " . \Carbon\Carbon::parse($request->end_date)->format('d/m/Y H:i') . ".",
+            'reservation_updated',
+            $reservation->id
+        );
+
         return redirect()
             ->route('reservations.index')
             ->with('success', 'Réservation mise à jour avec succès.');
@@ -251,15 +260,41 @@ class ReservationController extends Controller
         $now = now();
         
         // approved -> active
-        Reservation::where('status', 'approved')
+        $approvedToActive = Reservation::where('status', 'approved')
             ->where('start_date', '<=', $now)
             ->where('end_date', '>', $now)
-            ->update(['status' => 'active']);
+            ->get();
+            
+        foreach ($approvedToActive as $reservation) {
+            $reservation->update(['status' => 'active']);
+            
+            // Notifier que la réservation est maintenant active
+            NotificationService::create(
+                $reservation->user_id,
+                'Réservation active',
+                "Votre réservation pour '{$reservation->resource->name}' est maintenant active.",
+                'reservation_active',
+                $reservation->id
+            );
+        }
             
         // active -> completed
-        Reservation::where('status', 'active')
+        $activeToCompleted = Reservation::where('status', 'active')
             ->where('end_date', '<=', $now)
-            ->update(['status' => 'completed']);
+            ->get();
+            
+        foreach ($activeToCompleted as $reservation) {
+            $reservation->update(['status' => 'completed']);
+            
+            // Notifier que la réservation est terminée
+            NotificationService::create(
+                $reservation->user_id,
+                'Réservation terminée',
+                "Votre réservation pour '{$reservation->resource->name}' est terminée. Merci de votre utilisation.",
+                'reservation_completed',
+                $reservation->id
+            );
+        }
             
         // Mettre à jour les ressources
         $resources = Resource::with('reservations')->get();
@@ -308,8 +343,19 @@ class ReservationController extends Controller
 
         $reservation->update(['status' => 'cancelled']);
 
-        // Mettre à jour le statut de la ressource
+        // Récupérer la ressource pour la notification
         $resource = $reservation->resource;
+
+        // Notifier l'utilisateur de l'annulation
+        NotificationService::create(
+            $reservation->user_id,
+            'Réservation annulée',
+            "Votre réservation pour '{$resource->name}' a été annulée avec succès.",
+            'reservation_cancelled',
+            $reservation->id
+        );
+
+        // Mettre à jour le statut de la ressource
         $this->updateResourceStatus($resource);
 
         return redirect()->route('reservations.index')
