@@ -31,7 +31,7 @@
                 <div class="card-body">
                     @if ($errors->any())
                         <div class="alert alert-error">
-                            <span class="alert-icon">⚠️</span>
+                            <span class="alert-icon"></span>
                             <div>
                                 <strong>Erreurs de validation :</strong>
                                 <ul>
@@ -121,7 +121,7 @@
                             <!-- Vérification de disponibilité -->
                             <div class="availability-check">
                                 <button type="button" id="checkAvailability" class="btn btn-secondary">
-                                    🔄 Vérifier la disponibilité
+                                     Vérifier la disponibilité
                                 </button>
                                 <div id="availabilityResult" class="availability-result"></div>
                             </div>
@@ -187,19 +187,19 @@
             <div class="help-section">
                 <div class="card">
                     <div class="card-header">
-                        <h3>💡 Aide</h3>
+                        <h3> Aide</h3>
                     </div>
                     <div class="card-body">
                         <div class="help-item">
-                            <h4>⏱️ Délais de traitement</h4>
+                            <h4> Délais de traitement</h4>
                             <p>Les demandes sont généralement traitées dans les 24-48h par les gestionnaires de ressources.</p>
                         </div>
                         <div class="help-item">
-                            <h4>📋 Conditions d'approbation</h4>
+                            <h4> Conditions d'approbation</h4>
                             <p>Votre demande doit être justifiée et les dates ne doivent pas entrer en conflit avec d'autres réservations.</p>
                         </div>
                         <div class="help-item">
-                            <h4>🔔 Notifications</h4>
+                            <h4> Notifications</h4>
                             <p>Vous recevrez une notification par email et dans votre espace personnel dès qu'une décision sera prise.</p>
                         </div>
                     </div>

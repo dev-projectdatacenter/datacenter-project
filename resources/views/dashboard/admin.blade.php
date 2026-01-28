@@ -80,34 +80,34 @@
             
             <div class="actions-grid">
                 <div class="action-card" onclick="window.location.href='{{ route('admin.users.index') }}'">
-                    <h3>👥 Gestion des utilisateurs</h3>
+                    <h3>Gestion des utilisateurs</h3>
                     <p>Créer, modifier, supprimer des comptes utilisateurs et gérer les rôles</p>
                     <div class="btn">Gérer les utilisateurs</div>
                 </div>
                 
                 
                 <div class="action-card" onclick="window.location.href='{{ route('admin.statistics.index') }}'">
-                    <h3>📊 Statistiques globales</h3>
+                    <h3>Statistiques globales</h3>
                     <p>Voir les rapports d'utilisation et les métriques du système</p>
                     <div class="btn">Voir les statistiques</div>
                 </div>
                 
-                <div class="action-card" onclick="window.location.href='{{ route('admin.logs.index') }}'">
-                    <h3>📝 Logs d'activité</h3>
-                    <p>Consulter l'historique des actions et les audits de sécurité</p>
-                    <div class="btn">Voir les logs</div>
-                </div>
-                
                 <div class="action-card" onclick="window.location.href='{{ route('admin.resources.index') }}'">
-                    <h3>🖥️ Gestion des ressources</h3>
+                    <h3>Gestion des ressources</h3>
                     <p>Administrer les serveurs, VMs et équipements réseau</p>
                     <div class="btn">Gérer les ressources</div>
                 </div>
                 
-                <div class="action-card" onclick="window.location.href='{{ route('admin.settings.index') }}'">
-                    <h3>⚙️ Configuration système</h3>
-                    <p>Paramètres généraux et configuration du Data Center</p>
-                    <div class="btn">Configuration</div>
+                <div class="action-card" onclick="window.location.href='{{ route('admin.maintenances.index') }}'">
+                    <h3>Maintenance planifiée</h3>
+                    <p>Gérer les périodes de maintenance des ressources</p>
+                    <div class="btn">Gérer les maintenances</div>
+                </div>
+                
+                <div class="action-card" onclick="window.location.href='{{ route('admin.users.index') }}?view=status-management'">
+                    <h3>Activation/Désactivation</h3>
+                    <p>Activer ou désactiver des utilisateurs et des ressources</p>
+                    <div class="btn">Gérer les statuts</div>
                 </div>
             </div>
         </div>

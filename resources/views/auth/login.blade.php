@@ -4,11 +4,22 @@
 <div style="max-width: 400px; margin: 50px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background: white;">
     <h2 style="text-align: center; margin-bottom: 30px;">Connexion</h2>
     
-    @if ($errors->any())
+    @if ($errors->has('email'))
         <div style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px; margin-bottom: 20px;">
-            @foreach ($errors->all() as $error)
-                {{ $error }}<br>
-            @endforeach
+            {{ $errors->first('email') }}
+        </div>
+    @endif
+
+    @if ($errors->has('password'))
+        <div style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px; margin-bottom: 20px;">
+            {{ $errors->first('password') }}
+        </div>
+    @endif
+
+    @if(session('success'))
+        <div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 4px; margin-bottom: 20px; border-left: 4px solid #28a745;">
+            <h4 style="margin: 0 0 10px 0; font-size: 16px;">Succès!</h4>
+            {{ session('success') }}
         </div>
     @endif
 

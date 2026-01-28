@@ -42,10 +42,10 @@ Route::middleware(['auth', 'throttle:60,1'])->group(function () {
     // DASHBOARD INVITÉ (Public - redirection depuis login)
     // ════════════════════════════════════════════════════════════
     
-    Route::get('/dashboard/guest', [DashboardController::class, 'guest'])
+    Route::get('/guest/dashboard', [DashboardController::class, 'guest'])
         ->name('dashboard.guest');
     
-        // ════════════════════════════════════════════════════════════
+    // ════════════════════════════════════════════════════════════
     // ADMINISTRATION
     // ════════════════════════════════════════════════════════════
     

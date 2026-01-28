@@ -103,19 +103,19 @@
                             <span class="status-badge status-{{ $reservation->status }}">
                                 @switch($reservation->status)
                                     @case('pending')
-                                        <span class="status-pending">⏳ En attente</span>
+                                        <span class="status-pending"> En attente</span>
                                         @break
                                     @case('approved')
-                                        <span class="status-approved">✅ Approuvée</span>
+                                        <span class="status-approved"> Approuvée</span>
                                         @break
                                     @case('rejected')
-                                        <span class="status-rejected">❌ Refusée</span>
+                                        <span class="status-rejected"> Refusée</span>
                                         @break
                                     @case('active')
-                                        <span class="status-active">🔄 Active</span>
+                                        <span class="status-active"> Active</span>
                                         @break
                                     @case('completed')
-                                        <span class="status-completed">✅ Terminée</span>
+                                        <span class="status-completed"> Terminée</span>
                                         @break
                                 @endswitch
                             </span>

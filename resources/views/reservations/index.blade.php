@@ -75,7 +75,7 @@
                 <div class="card-body">
                     @if($reservations->isEmpty())
                         <div class="empty-state">
-                            <div class="empty-icon">📅</div>
+                            <div class="empty-icon"></div>
                             <h3>Aucune réservation</h3>
                             <p>Vous n'avez pas encore de réservation. Commencez par en créer une !</p>
                             <a href="{{ route('reservations.create') }}" class="btn btn-primary">
@@ -145,13 +145,13 @@
                                                 <div class="action-buttons">
                                                     <a href="{{ route('reservations.show', $reservation->id) }}" 
                                                        class="btn btn-sm btn-outline" title="Voir">
-                                                        👁️
+                                                        
                                                     </a>
                                                     
                                                     @if($reservation->status === 'pending')
                                                         <a href="{{ route('reservations.edit', $reservation->id) }}" 
                                                            class="btn btn-sm btn-secondary" title="Éditer">
-                                                            ✏️
+                                                            
                                                         </a>
                                                         
                                                         <form method="POST" action="{{ route('reservations.cancel', $reservation->id) }}" 
@@ -161,7 +161,7 @@
                                                             <button type="submit" class="btn btn-sm btn-danger" 
                                                                     title="Annuler" 
                                                                     onclick="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?')">
-                                                                🗑️
+                                                                
                                                             </button>
                                                         </form>
                                                     @endif

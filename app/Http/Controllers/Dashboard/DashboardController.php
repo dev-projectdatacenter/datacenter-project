@@ -190,7 +190,13 @@ class DashboardController extends BaseController
 
     public function guest()
     {
-        return $this->index();
+        $statistics = [
+            'totalResources' => Resource::count(),
+            'availableResources' => Resource::where('status', 'active')->count(),
+            'categories' => \App\Models\ResourceCategory::count(),
+        ];
+        
+        return view('dashboard.invite', compact('statistics'));
     }
 
     // API methods

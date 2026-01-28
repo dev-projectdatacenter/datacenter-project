@@ -44,7 +44,7 @@
                             <form action="{{ route('maintenances.destroy', $maintenance) }}" method="POST" onsubmit="return confirm('Annuler cette maintenance ?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" style="background: none; border: none; color: #e74c3c; cursor: pointer; padding: 0; font-size: 0.9rem;">🗑️ Annuler</button>
+                                <button type="submit" style="background: none; border: none; color: #e74c3c; cursor: pointer; padding: 0; font-size: 0.9rem;"> Annuler</button>
                             </form>
                         @else
                             <span style="color: #999; font-style: italic;">Consultation</span>

@@ -35,7 +35,7 @@
                         <img src="{{ asset($category->image_url) }}" alt="{{ $category->name }}" style="width: 100%; height: 100%; object-fit: cover;">
                     @else
                         <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #2c3e50, #3498db); color: white; font-size: 3rem;">
-                            📂
+                            
                         </div>
                     @endif
                     <div style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; backdrop-filter: blur(4px);">

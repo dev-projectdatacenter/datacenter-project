@@ -95,7 +95,7 @@
             <!-- Statistiques des notifications -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-icon">🔔</div>
+                    <div class="stat-icon"></div>
                     <div class="stat-info">
                         <h3>{{ $notifications->count() }}</h3>
                         <p>Total des notifications</p>
@@ -131,7 +131,7 @@
             <div class="notifications-container">
                 @if($notifications->isEmpty())
                     <div class="empty-state">
-                        <div class="empty-icon">🔔</div>
+                        <div class="empty-icon"></div>
                         <h3>Aucune notification</h3>
                         <p>Vous n'avez pas encore de notifications.</p>
                         <a href="{{ route('reservations.create') }}" class="btn btn-primary">
@@ -153,21 +153,21 @@
                                 
                                 <div class="notification-icon">
                                     @if($notification->type === 'reservation_approved')
-                                        ✅
+                                        
                                     @elseif($notification->type === 'reservation_rejected')
-                                        ❌
+                                        
                                     @elseif($notification->type === 'reservation_cancelled')
-                                        🗑️
+                                        
                                     @elseif($notification->type === 'reservation_reminder')
-                                        ⏰
+                                        
                                     @elseif($notification->type === 'success')
-                                        ✅
+                                        
                                     @elseif($notification->type === 'error')
-                                        ❌
+                                        
                                     @elseif($notification->type === 'warning')
-                                        ⚠️
+                                        
                                     @else
-                                        🔔
+                                        
                                     @endif
                                 </div>
                                 
@@ -201,7 +201,7 @@
                                     <button class="btn btn-sm btn-danger" 
                                             onclick="deleteNotification({{ $notification->id }})"
                                             title="Supprimer">
-                                        🗑️
+                                        
                                     </button>
                                 </div>
                             </div>

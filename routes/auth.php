@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 // ROUTES PUBLIQUES D'AUTHENTIFICATION
 // ════════════════════════════════════════════════════════════
 
+Route::middleware(['throttle:5,1'])->group(function () {
+    
 // Page de connexion
 Route::get('/login', function () {
     return view('auth.login');
@@ -48,7 +50,26 @@ Route::post('/login', function () {
         return redirect('/dashboard');
     }
 
-    return back()->withErrors(['email' => 'Identifiants incorrects']);
+    // Vérifier si l'email existe
+    $user = \App\Models\User::where('email', $credentials['email'])->first();
+    
+    if (!$user) {
+        return back()
+            ->withInput(request()->only('email'))
+            ->withErrors(['email' => 'Cet email n\'existe pas dans notre système']);
+    }
+    
+    // Vérifier le mot de passe
+    if (!\Hash::check($credentials['password'], $user->password)) {
+        return back()
+            ->withInput(request()->only('email'))
+            ->withErrors(['password' => 'Mot de passe incorrect']);
+    }
+    
+    // Si l'authentification échoue pour une autre raison
+    return back()
+        ->withInput(request()->only('email'))
+        ->withErrors(['email' => 'Erreur de connexion']);
 });
 
 // Page d'inscription
@@ -181,7 +202,7 @@ Route::post('/forgot-password', function () {
         'password_reset_expires' => now()->addMinutes(60),
     ]);
 
-    return redirect('/forgot-password')->with('success', 'Un lien de réinitialisation a été envoyé à votre adresse email.');
+    return redirect("/reset-password/{$token}")->with('success', 'Token généré! Vous pouvez maintenant réinitialiser votre mot de passe.');
 })->name('password.email');
 
 // Page de réinitialisation du mot de passe
@@ -231,6 +252,8 @@ Route::post('/reset-password', function () {
 
     return redirect('/login')->with('success', 'Votre mot de passe a été réinitialisé avec succès!');
 })->name('password.update');
+
+});
 
 // ════════════════════════════════════════════════════════════
 // ROUTES ADMINISTRATION (ZAHRAE)

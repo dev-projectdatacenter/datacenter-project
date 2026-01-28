@@ -37,21 +37,21 @@
             <!-- Statistiques rapides -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-icon">📊</div>
+                    <div class="stat-icon"></div>
                     <div class="stat-info">
                         <h3>{{ $historyStats['total'] ?? $reservations->total() }}</h3>
                         <p>Total des réservations</p>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon">✅</div>
+                    <div class="stat-icon"></div>
                     <div class="stat-info">
                         <h3>{{ $historyStats['completed'] ?? $reservations->where('status', 'completed')->count() }}</h3>
                         <p>Réservations terminées</p>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon">❌</div>
+                    <div class="stat-icon"></div>
                     <div class="stat-info">
                         <h3>{{ $historyStats['cancelled'] ?? $reservations->where('status', 'cancelled')->count() }}</h3>
                         <p>Réservations annulées</p>
@@ -92,7 +92,7 @@
                 <div class="card-body">
                     @if($reservations->isEmpty())
                         <div class="empty-state">
-                            <div class="empty-icon">📅</div>
+                            <div class="empty-icon"></div>
                             <h3>Aucune réservation dans l'historique</h3>
                             <p>Vous n'avez pas encore de réservations terminées ou annulées.</p>
                             <a href="{{ route('reservations.create') }}" class="btn btn-primary">
@@ -158,7 +158,7 @@
                                                 <div class="action-buttons">
                                                     <a href="{{ route('reservations.show', $reservation->id) }}" 
                                                        class="btn btn-sm btn-outline" title="Voir les détails">
-                                                        👁️
+                                                        
                                                     </a>
                                                 </div>
                                             </td>

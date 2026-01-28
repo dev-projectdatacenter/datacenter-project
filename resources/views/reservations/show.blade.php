@@ -143,7 +143,7 @@
                             @if($reservation->status === 'pending')
                                 <a href="{{ route('reservations.edit', $reservation->id) }}" 
                                    class="btn btn-secondary">
-                                    ✏️ Modifier
+                                     Modifier
                                 </a>
                             @endif
                             
@@ -153,7 +153,7 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger" 
                                         onclick="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?')">
-                                    🗑️ Annuler
+                                     Annuler
                                 </button>
                             </form>
                         </div>

@@ -21,7 +21,7 @@
                         ← Mes réservations
                     </a>
                     <a href="{{ route('reservations.history') }}" class="btn btn-outline">
-                        📊 Historique
+                         Historique
                     </a>
                 </div>
             </div>
@@ -39,28 +39,28 @@
                 <h2>Vue d'ensemble</h2>
                 <div class="stats-grid">
                     <div class="stat-card primary">
-                        <div class="stat-icon">📋</div>
+                        <div class="stat-icon"></div>
                         <div class="stat-info">
                             <h3>{{ $stats['total'] }}</h3>
                             <p>Total des réservations</p>
                         </div>
                     </div>
                     <div class="stat-card warning">
-                        <div class="stat-icon">⏳</div>
+                        <div class="stat-icon"></div>
                         <div class="stat-info">
                             <h3>{{ $stats['pending'] }}</h3>
                             <p>En attente</p>
                         </div>
                     </div>
                     <div class="stat-card success">
-                        <div class="stat-icon">✅</div>
+                        <div class="stat-icon"></div>
                         <div class="stat-info">
                             <h3>{{ $stats['approved'] }}</h3>
                             <p>Approuvées</p>
                         </div>
                     </div>
                     <div class="stat-card info">
-                        <div class="stat-icon">🔄</div>
+                        <div class="stat-icon"></div>
                         <div class="stat-info">
                             <h3>{{ $stats['active'] }}</h3>
                             <p>En cours</p>
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div class="stat-card danger">
-                        <div class="stat-icon">❌</div>
+                        <div class="stat-icon"></div>
                         <div class="stat-info">
                             <h3>{{ $stats['cancelled'] }}</h3>
                             <p>Annulées</p>
@@ -91,7 +91,7 @@
                 <div class="card-body">
                     @if($monthlyStats->isEmpty())
                         <div class="empty-state">
-                            <div class="empty-icon">📈</div>
+                            <div class="empty-icon"></div>
                             <h3>Aucune donnée mensuelle</h3>
                             <p>Commencez à faire des réservations pour voir vos statistiques.</p>
                         </div>
@@ -159,10 +159,10 @@
                             + Nouvelle réservation
                         </a>
                         <a href="{{ route('reservations.history') }}" class="btn btn-outline">
-                            📊 Voir l'historique
+                             Voir l'historique
                         </a>
                         <a href="{{ route('notifications.index') }}" class="btn btn-outline">
-                            🔔 Mes notifications
+                             Mes notifications
                         </a>
                     </div>
                 </div>

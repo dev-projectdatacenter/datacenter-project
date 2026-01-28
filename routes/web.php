@@ -30,6 +30,12 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 // Authentification & Admin - ZAHRAE
 require __DIR__.'/auth.php';
 
+// Gestion des Maintenances - ZAHRAE
+require __DIR__.'/admin_maintenance.php';
+
+// Routes Invité (Publiques)
+require __DIR__.'/guest.php';
+
 // Gestion des Ressources - OUARDA
 require __DIR__.'/resources.php';
 

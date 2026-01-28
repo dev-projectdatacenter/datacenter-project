@@ -6,11 +6,11 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center">🎯 DataCenter Project - Test</h1>
+        <h1 class="text-center"> DataCenter Project - Test</h1>
         
         <div class="card mt-4">
             <div class="card-header bg-success text-white">
-                <h4>✅ Base de données connectée avec succès</h4>
+                <h4> Base de données connectée avec succès</h4>
             </div>
             <div class="card-body">
                 @php
@@ -73,7 +73,7 @@
         
         <div class="card mt-4">
             <div class="card-header bg-primary text-white">
-                <h4>🔑 Identifiants de test</h4>
+                <h4> Identifiants de test</h4>
             </div>
             <div class="card-body">
                 <div class="row">

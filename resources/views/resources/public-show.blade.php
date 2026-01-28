@@ -131,19 +131,19 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🖥️ {{ $resource->name }}</h1>
+            <h1>{{ $resource->name }}</h1>
             <a href="/all-resources" class="back-link">← Retour aux ressources</a>
         </div>
 
         <div class="guest-notice">
-            <h4>👋 Vue Invité</h4>
+            <h4>Vue Invité</h4>
             <p>Vous consultez cette ressource en mode lecture seule. Pour réserver cette ressource, 
                <a href="/request-account">demandez un compte</a>.</p>
         </div>
 
         <div class="details-grid">
             <div class="info-card">
-                <h3>📋 Spécifications techniques</h3>
+                <h3>Spécifications techniques</h3>
                 <ul class="specs-list">
                     <li><strong>Catégorie :</strong> {{ $resource->category->name ?? 'Non définie' }}</li>
                     <li><strong>Processeur :</strong> {{ $resource->cpu ?? 'Non spécifié' }}</li>
@@ -156,7 +156,7 @@
             </div>
 
             <div class="info-card">
-                <h3>📊 État actuel</h3>
+                <h3>État actuel</h3>
                 <p><strong>Statut :</strong> 
                     <span class="status-badge status-{{ $resource->status }}">
                         {{ $resource->status }}
@@ -166,16 +166,16 @@
                 <p><strong>Dernière mise à jour :</strong> {{ $resource->updated_at->format('d/m/Y H:i') }}</p>
                 
                 @if($resource->description)
-                <h4 style="margin-top: 20px;">📝 Description</h4>
+                <h4 style="margin-top: 20px;">Description</h4>
                 <p>{{ $resource->description }}</p>
                 @endif
             </div>
         </div>
 
         <div class="action-links">
-            <a href="/all-resources">📚 Voir toutes les ressources</a>
-            <a href="/rules">📋 Consulter les règles</a>
-            <a href="/request-account">👤 Demander un compte</a>
+            <a href="/all-resources">Voir toutes les ressources</a>
+            <a href="/rules">Consulter les règles</a>
+            <a href="/request-account">Demander un compte</a>
         </div>
     </div>
 </body>
