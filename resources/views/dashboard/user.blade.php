@@ -549,9 +549,33 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ route('resources.public') }}" class="nav-link {{ request()->routeIs('resources.*') ? 'active' : '' }}">
+                            <i class="fas fa-server"></i>
+                            <span>Ressources</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('categories.index') }}" class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}">
+                            <i class="fas fa-tags"></i>
+                            <span>Catégories</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('reservations.index') }}" class="nav-link {{ request()->routeIs('reservations.*') ? 'active' : '' }}">
                             <i class="fas fa-calendar-alt"></i>
                             <span>Mes réservations</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('incidents.index') }}" class="nav-link {{ request()->routeIs('incidents.*') ? 'active' : '' }}">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Incidents</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('maintenances.index') }}" class="nav-link {{ request()->routeIs('maintenances.*') ? 'active' : '' }}">
+                            <i class="fas fa-tools"></i>
+                            <span>Maintenances</span>
                         </a>
                     </li>
                     <li class="nav-item">
