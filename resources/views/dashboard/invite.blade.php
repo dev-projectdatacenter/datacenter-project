@@ -38,17 +38,19 @@
     <main class="main-content">
         <!-- Header -->
         <header class="header">
-            <div class="header-content">
-                <div>
-                    <h1>Bienvenue sur DataCenter</h1>
-                    <p>Découvrez nos ressources et services</p>
+            <div class="header-title">
+                <h1>Bienvenue sur DataCenter</h1>
+                <p>Découvrez nos ressources et services</p>
+            </div>
+            <div class="user-menu">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
                 </div>
-                <div class="user-info">
-                    <span>Invité</span>
-                    <div class="user-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                </div>
+                <span class="user-name">Invité</span>
+                <button class="logout-btn" onclick="showContactModal()">
+                    <i class="fas fa-phone"></i>
+                    Contact
+                </button>
             </div>
         </header>
 
@@ -239,19 +241,20 @@ body {
 
 /* Sidebar */
 .sidebar {
-    width: 250px;
-    background: white;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-    padding: 20px 0;
+    width: 260px;
+    background: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    padding: 1.5rem 0;
     position: fixed;
     height: 100%;
     overflow-y: auto;
-    z-index: 1000;
+    transition: var(--transition);
+    z-index: 100;
 }
 
 .logo {
     text-align: center;
-    padding: 20px;
+    padding: 20px 0;
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary);
@@ -284,7 +287,7 @@ body {
 
 .nav-link:hover,
 .nav-link.active {
-    background-color: rgba(25, 69, 105, 0.1);
+    background-color: rgba(108, 117, 125, 0.1);
     color: var(--primary);
 }
 
@@ -303,46 +306,71 @@ body {
 
 /* Header */
 .header {
-    background: white;
-    padding: 20px 30px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    margin-bottom: 30px;
-}
-
-.header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: white;
+    padding: 15px 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 25px;
 }
 
-.header h1 {
-    color: var(--dark);
-    font-size: 1.8rem;
+.header-title h1 {
+    font-size: 1.5rem;
     font-weight: 600;
-    margin-bottom: 5px;
+    color: var(--dark);
 }
 
-.header p {
+.header-title p {
     color: var(--gray);
-    font-size: 1rem;
+    font-size: 0.9rem;
+    margin-top: 5px;
 }
 
-.user-info {
+.user-menu {
     display: flex;
     align-items: center;
-    gap: 15px;
 }
 
 .user-avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: var(--primary);
+    background-color: var(--primary);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-right: 10px;
+    font-weight: 500;
+}
+
+.user-name {
+    margin-right: 15px;
+    font-weight: 500;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    color: var(--gray);
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: rgba(248, 37, 133, 0.1);
+    color: #f72585;
+}
+
+.logout-btn i {
+    margin-right: 5px;
 }
 
 /* Stats Grid */
