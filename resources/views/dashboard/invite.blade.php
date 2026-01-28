@@ -37,24 +37,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('incidents.index') }}" class="nav-link">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <span>Incidents</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('maintenances.index') }}" class="nav-link">
-                        <i class="fas fa-tools"></i>
-                        <span>Maintenances</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('notifications.index') }}" class="nav-link">
-                        <i class="fas fa-bell"></i>
-                        <span>Notifications</span>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="{{ route('public.resources.available') }}" class="nav-link">
                         <i class="fas fa-calendar-check"></i>
                         <span>Disponibilités</span>
