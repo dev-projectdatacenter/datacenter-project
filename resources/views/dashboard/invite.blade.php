@@ -293,6 +293,7 @@ body {
 .nav-link {
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 12px 15px;
     color: var(--gray);
     text-decoration: none;
